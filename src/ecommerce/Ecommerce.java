@@ -10,11 +10,19 @@ package ecommerce;
  */
 public class Ecommerce {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+        public static boolean buscarElemento(int [] lista, int elemento){
+            for (int i : lista){
+                if (i == elemento){
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        public static void main(String[] args){
+            int [] arreglo = { 10, 25, 50, 75, 100};
+            int elemento = 50;
+            boolean encontrado = buscarElemento(arreglo, elemento);
+            System.out.println("¿Se encuentra el numero "+ elemento + " en el arreglo? "+ encontrado);       
+        }
     }
-    
-}
