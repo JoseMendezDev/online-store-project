@@ -14,13 +14,23 @@ import java.util.Comparator;
 public class Ecommerce {
 
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
-    public static Producto[] catalogo = {
+    public static Producto[] Lista = {
         new Producto(103, "Laptop Gamer"),
         new Producto(105, "Teclado Mecánico"),
         new Producto(101, "Monitor"),
         new Producto(102, "Mouse Inalambrico"),
         new Producto(104, "Auriculares")
     };
+
+    public static Producto[] catalogo = Arrays.copyOf(Lista, Lista.length);
+
+    public static void resetCatalogo() {
+        catalogo = Arrays.copyOf(Lista, Lista.length);
+    }
+    
+    public static Producto[] getCatalogo(){
+        return catalogo;
+    }
 
     public static Producto buscarProductoPorId(int id) {
         for (Producto p : catalogo) {
