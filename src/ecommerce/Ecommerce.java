@@ -4,18 +4,23 @@
  */
 package ecommerce;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  *
  * @author USER
  */
 public class Ecommerce {
 
+    //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static Producto[] catalogo = {
-        new Producto(101, "Laptop Gamer"),
-        new Producto(102, "Teclado Mecánico"),
-        new Producto(103, "Monitor"),
-        new Producto(104, "Mouse Inalambrico"),
-        new Producto(105, "Auriculares"),};
+        new Producto(103, "Laptop Gamer"),
+        new Producto(105, "Teclado Mecánico"),
+        new Producto(101, "Monitor"),
+        new Producto(102, "Mouse Inalambrico"),
+        new Producto(104, "Auriculares")
+    };
 
     public static Producto buscarProductoPorId(int id) {
         for (Producto p : catalogo) {
@@ -26,23 +31,45 @@ public class Ecommerce {
         return null;
     }
 
+    public static void ordenarCatalogoPorId() {
+        int n = catalogo.length;
+        for (int i = 1; i < n; i++) {
+            Producto key = catalogo[i];
+            int j = i - 1;
+
+            while (j >= 0 && catalogo[j].getId() > key.getId()) {
+                catalogo[j + 1] = catalogo[j];
+                j = j - 1;
+            }
+            catalogo[j + 1] = key;
+        }
+    }
+
+    public static void ordenarCatalogoPorNombre() {
+        Arrays.sort(catalogo, Comparator.comparing(Producto::getNombre));
+    }
+
     public static void main(String[] args) {
-        System.out.println("Buscando producto con ID 103...");
-        Producto productoEncontrado = buscarProductoPorId(103);
-
-        if (productoEncontrado != null) {
-            System.out.println("Producto encontrado: " + productoEncontrado.toString());
-        } else {
-            System.out.println("Producto no encontrado.");
+        System.out.println("--- Catalogo antes de la ordenacion ---");
+        for (Producto p : catalogo) {
+            System.out.println(p);
         }
 
-        System.out.println("\nBuscando producto con ID 999...");
-        Producto productoNoEncontrado = buscarProductoPorId(999);
+        ordenarCatalogoPorId();
 
-        if (productoNoEncontrado != null) {
-            System.out.println("Producto encontrado: " + productoNoEncontrado.toString());
-        } else {
-            System.out.println("Producto no encontrado.");
+        System.out.println("--- Catalogo despues de la ordenacion por ID ---");
+        for (Producto p : catalogo) {
+            System.out.println(p);
         }
+
+        ordenarCatalogoPorNombre();
+        System.out.println("--- Catalogo despues de la ordenacion por Nombre ---");
+        for (Producto p : catalogo) {
+            System.out.println(p);
+        }
+
+        System.out.println("\nBuscando producto con ID 104 en el catálogo ya ordenado...");
+        Producto productoEncontrado = buscarProductoPorId(104);
+        System.out.println("Producto encontrado: " + (productoEncontrado != null ? productoEncontrado.getNombre() : "No encontrado"));
     }
 }
