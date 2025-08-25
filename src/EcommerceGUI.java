@@ -1,0 +1,104 @@
+
+import ecommerce.Ecommerce;
+import ecommerce.Producto;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.util.Arrays;
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+/**
+ *
+ * @author USER
+ */
+public class EcommerceGUI {
+
+    private JFrame frame;
+    private JTextArea displayArea;
+
+    public EcommerceGUI() {
+        frame = new JFrame("E-commerce de Algoritmos");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 400);
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
+        displayArea = new JTextArea(15, 50);
+        displayArea.setEditable(false);
+        JScrollPane scrollPanel = new JScrollPane(displayArea);
+
+        JPanel buttonPanel = new JPanel();
+        JPanel searchPanel = new JPanel();
+
+        JButton ordenarIdButton = new JButton("Ordenar por ID");
+        ordenarIdButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Ecommerce.resetCatalogo();
+                Ecommerce.ordenarCatalogoPorId();
+                displayCatalogo("Catalogo Ordenado por ID");
+            }
+        });
+
+        JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
+        ordenarIdButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Ecommerce.resetCatalogo();
+                Ecommerce.ordenarCatalogoPorNombre();
+                displayCatalogo("Catalogo Ordenado por ID");
+            }
+        });
+
+        JLabel searchLabel = new JLabel("Buscar por ID:");
+        JTextField searchField = new JTextField(10);
+        JButton searchButton = new JButton("Buscar");
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int id = Integer.parseInt(searchField.getText());
+                    Producto productoEncontrado = Ecommerce.buscarProductoPorId(id);
+
+                    displayArea.setText("");
+                    if (productoEncontrado != null) {
+                        displayArea.append("Producto encontrado: " + productoEncontrado.getNombre() + "\n");
+                    } else {
+                        displayArea.append("Producto con ID " + id + " no encontrado.\n");
+                    }
+
+                } catch (NumberFormatException ex) {
+                    displayArea.setText("Por favor, ingrese un ID valido.");
+                }
+            }
+        });
+
+        buttonPanel.add(ordenarIdButton);
+        buttonPanel.add(ordenarNombreButton);
+        searchPanel.add(searchLabel);
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+
+        frame.add(buttonPanel);
+        frame.add(searchPanel);
+        frame.add(scrollPanel);
+
+        displayCatalogo("Catalogo Inicial");
+
+        frame.setVisible(true);
+    }
+
+    private void displayCatalogo(String title) {
+        displayArea.setText("--- " + title + " ---\n");
+        for (Producto p : Ecommerce.getCatalogo()) {
+            displayArea.append(p.toString() + "\n");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new EcommerceGUI();
+            }
+        });
+    }
+}
