@@ -20,7 +20,7 @@ public class EcommerceGUI {
     private JTextArea displayArea;
 
     public EcommerceGUI() {
-        frame = new JFrame("E-commerce de Algoritmos");
+        frame = new JFrame("Plataforma E-commerce");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
