@@ -4,8 +4,10 @@
  */
 package ecommerce;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Scanner;
 
 /**
  *
@@ -13,6 +15,22 @@ import java.util.Comparator;
  */
 public class Ecommerce {
 
+ 
+    /*
+    public static ArrayList<Producto> catalogo = new ArrayList<>();
+
+    public static void mostrarCatalogo() {
+        if (catalogo.isEmpty()) {
+            System.out.println("El catalogo esta vacio.");
+        } else {
+            System.out.println("Catalogo de productos:");
+            for (Producto p : catalogo) {
+                System.out.println(p);
+            }
+        }
+    }
+*/
+    
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static Producto[] Lista = {
         new Producto(103, "Laptop Gamer"),
@@ -60,6 +78,24 @@ public class Ecommerce {
     }
 
     public static void main(String[] args) {
+        
+        /*
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Cuantos productos deseas agregar al catalogo? ");
+        int numProductos = scanner.nextInt();
+        scanner.nextLine();
+        for (int i = 0; i < numProductos; i++) {
+            System.out.print("Ingrese el ID del producto " + (i + 1) + ": ");
+            int id = scanner.nextInt();
+            scanner.nextLine(); 
+            System.out.print("Ingrese el nombre del producto " + (i + 1) + ": ");
+            String nombre = scanner.nextLine();
+            catalogo.add(new Producto(id, nombre));
+            System.out.println("Producto " + (i + 1) + " agregado con exito.");
+        }
+        */
+      
         System.out.println("--- Catalogo antes de la ordenacion ---");
         for (Producto p : catalogo) {
             System.out.println(p);
