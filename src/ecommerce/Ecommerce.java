@@ -29,7 +29,26 @@ public class Ecommerce {
             }
         }
     }
-*/
+    
+    //Ordena catálogo de productos por ID utilizando el algoritmo de ordenación Shell
+    public static void ordenarCatalogoShellSort() {
+        int n = catalogo.length;
+        int salto = n / 2;
+
+        while (salto > 0) {
+            for (int i = salto; i < n; i++) {
+                Producto temp = catalogo[i];
+                int j = i;
+                while (j >= salto && catalogo[j - salto].getId() > temp.getId()) {
+                    catalogo[j] = catalogo[j - salto];
+                    j -= salto;
+                }
+                catalogo[j] = temp;
+            }
+            salto /= 2;
+        }
+    }
+    */
     
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static Producto[] Lista = {
