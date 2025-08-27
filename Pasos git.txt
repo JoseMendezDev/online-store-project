@@ -1,0 +1,10 @@
+Subir cambios a git a través del terminal:
+git status
+git add .
+git commit -m "mensaje de commit"
+git config --global user.email email
+git config --global user.name name
+git commit -m "mensaje de commit"
+git branch -M main
+git remote add origin "https://github.com/JoseMendezDev/online-store-project.git"
+git push -u origin main
