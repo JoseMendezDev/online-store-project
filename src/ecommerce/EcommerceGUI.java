@@ -50,6 +50,15 @@ public class EcommerceGUI {
             }
         });
         
+        JButton ordenarNaturalMergeButton = new JButton("Ordenar por Fusion Natural");
+        ordenarNaturalMergeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Ecommerce.resetCatalogo();
+                Ecommerce.ordenarCatalogoPorFusionNatural();
+                displayCatalogo("Catalogo Ordenado por Fusion Natural");
+            }
+        });
+        
         JButton resetButton = new JButton("Resetear");
         resetButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e){
@@ -82,6 +91,7 @@ public class EcommerceGUI {
 
         buttonPanel.add(ordenarIdButton);
         buttonPanel.add(ordenarNombreButton);
+        buttonPanel.add(ordenarNaturalMergeButton);
         buttonPanel.add(resetButton);
         
         searchPanel.add(searchLabel);
