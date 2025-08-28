@@ -15,7 +15,6 @@ import java.util.Scanner;
  */
 public class Ecommerce {
 
- 
     /*
     public static ArrayList<Producto> catalogo = new ArrayList<>();
 
@@ -48,8 +47,7 @@ public class Ecommerce {
             salto /= 2;
         }
     }
-    */
-    
+     */
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static Producto[] Lista = {
         new Producto(103, "Laptop Gamer"),
@@ -64,8 +62,8 @@ public class Ecommerce {
     public static void resetCatalogo() {
         catalogo = Arrays.copyOf(Lista, Lista.length);
     }
-    
-    public static Producto[] getCatalogo(){
+
+    public static Producto[] getCatalogo() {
         return catalogo;
     }
 
@@ -77,7 +75,7 @@ public class Ecommerce {
         }
         return null;
     }
-    
+
     //Ordenamiento por insercion
     public static void ordenarCatalogoPorId() {
         int n = catalogo.length;
@@ -96,59 +94,59 @@ public class Ecommerce {
     public static void ordenarCatalogoPorNombre() {
         Arrays.sort(catalogo, Comparator.comparing(Producto::getNombre));
     }
-    
-    //Ordenar el catálogo de productos por ID (Fusión Natural)
-    public static void ordenarCatalogoPorFusionNatural() {
-        int n = catalogo.length;
-        Producto[] tempArray = new Producto[n];
 
-        boolean ordenado = false;
-        while (!ordenado) {
-            ordenado = true;
-            int i = 0;
+//Ordenar el catálogo de productos por ID utilizando Fusión Natural (Natural Merge Sort).
+public static void ordenarCatalogoPorFusionNatural() {
+    int n = catalogo.length;
+    Producto[] tempArray = new Producto[n];
 
-            while (i < n) {
-                int j = i;
-                while (j < n - 1 && catalogo[j].getId() <= catalogo[j + 1].getId()) {
-                    j++;
-                }
-                if (j == n - 1) {
-                    break;
-                }
+    boolean ordenado = false;
+    while (!ordenado) {
+        ordenado = true;
+        int i = 0;
+        
+        while (i < n) {
+            int j = i;
+            while (j < n - 1 && catalogo[j].getId() <= catalogo[j + 1].getId()) {
+                j++;
+            }
+            if (j == n - 1) {
+                break;
+            }
 
-                int k = j + 1;
-                while (k < n - 1 && catalogo[k].getId() <= catalogo[k + 1].getId()) {
-                    k++;
-                }
+            int k = j + 1;
+            while (k < n - 1 && catalogo[k].getId() <= catalogo[k + 1].getId()) {
+                k++;
+            }
+            
+            ordenado = false;
 
-                ordenado = false;
-
-                int p1 = i, p2 = j + 1, p3 = i;
-                while (p1 <= j && p2 <= k) {
-                    if (catalogo[p1].getId() <= catalogo[p2].getId()) {
-                        tempArray[p3++] = catalogo[p2++];
-                    } else {
-                        tempArray[p3++] = catalogo[p2++];
-                    }
-                }
-                while (p1 <= j) {
+            int p1 = i, p2 = j + 1, p3 = i;
+            while (p1 <= j && p2 <= k) {
+                if (catalogo[p1].getId() <= catalogo[p2].getId()) {
                     tempArray[p3++] = catalogo[p1++];
-                }
-                while (p2 <= k) {
+                } else {
                     tempArray[p3++] = catalogo[p2++];
                 }
-
-                for (int l = i; l <= k; l++) {
-                    catalogo[l] = tempArray[l];
-                }
-
-                i = k + 1;
             }
+            while (p1 <= j) {
+                tempArray[p3++] = catalogo[p1++];
+            }
+            while (p2 <= k) {
+                tempArray[p3++] = catalogo[p2++];
+            }
+
+            for (int l = i; l <= k; l++) {
+                catalogo[l] = tempArray[l];
+            }
+
+            i = k + 1;
         }
     }
+}
 
     public static void main(String[] args) {
-        
+
         /*
         Scanner scanner = new Scanner(System.in);
         
@@ -164,8 +162,7 @@ public class Ecommerce {
             catalogo.add(new Producto(id, nombre));
             System.out.println("Producto " + (i + 1) + " agregado con exito.");
         }
-        */
-      
+         */
         System.out.println("--- Catalogo antes de la ordenacion ---");
         for (Producto p : catalogo) {
             System.out.println(p);
@@ -180,6 +177,12 @@ public class Ecommerce {
 
         ordenarCatalogoPorNombre();
         System.out.println("--- Catalogo despues de la ordenacion por Nombre ---");
+        for (Producto p : catalogo) {
+            System.out.println(p);
+        }
+
+        ordenarCatalogoPorFusionNatural();
+        System.out.println("--- Catalogo despues de la ordenacion por Fusion Natural ---");
         for (Producto p : catalogo) {
             System.out.println(p);
         }
