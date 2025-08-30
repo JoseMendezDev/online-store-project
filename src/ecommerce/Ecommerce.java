@@ -190,5 +190,5 @@ public static void ordenarCatalogoPorFusionNatural() {
         System.out.println("\nBuscando producto con ID 104 en el catálogo ya ordenado...");
         Producto productoEncontrado = buscarProductoPorId(104);
         System.out.println("Producto encontrado: " + (productoEncontrado != null ? productoEncontrado.getNombre() : "No encontrado"));
-    }
+    }        
 }
