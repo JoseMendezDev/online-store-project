@@ -1,6 +1,6 @@
 
-import ecommerce.Ecommerce;
-import ecommerce.Producto;
+package ecommerce;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
