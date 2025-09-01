@@ -96,99 +96,52 @@ public class Ecommerce {
     }
 
 //Ordenar el catálogo de productos por ID utilizando Fusión Natural (Natural Merge Sort).
-public static void ordenarCatalogoPorFusionNatural() {
-    int n = catalogo.length;
-    Producto[] tempArray = new Producto[n];
+    public static void ordenarCatalogoPorFusionNatural() {
+        int n = catalogo.length;
+        Producto[] tempArray = new Producto[n];
 
-    boolean ordenado = false;
-    while (!ordenado) {
-        ordenado = true;
-        int i = 0;
-        
-        while (i < n) {
-            int j = i;
-            while (j < n - 1 && catalogo[j].getId() <= catalogo[j + 1].getId()) {
-                j++;
-            }
-            if (j == n - 1) {
-                break;
-            }
+        boolean ordenado = false;
+        while (!ordenado) {
+            ordenado = true;
+            int i = 0;
 
-            int k = j + 1;
-            while (k < n - 1 && catalogo[k].getId() <= catalogo[k + 1].getId()) {
-                k++;
-            }
-            
-            ordenado = false;
+            while (i < n) {
+                int j = i;
+                while (j < n - 1 && catalogo[j].getId() <= catalogo[j + 1].getId()) {
+                    j++;
+                }
+                if (j == n - 1) {
+                    break;
+                }
 
-            int p1 = i, p2 = j + 1, p3 = i;
-            while (p1 <= j && p2 <= k) {
-                if (catalogo[p1].getId() <= catalogo[p2].getId()) {
+                int k = j + 1;
+                while (k < n - 1 && catalogo[k].getId() <= catalogo[k + 1].getId()) {
+                    k++;
+                }
+
+                ordenado = false;
+
+                int p1 = i, p2 = j + 1, p3 = i;
+                while (p1 <= j && p2 <= k) {
+                    if (catalogo[p1].getId() <= catalogo[p2].getId()) {
+                        tempArray[p3++] = catalogo[p1++];
+                    } else {
+                        tempArray[p3++] = catalogo[p2++];
+                    }
+                }
+                while (p1 <= j) {
                     tempArray[p3++] = catalogo[p1++];
-                } else {
+                }
+                while (p2 <= k) {
                     tempArray[p3++] = catalogo[p2++];
                 }
-            }
-            while (p1 <= j) {
-                tempArray[p3++] = catalogo[p1++];
-            }
-            while (p2 <= k) {
-                tempArray[p3++] = catalogo[p2++];
-            }
 
-            for (int l = i; l <= k; l++) {
-                catalogo[l] = tempArray[l];
-            }
+                for (int l = i; l <= k; l++) {
+                    catalogo[l] = tempArray[l];
+                }
 
-            i = k + 1;
+                i = k + 1;
+            }
         }
     }
-}
-
-    public static void main(String[] args) {
-
-        /*
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.print("Cuantos productos deseas agregar al catalogo? ");
-        int numProductos = scanner.nextInt();
-        scanner.nextLine();
-        for (int i = 0; i < numProductos; i++) {
-            System.out.print("Ingrese el ID del producto " + (i + 1) + ": ");
-            int id = scanner.nextInt();
-            scanner.nextLine(); 
-            System.out.print("Ingrese el nombre del producto " + (i + 1) + ": ");
-            String nombre = scanner.nextLine();
-            catalogo.add(new Producto(id, nombre));
-            System.out.println("Producto " + (i + 1) + " agregado con exito.");
-        }
-         */
-        System.out.println("--- Catalogo antes de la ordenacion ---");
-        for (Producto p : catalogo) {
-            System.out.println(p);
-        }
-
-        ordenarCatalogoPorId();
-
-        System.out.println("--- Catalogo despues de la ordenacion por ID ---");
-        for (Producto p : catalogo) {
-            System.out.println(p);
-        }
-
-        ordenarCatalogoPorNombre();
-        System.out.println("--- Catalogo despues de la ordenacion por Nombre ---");
-        for (Producto p : catalogo) {
-            System.out.println(p);
-        }
-
-        ordenarCatalogoPorFusionNatural();
-        System.out.println("--- Catalogo despues de la ordenacion por Fusion Natural ---");
-        for (Producto p : catalogo) {
-            System.out.println(p);
-        }
-
-        System.out.println("\nBuscando producto con ID 104 en el catálogo ya ordenado...");
-        Producto productoEncontrado = buscarProductoPorId(104);
-        System.out.println("Producto encontrado: " + (productoEncontrado != null ? productoEncontrado.getNombre() : "No encontrado"));
-    }        
 }
