@@ -51,10 +51,25 @@ public class Ecommerce {
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static Producto[] Lista = {
         new Producto(103, "Laptop Gamer"),
-        new Producto(105, "Teclado Mecánico"),
+        new Producto(105, "Teclado Mecanico"),
         new Producto(101, "Monitor"),
         new Producto(102, "Mouse Inalambrico"),
-        new Producto(104, "Auriculares")
+        new Producto(104, "Auriculares"),
+        new Producto(202, "Silla de Escritorio Ergonomica"),
+        new Producto(204, "Disco Duro Externo"),
+        new Producto(201, "Webcam HD"),
+        new Producto(203, "Micrófono USB"),
+        new Producto(205, "Tarjeta Grafica RTX 4070"),
+        new Producto(305, "Fuente de Poder 850W"),
+        new Producto(302, "Memoria RAM 16GB"),
+        new Producto(303, "Procesador Intel i9"),
+        new Producto(304, "SSD NVMe 1TB"),
+        new Producto(301, "Refrigeracion Liquida"),
+        new Producto(401, "Mousepad XL"),
+        new Producto(404, "Adaptador HDMI"),
+        new Producto(403, "Cable USB-C"),
+        new Producto(405, "Estabilizador"),
+        new Producto(402, "USB 32 GB")
     };
 
     public static Producto[] catalogo = Arrays.copyOf(Lista, Lista.length);
