@@ -22,7 +22,7 @@ public class EcommerceGUI {
     public EcommerceGUI() {
         frame = new JFrame("Plataforma E-commerce");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
+        frame.setSize(600, 450);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
         displayArea = new JTextArea(15, 50);
@@ -59,6 +59,15 @@ public class EcommerceGUI {
             }
         });
         
+        JButton ordenarShellButton = new JButton("Ordenar por Shell Sort");
+        ordenarShellButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Ecommerce.resetCatalogo();
+                Ecommerce.ordenarCatalogoShellSort();
+                displayCatalogo("Catalogo Ordenado por Shell Sort");
+            }
+        });
+        
         JButton resetButton = new JButton("Resetear");
         resetButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e){
@@ -92,6 +101,7 @@ public class EcommerceGUI {
         buttonPanel.add(ordenarIdButton);
         buttonPanel.add(ordenarNombreButton);
         buttonPanel.add(ordenarNaturalMergeButton);
+        buttonPanel.add(ordenarShellButton);
         buttonPanel.add(resetButton);
         
         searchPanel.add(searchLabel);
