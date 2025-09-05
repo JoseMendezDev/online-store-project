@@ -28,6 +28,7 @@ public class Ecommerce {
             }
         }
     }
+*/
     
     //Ordena catálogo de productos por ID utilizando el algoritmo de ordenación Shell
     public static void ordenarCatalogoShellSort() {
@@ -47,7 +48,7 @@ public class Ecommerce {
             salto /= 2;
         }
     }
-     */
+    
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static Producto[] Lista = {
         new Producto(103, "Laptop Gamer"),
