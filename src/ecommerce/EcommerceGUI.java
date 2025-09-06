@@ -63,7 +63,7 @@ public class EcommerceGUI {
         ordenarShellButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Ecommerce.resetCatalogo();
-                Ecommerce.ordenarCatalogoShellSort();
+                Ecommerce.ordenarCatalogoPorShellSort();
                 displayCatalogo("Catalogo Ordenado por Shell Sort");
             }
         });
