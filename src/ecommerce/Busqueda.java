@@ -6,8 +6,16 @@ package ecommerce;
 
 /**
  *
- * @author USER
+ * Clase que contiene todos los algoritmos de busqueda.
  */
 public class Busqueda {
     
+        public static Producto buscarLineal(Producto[] catalogo, int id) {
+        for (Producto p : catalogo) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
 }
