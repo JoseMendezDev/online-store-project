@@ -31,7 +31,8 @@ public class EcommerceGUI {
 
         JPanel buttonPanel = new JPanel();
         JPanel searchPanel = new JPanel();
-
+        
+        
         JButton ordenarIdButton = new JButton("Ordenar por ID");
         ordenarIdButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -41,6 +42,15 @@ public class EcommerceGUI {
             }
         });
 
+        JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
+        ordenarPrecioButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Ecommerce.resetCatalogo();
+                Ecommerce.ordenarCatalogoPorPrecio();
+                displayCatalogo("Catalogo Ordenado por Precio");
+            }
+        });
+        
         JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
         ordenarNombreButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -99,6 +109,7 @@ public class EcommerceGUI {
         });
 
         buttonPanel.add(ordenarIdButton);
+        buttonPanel.add(ordenarPrecioButton);
         buttonPanel.add(ordenarNombreButton);
         buttonPanel.add(ordenarNaturalMergeButton);
         buttonPanel.add(ordenarShellButton);
