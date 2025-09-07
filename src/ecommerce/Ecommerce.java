@@ -80,11 +80,6 @@ public class Ecommerce {
     }
 
     public static Producto buscarProductoPorId(int id) {
-        for (Producto p : catalogo) {
-            if (p.getId() == id) {
-                return p;
-            }
-        }
-        return null;
+        return Busqueda.buscarLineal(catalogo, id);
     }
 }
