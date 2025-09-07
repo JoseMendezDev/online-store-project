@@ -12,6 +12,11 @@ import java.util.Comparator;
  * Clase que contiene todos los algoritmos de ordenación interna (en memoria).
  */
 public class OrdenacionInterna {
+    
+    public static void ordenarPorPrecio(Producto[] catalogo){
+        Arrays.sort(catalogo, Comparator.comparingDouble(Producto::getPrecio));
+    }
+    
     //Ordenamiento por insercion
 
     public static void ordenarPorInsercion(Producto[] catalogo) {
