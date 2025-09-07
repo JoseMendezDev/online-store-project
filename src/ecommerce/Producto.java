@@ -33,7 +33,7 @@ public class Producto {
     
     @Override
     public String toString(){
-        return "ID: " + id + ", Nombre: " + nombre + ",Precio: S/. "+ String.format("%.2f", precio);
+        return "ID: " + id + ", Nombre: " + nombre + ", Precio: S/. "+ String.format("%.2f", precio);
     }
 }
 
