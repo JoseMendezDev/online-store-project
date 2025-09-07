@@ -11,10 +11,12 @@ package ecommerce;
 public class Producto {
     private int id;
     private String nombre;
+    private double precio;
     
     public Producto(int id, String nombre){
         this.id = id;
         this.nombre = nombre;
+        this.precio = precio;
     }
 
     public int getId() {
@@ -25,9 +27,13 @@ public class Producto {
         return nombre;
     }
     
+    public double getPrecio(){
+        return precio;
+}
+    
     @Override
     public String toString(){
-        return "ID: " + id + ", Nombre: " + nombre;
+        return "ID: " + id + ", Nombre: " + nombre + ",Precio: S/. "+ String.format("%.2f", precio);
     }
 }
 
