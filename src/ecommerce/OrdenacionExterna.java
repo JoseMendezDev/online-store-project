@@ -4,6 +4,9 @@
  */
 package ecommerce;
 
+import java.util.*;
+import java.io.*;
+
 /**
  *
  * Clase que contiene todos los algoritmos de ordenación externa (fuera de memoria).
@@ -52,4 +55,34 @@ public class OrdenacionExterna {
             }
         }
     }
-}
+    
+    /*public static List<List<Integer>> crearCorridas(List<Integer> datos, int tamBloque) {
+        List<List<Integer>> corridas = new ArrayList<>();
+        for (int i = 0; i < datos.size(); i += tamBloque) {
+            List<Integer> bloque = datos.subList(i, Math.min(i + tamBloque, datos.size()));
+            List<Integer> ordenado = new ArrayList<>(bloque);
+            Collections.sort(ordenado);
+            corridas.add(ordenado);
+        }
+        return corridas;}
+        
+        
+
+    public static List<Integer> mezclaEquilibrada(List<List<Integer>> corridas) {
+        Queue<List<Integer>> cola = new LinkedList<>(corridas);
+        while (cola.size() > 1) {
+            List<Integer> corrida1 = cola.poll();
+            List<Integer> corrida2 = cola.poll();
+            cola.offer(mezclarCorridas(corrida1, corrida2));
+        }
+        return cola.poll();
+    }
+    
+    public static List<Integer> metodoPolifasico(List<List<Integer>> corridas) {
+        Queue<List<Integer>> a = new LinkedList<>();
+        Queue<List<Integer>> b = new LinkedList<>();
+        return null;
+    }
+
+*/
+} 
