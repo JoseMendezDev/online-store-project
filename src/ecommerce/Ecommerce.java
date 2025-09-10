@@ -84,4 +84,8 @@ public class Ecommerce {
     public static Producto buscarProductoPorId(int id) {
         return Busqueda.buscarLineal(catalogo, id);
     }
+    
+    public static Producto buscarProductoPorIdBinaria(int id) {
+        return Busqueda.buscarBinaria(catalogo, id);
+    }
 }
