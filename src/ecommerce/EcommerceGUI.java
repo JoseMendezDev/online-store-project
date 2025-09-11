@@ -86,18 +86,20 @@ public class EcommerceGUI {
            } 
         });
 
-        JLabel searchLabel = new JLabel("Buscar por ID:");
+        JLabel searchLabel = new JLabel("Buscar Producto por ID:");
         JTextField searchField = new JTextField(10);
         JButton searchButton = new JButton("Buscar");
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int id = Integer.parseInt(searchField.getText());
-                    Producto productoEncontrado = Ecommerce.buscarProductoPorId(id);
+                    Ecommerce.ordenarCatalogoPorId();
+                    Producto productoEncontrado = Ecommerce.buscarProductoPorIdBinaria(id);
 
                     displayArea.setText("");
                     if (productoEncontrado != null) {
-                        displayArea.append("Producto encontrado: " + productoEncontrado.getNombre() + "\n");
+                        displayArea.append("Producto encontrado! \n");
+                        displayArea.append(productoEncontrado.toString() + "\n");
                     } else {
                         displayArea.append("Producto con ID " + id + " no encontrado.\n");
                     }
