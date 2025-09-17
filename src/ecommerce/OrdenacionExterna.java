@@ -56,7 +56,7 @@ public class OrdenacionExterna {
         }
     }
     
-    /*public static List<List<Integer>> crearCorridas(List<Integer> datos, int tamBloque) {
+    public static List<List<Integer>> crearCorridas(List<Integer> datos, int tamBloque) {
         List<List<Integer>> corridas = new ArrayList<>();
         for (int i = 0; i < datos.size(); i += tamBloque) {
             List<Integer> bloque = datos.subList(i, Math.min(i + tamBloque, datos.size()));
@@ -83,6 +83,4 @@ public class OrdenacionExterna {
         Queue<List<Integer>> b = new LinkedList<>();
         return null;
     }
-
-*/
 } 
