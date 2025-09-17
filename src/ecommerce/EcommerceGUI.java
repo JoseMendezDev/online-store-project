@@ -1,4 +1,3 @@
-
 package ecommerce;
 
 import java.awt.event.ActionEvent;
@@ -31,8 +30,7 @@ public class EcommerceGUI {
 
         JPanel buttonPanel = new JPanel();
         JPanel searchPanel = new JPanel();
-        
-        
+
         JButton ordenarIdButton = new JButton("Ordenar por ID");
         ordenarIdButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,7 +48,7 @@ public class EcommerceGUI {
                 displayCatalogo("Catalogo Ordenado por Precio");
             }
         });
-        
+
         JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
         ordenarNombreButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -59,7 +57,7 @@ public class EcommerceGUI {
                 displayCatalogo("Catalogo Ordenado por Nombre");
             }
         });
-        
+
         JButton ordenarNaturalMergeButton = new JButton("Ordenar por Fusion Natural");
         ordenarNaturalMergeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -68,7 +66,7 @@ public class EcommerceGUI {
                 displayCatalogo("Catalogo Ordenado por Fusion Natural");
             }
         });
-        
+
         JButton ordenarShellButton = new JButton("Ordenar por Shell Sort");
         ordenarShellButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -77,13 +75,13 @@ public class EcommerceGUI {
                 displayCatalogo("Catalogo Ordenado por Shell Sort");
             }
         });
-        
+
         JButton resetButton = new JButton("Resetear");
         resetButton.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent e){
-               Ecommerce.resetCatalogo();
-               displayCatalogo("Catalogo Reseteado");
-           } 
+            public void actionPerformed(ActionEvent e) {
+                Ecommerce.resetCatalogo();
+                displayCatalogo("Catalogo Reseteado");
+            }
         });
 
         JLabel searchLabel = new JLabel("Buscar Producto por ID:");
@@ -116,7 +114,7 @@ public class EcommerceGUI {
         buttonPanel.add(ordenarNaturalMergeButton);
         buttonPanel.add(ordenarShellButton);
         buttonPanel.add(resetButton);
-        
+
         searchPanel.add(searchLabel);
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
@@ -138,10 +136,7 @@ public class EcommerceGUI {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new EcommerceGUI();
-            }
-        });
+
+        SwingUtilities.invokeLater(() -> new LoginGUI());
     }
 }
