@@ -68,7 +68,7 @@ public class OrdenacionExterna {
         
         
 
-    public static List<Integer> mezclaEquilibrada(List<List<Integer>> corridas) {
+/*    public static List<Integer> mezclaEquilibrada(List<List<Integer>> corridas) {
         Queue<List<Integer>> cola = new LinkedList<>(corridas);
         while (cola.size() > 1) {
             List<Integer> corrida1 = cola.poll();
@@ -78,6 +78,7 @@ public class OrdenacionExterna {
         return cola.poll();
     }
     
+*/
     public static List<Integer> metodoPolifasico(List<List<Integer>> corridas) {
         Queue<List<Integer>> a = new LinkedList<>();
         Queue<List<Integer>> b = new LinkedList<>();
