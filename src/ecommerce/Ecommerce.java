@@ -4,6 +4,7 @@
  */
 package ecommerce;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -13,22 +14,8 @@ import java.util.Comparator;
  */
 public class Ecommerce {
 
-    /*
-    public static ArrayList<Producto> catalogo = new ArrayList<>();
-
-    public static void mostrarCatalogo() {
-        if (catalogo.isEmpty()) {
-            System.out.println("El catalogo esta vacio.");
-        } else {
-            System.out.println("Catalogo de productos:");
-            for (Producto p : catalogo) {
-                System.out.println(p);
-            }
-        }
-    }
-     */
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
-    public static Producto[] Lista = {
+    public static ArrayList<Producto> CATALOGO_ORIGINAL = new ArrayList<>(Arrays.asList(
         new Producto(103, "Laptop Gamer", 3500.00),
         new Producto(105, "Teclado Mecanico", 149.99),
         new Producto(101, "Monitor",350.50),
@@ -49,15 +36,19 @@ public class Ecommerce {
         new Producto(403, "Cable USB-C", 25.50),
         new Producto(405, "Estabilizador", 180.00),
         new Producto(402, "USB 32 GB", 39.99)
-    };
+    ));
 
-    public static Producto[] catalogo = Arrays.copyOf(Lista, Lista.length);
+    public static ArrayList<Producto> catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
 
     public static void resetCatalogo() {
-        catalogo = Arrays.copyOf(Lista, Lista.length);
+        catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
     }
-
-    public static Producto[] getCatalogo() {
+    
+    public static void agregarProducto(Producto nuevoProducto){
+        catalogo.add(nuevoProducto);
+    }
+    
+    public static ArrayList<Producto> getCatalogo() {
         return catalogo;
     }
 
@@ -70,7 +61,7 @@ public class Ecommerce {
     }
 
     public static void ordenarCatalogoPorNombre() {
-        Arrays.sort(catalogo, Comparator.comparing(Producto::getNombre));
+        OrdenacionInterna.ordenarPorNombre(catalogo);
     }
 
     public static void ordenarCatalogoPorShellSort() {
