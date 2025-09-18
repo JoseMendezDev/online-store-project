@@ -4,7 +4,8 @@
  */
 package ecommerce;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 /**
@@ -13,46 +14,46 @@ import java.util.Comparator;
  */
 public class OrdenacionInterna {
     
-    public static void ordenarPorPrecio(Producto[] catalogo){
-        Arrays.sort(catalogo, Comparator.comparingDouble(Producto::getPrecio));
+    public static void ordenarPorPrecio(ArrayList<Producto> catalogo){
+        Collections.sort(catalogo, Comparator.comparingDouble(Producto::getPrecio));
     }
     
     //Ordenamiento por insercion
 
-    public static void ordenarPorInsercion(Producto[] catalogo) {
-        int n = catalogo.length;
+    public static void ordenarPorInsercion(ArrayList<Producto> catalogo) {
+        int n = catalogo.size();
         for (int i = 1; i < n; i++) {
-            Producto key = catalogo[i];
+            Producto key = catalogo.get(i);
             int j = i - 1;
 
-            while (j >= 0 && catalogo[j].getId() > key.getId()) {
-                catalogo[j + 1] = catalogo[j];
+            while (j >= 0 && catalogo.get(j).getId() > key.getId()) {
+                catalogo.set(j + 1, catalogo.get(j));
                 j = j - 1;
             }
-            catalogo[j + 1] = key;
+            catalogo.set(j + 1, key);
         }
     }
 
     //Ordena catálogo de productos por ID utilizando el algoritmo de ordenación Shell
-    public static void ordenarPorShellSort(Producto[] catalogo) {
-        int n = catalogo.length;
+    public static void ordenarPorShellSort(ArrayList<Producto> catalogo) {
+        int n = catalogo.size();
         int salto = n / 2;
 
         while (salto > 0) {
             for (int i = salto; i < n; i++) {
-                Producto temp = catalogo[i];
+                Producto temp = catalogo.get(i);
                 int j = i;
-                while (j >= salto && catalogo[j - salto].getId() > temp.getId()) {
-                    catalogo[j] = catalogo[j - salto];
+                while (j >= salto && catalogo.get(j - salto).getId() > temp.getId()) {
+                    catalogo.set(j, catalogo.get(j - salto));
                     j -= salto;
                 }
-                catalogo[j] = temp;
+                catalogo.set(j, temp);
             }
             salto /= 2;
         }
     }
 
-    public static void ordenarPorNombre(Producto[] catalogo) {
-        Arrays.sort(catalogo, Comparator.comparing(Producto::getNombre));
+    public static void ordenarPorNombre(ArrayList<Producto> catalogo) {
+        Collections.sort(catalogo, Comparator.comparing(Producto::getNombre));
     }
 }
