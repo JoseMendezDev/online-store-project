@@ -4,10 +4,29 @@
  */
 package ecommerce;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author USER
  */
 public class EstructuraHash {
-    
+
+    private static HashMap<Integer, Producto> productoMap = new HashMap<>();
+
+    public static void inicializar(ArrayList<Producto> catalogo) {
+        productoMap.clear();
+        for (Producto p : catalogo) {
+            productoMap.put(p.getId(), p);
+        }
+    }
+
+    public static void agregarProducto(Producto producto) {
+        productoMap.put(producto.getId(), producto);
+    }
+
+    public static Producto buscarProducto(int id) {
+        return productoMap.get(id);
+    }
 }
