@@ -117,9 +117,7 @@ public class EcommerceGUI {
         searchButton.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(searchField.getText());
-                // Ordenar antes de buscar
-                Ecommerce.ordenarCatalogoPorId();
-                Producto productoEncontrado = Ecommerce.buscarProductoPorIdBinaria(id);
+                Producto productoEncontrado = Ecommerce.buscarProductoPorHash(id);
                 displayArea.setText("");
                 if (productoEncontrado != null) {
                     displayArea.append("¡Producto encontrado!\n");
