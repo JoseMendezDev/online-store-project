@@ -19,6 +19,8 @@ public class LoginGUI {
     private JTextField userField;
     private JPasswordField passwordField;
     private JLabel messageLabel;
+    private static final String USUARIO_VALIDO = "admin";
+    private static final String HASH_CONTRASENA_VALIDA = "d74ff0ee8da3b9806a18802a4664c15383f2a1b199e82194600d116b3f71587d";
 
     public LoginGUI() {
         frame = new JFrame("Iniciar Sesión");
@@ -53,11 +55,17 @@ public class LoginGUI {
 
                 if (user.isEmpty() || password.isEmpty()) {
                     messageLabel.setText("Usuario y contraseña no pueden estar vacios.");
-                } else {
+                    return;
+                }
+
+                String passwordHashIngresado = HashUtilidades.generarHash(password);
+                if (user.equals(USUARIO_VALIDO) && passwordHashIngresado.equals(HASH_CONTRASENA_VALIDA)) {
                     messageLabel.setText("Iniciando sesión...");
-                    frame.dispose(); 
+                    frame.dispose();
 
                     SwingUtilities.invokeLater(() -> new EcommerceGUI());
+                } else {
+                    messageLabel.setText("Credenciales incorrectas.");
                 }
             }
         });
