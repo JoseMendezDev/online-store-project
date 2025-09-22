@@ -20,7 +20,7 @@ public class LoginGUI {
     private JPasswordField passwordField;
     private JLabel messageLabel;
     private static final String USUARIO_VALIDO = "admin";
-    private static final String HASH_CONTRASENA_VALIDA = "d74ff0ee8da3b9806a18802a4664c15383f2a1b199e82194600d116b3f71587d";
+    private static final String HASH_CONTRASENA_VALIDA = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f";
 
     public LoginGUI() {
         frame = new JFrame("Iniciar Sesión");
