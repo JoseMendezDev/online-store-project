@@ -16,26 +16,16 @@ public class Ecommerce {
 
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static ArrayList<Producto> CATALOGO_ORIGINAL = new ArrayList<>(Arrays.asList(
-            new Producto(103, "Laptop Gamer", 3500.00),
-            new Producto(105, "Teclado Mecanico", 149.99),
-            new Producto(101, "Monitor", 350.50),
-            new Producto(102, "Mouse Inalambrico", 99.99),
-            new Producto(104, "Auriculares", 129.00),
-            new Producto(202, "Silla de Escritorio Ergonomica", 1200.00),
-            new Producto(204, "Disco Duro Externo", 199.99),
-            new Producto(201, "Webcam HD", 250.00),
-            new Producto(203, "Micrófono USB", 125.50),
-            new Producto(205, "Tarjeta Grafica RTX 4070", 3990.90),
-            new Producto(305, "Fuente de Poder 850W", 150.00),
-            new Producto(302, "Memoria RAM 16GB", 175.50),
-            new Producto(303, "Procesador Intel i9", 780.00),
-            new Producto(304, "SSD NVMe 1TB", 670.00),
-            new Producto(301, "Refrigeracion Liquida", 250.00),
-            new Producto(401, "Mousepad XL", 90.90),
-            new Producto(404, "Adaptador HDMI", 14.99),
-            new Producto(403, "Cable USB-C", 25.50),
-            new Producto(405, "Estabilizador", 180.00),
-            new Producto(402, "USB 32 GB", 39.99)
+        new Producto(103, "Monitor Ultrawide", 350.50, 15, "Periféricos"), 
+        new Producto(101, "Laptop Gamer", 1200.00, 5, "Portátiles"),
+        new Producto(105, "Auriculares Bluetooth", 99.99, 40, "Audio"),
+        new Producto(102, "Teclado Mecánico", 150.00, 25, "Periféricos"),
+        new Producto(104, "Mouse Inalámbrico", 75.25, 30, "Periféricos"),
+        new Producto(201, "Silla Ergonomica", 250.75, 10, "Mobiliario"),
+        new Producto(202, "Disco Duro Externo 1TB", 60.00, 50, "Almacenamiento"),
+        new Producto(203, "Webcam HD", 45.50, 35, "Periféricos"),
+        new Producto(204, "Micrófono USB", 85.00, 20, "Audio"),
+        new Producto(205, "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes")
     ));
 
     public static ArrayList<Producto> catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
