@@ -23,21 +23,21 @@ public class OrdenacionExterna {
             int i = 0;
             while (i < n) {
                 int j = i;
-                while (j < n - 1 && catalogo.get(j).getId() <= catalogo.get(j + 1).getId()) {
+                while (j < n - 1 && catalogo.get(j).getCodigo() <= catalogo.get(j + 1).getCodigo()) {
                     j++;
                 }
                 if (j == n - 1) {
                     break;
                 }
                 int k = j + 1;
-                while (k < n - 1 && catalogo.get(k).getId() <= catalogo.get(k + 1).getId()) {
+                while (k < n - 1 && catalogo.get(k).getCodigo() <= catalogo.get(k + 1).getCodigo()) {
                     k++;
                 }
                 ordenado = false;
 
                 int p1 = i, p2 = j + 1, p3 = i;
                 while (p1 <= j && p2 <= k) {
-                    if (catalogo.get(p1).getId() <= catalogo.get(p2).getId()) {
+                    if (catalogo.get(p1).getCodigo() <= catalogo.get(p2).getCodigo()) {
                         tempArray.set(p3++, catalogo.get(p1++));
                     } else {
                         tempArray.set(p3++, catalogo.get(p2++));
