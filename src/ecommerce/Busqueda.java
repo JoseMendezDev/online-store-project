@@ -12,27 +12,27 @@ import java.util.ArrayList;
  */
 public class Busqueda {
 
-    public static Producto buscarLineal(ArrayList<Producto> catalogo, int id) {
+    public static Producto buscarLineal(ArrayList<Producto> catalogo, int codigo) {
         for (Producto p : catalogo) {
-            if (p.getId() == id) {
+            if (p.getCodigo() == codigo) {
                 return p;
             }
         }
         return null;
     }
 
-public static Producto buscarBinaria(ArrayList<Producto> catalogo, int id) {
+public static Producto buscarBinaria(ArrayList<Producto> catalogo, int codigo) {
         int izquierda = 0;
         int derecha = catalogo.size() - 1;
         
         while (izquierda <= derecha) {
             int medio = izquierda + (derecha - izquierda) / 2;
             
-            if (catalogo.get(medio).getId() == id) {
+            if (catalogo.get(medio).getCodigo() == codigo) {
                 return catalogo.get(medio);
             }
             
-            if (catalogo.get(medio).getId() < id) {
+            if (catalogo.get(medio).getCodigo() < codigo) {
                 izquierda = medio + 1;
             } 
             else {
