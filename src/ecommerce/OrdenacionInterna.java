@@ -26,7 +26,7 @@ public class OrdenacionInterna {
             Producto key = catalogo.get(i);
             int j = i - 1;
 
-            while (j >= 0 && catalogo.get(j).getId() > key.getId()) {
+            while (j >= 0 && catalogo.get(j).getCodigo() > key.getCodigo()) {
                 catalogo.set(j + 1, catalogo.get(j));
                 j = j - 1;
             }
@@ -34,7 +34,7 @@ public class OrdenacionInterna {
         }
     }
 
-    //Ordena catálogo de productos por ID utilizando el algoritmo de ordenación Shell
+    //Ordena catálogo de productos por Codigo utilizando el algoritmo de ordenación Shell
     public static void ordenarPorShellSort(ArrayList<Producto> catalogo) {
         int n = catalogo.size();
         int salto = n / 2;
@@ -43,7 +43,7 @@ public class OrdenacionInterna {
             for (int i = salto; i < n; i++) {
                 Producto temp = catalogo.get(i);
                 int j = i;
-                while (j >= salto && catalogo.get(j - salto).getId() > temp.getId()) {
+                while (j >= salto && catalogo.get(j - salto).getCodigo() > temp.getCodigo()) {
                     catalogo.set(j, catalogo.get(j - salto));
                     j -= salto;
                 }
