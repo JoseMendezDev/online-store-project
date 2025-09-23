@@ -16,16 +16,16 @@ public class Ecommerce {
 
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static ArrayList<Producto> CATALOGO_ORIGINAL = new ArrayList<>(Arrays.asList(
-        new Producto(103, "Monitor Ultrawide", 350.50, 15, "Periféricos"), 
-        new Producto(101, "Laptop Gamer", 1200.00, 5, "Portátiles"),
-        new Producto(105, "Auriculares Bluetooth", 99.99, 40, "Audio"),
-        new Producto(102, "Teclado Mecánico", 150.00, 25, "Periféricos"),
-        new Producto(104, "Mouse Inalámbrico", 75.25, 30, "Periféricos"),
-        new Producto(201, "Silla Ergonomica", 250.75, 10, "Mobiliario"),
-        new Producto(202, "Disco Duro Externo 1TB", 60.00, 50, "Almacenamiento"),
-        new Producto(203, "Webcam HD", 45.50, 35, "Periféricos"),
-        new Producto(204, "Micrófono USB", 85.00, 20, "Audio"),
-        new Producto(205, "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes")
+        new Producto(523654, "Monitor Ultrawide", 350.50, 15, "Periféricos"), 
+        new Producto(265843, "Laptop Gamer", 1200.00, 5, "Portátiles"),
+        new Producto(545154, "Auriculares Bluetooth", 99.99, 40, "Audio"),
+        new Producto(523457, "Teclado Mecánico", 150.00, 25, "Periféricos"),
+        new Producto(244846, "Mouse Inalámbrico", 75.25, 30, "Periféricos"),
+        new Producto(695328, "Silla Ergonomica", 250.75, 10, "Mobiliario"),
+        new Producto(662374, "Disco Duro Externo 1TB", 60.00, 50, "Almacenamiento"),
+        new Producto(985263, "Webcam HD", 45.50, 35, "Periféricos"),
+        new Producto(752236, "Micrófono USB", 85.00, 20, "Audio"),
+        new Producto(412576, "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes")
     ));
 
     public static ArrayList<Producto> catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
