@@ -2,9 +2,6 @@ package ecommerce;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,7 +18,7 @@ public class EcommerceGUI {
     private JScrollPane scrollPanel;
     private JPanel mainPanel, listadoPanel, agregarPanel;
 
-    private JTextField idField, nombreField, precioField, stockField, categoriaField, searchField;
+    private JTextField codigoField, nombreField, precioField, stockField, categoriaField, searchField;
 
     public EcommerceGUI() {
         frame = new JFrame("Plataforma E-commerce");
@@ -78,7 +75,7 @@ public class EcommerceGUI {
         JPanel controlPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 5, 5));
 
-        JButton ordenarIdButton = new JButton("Ordenar por ID");
+        JButton ordenarCodigoButton = new JButton("Ordenar por Codigo");
         JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
         JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
         JButton resetButton = new JButton("Resetear");
@@ -86,15 +83,15 @@ public class EcommerceGUI {
 
         JPanel searchPanel = new JPanel(new FlowLayout());
         searchField = new JTextField(15);
-        JButton searchButton = new JButton("Buscar ID");
+        JButton searchButton = new JButton("Buscar Código");
 
-        buttonPanel.add(ordenarIdButton);
+        buttonPanel.add(ordenarCodigoButton);
         buttonPanel.add(ordenarNombreButton);
         buttonPanel.add(ordenarPrecioButton);
         buttonPanel.add(resetButton);
         buttonPanel.add(regresarButton);
 
-        searchPanel.add(new JLabel("ID a buscar:"));
+        searchPanel.add(new JLabel("Código a buscar:"));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
 
@@ -104,9 +101,9 @@ public class EcommerceGUI {
         listadoPanel.add(buttonPanel, BorderLayout.NORTH);
         listadoPanel.add(scrollPanel, BorderLayout.CENTER);
 
-        ordenarIdButton.addActionListener(e -> {
-            Ecommerce.ordenarCatalogoPorId();
-            displayCatalogo("Catálogo Ordenado por ID");
+        ordenarCodigoButton.addActionListener(e -> {
+            Ecommerce.ordenarCatalogoPorCodigo();
+            displayCatalogo("Catálogo Ordenado por Código de Tienda");
         });
         ordenarNombreButton.addActionListener(e -> {
             Ecommerce.ordenarCatalogoPorNombre();
@@ -125,8 +122,8 @@ public class EcommerceGUI {
         });
         searchButton.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(searchField.getText());
-                Producto productoEncontrado = Ecommerce.buscarProductoPorHash(id);
+                int codigo = Integer.parseInt(searchField.getText());
+                Producto productoEncontrado = Ecommerce.buscarProductoPorHash(codigo);
                 listadoDisplayPanel.removeAll();
                 listadoDisplayPanel.revalidate();
                 listadoDisplayPanel.repaint();
@@ -135,12 +132,12 @@ public class EcommerceGUI {
                     scrollPanel.setBorder(BorderFactory.createTitledBorder("Resultado de Búsqueda (HASH)"));
 
                 } else {
-                    listadoDisplayPanel.add(new JLabel("Producto con ID " + id + " no encontrado."));
+                    listadoDisplayPanel.add(new JLabel("Producto con Código " + codigo + " no encontrado."));
                     scrollPanel.setBorder(BorderFactory.createTitledBorder("Resultado de Búsqueda"));
 
                 }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Por favor, ingrese un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Por favor, ingrese un Código válido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
@@ -149,7 +146,7 @@ public class EcommerceGUI {
         agregarPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         agregarPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 
-        idField = new JTextField(15);
+        codigoField = new JTextField(15);
         nombreField = new JTextField(15);
         precioField = new JTextField(15);
         stockField = new JTextField(15);
@@ -158,8 +155,8 @@ public class EcommerceGUI {
         JButton guardarButton = new JButton("Guardar Producto");
         JButton regresarButton = new JButton("Regresar");
 
-        agregarPanel.add(new JLabel("ID:"));
-        agregarPanel.add(idField);
+        agregarPanel.add(new JLabel("Código:"));
+        agregarPanel.add(codigoField);
         agregarPanel.add(new JLabel("Nombre:"));
         agregarPanel.add(nombreField);
         agregarPanel.add(new JLabel("Precio:"));
@@ -173,25 +170,25 @@ public class EcommerceGUI {
 
         guardarButton.addActionListener(e -> {
             try {
-                int id = Integer.parseInt(idField.getText());
+                int codigo = Integer.parseInt(codigoField.getText());
                 String nombre = nombreField.getText();
                 double precio = Double.parseDouble(precioField.getText());
                 int stock = Integer.parseInt(stockField.getText());
                 String categoria = categoriaField.getText();
 
-                Ecommerce.agregarProducto(new Producto(id, nombre, precio, stock, categoria));
+                Ecommerce.agregarProducto(new Producto(codigo, nombre, precio, stock, categoria));
 
                 JOptionPane.showMessageDialog(frame, "Producto agregado con éxito!");
 
                 // Limpiar campos
-                idField.setText("");
+                codigoField.setText("");
                 nombreField.setText("");
                 precioField.setText("");
                 stockField.setText("");
                 categoriaField.setText("");
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "ID y Precio deben ser números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Codigo y Precio deben ser números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         regresarButton.addActionListener(e -> {
@@ -207,7 +204,7 @@ public class EcommerceGUI {
         ));
 
         card.add(new JLabel("<html><b>" + p.getNombre() + "</b></html>"));
-        card.add(new JLabel("ID: " + p.getCodigo()));
+        card.add(new JLabel("Codigo: " + p.getCodigo()));
         card.add(new JLabel("Precio: $" + String.format("%.2f", p.getPrecio())));
         card.add(new JLabel("Stock: " + p.getStock()));
         card.add(new JLabel("Categoría: " + p.getCategoria()));
