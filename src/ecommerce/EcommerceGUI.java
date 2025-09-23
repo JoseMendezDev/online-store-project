@@ -207,7 +207,7 @@ public class EcommerceGUI {
         ));
 
         card.add(new JLabel("<html><b>" + p.getNombre() + "</b></html>"));
-        card.add(new JLabel("ID: " + p.getId()));
+        card.add(new JLabel("ID: " + p.getCodigo()));
         card.add(new JLabel("Precio: $" + String.format("%.2f", p.getPrecio())));
         card.add(new JLabel("Stock: " + p.getStock()));
         card.add(new JLabel("Categoría: " + p.getCategoria()));
