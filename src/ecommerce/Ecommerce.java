@@ -6,7 +6,6 @@ package ecommerce;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  *
@@ -52,7 +51,7 @@ public class Ecommerce {
         OrdenacionInterna.ordenarPorPrecio(catalogo);
     }
 
-    public static void ordenarCatalogoPorId() {
+    public static void ordenarCatalogoPorCodigo() {
         OrdenacionInterna.ordenarPorInsercion(catalogo);
     }
 
@@ -68,15 +67,15 @@ public class Ecommerce {
         OrdenacionExterna.ordenarPorFusionNatural(catalogo);
     }
 
-    public static Producto buscarProductoPorId(int id) {
-        return Busqueda.buscarLineal(catalogo, id);
+    public static Producto buscarProductoPorCodigo(int codigo) {
+        return Busqueda.buscarLineal(catalogo, codigo);
     }
 
-    public static Producto buscarProductoPorIdBinaria(int id) {
-        return Busqueda.buscarBinaria(catalogo, id);
+    public static Producto buscarProductoPorCodigoBinaria(int codigo) {
+        return Busqueda.buscarBinaria(catalogo, codigo);
     }
     
-    public static Producto buscarProductoPorHash(int id) {
-        return EstructuraHash.buscarProducto(id);
+    public static Producto buscarProductoPorHash(int codigo) {
+        return EstructuraHash.buscarProducto(codigo);
     }
 }
