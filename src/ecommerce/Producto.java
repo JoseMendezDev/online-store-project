@@ -10,22 +10,22 @@ package ecommerce;
  */
 public class Producto {
 
-    private int id;
+    private int codigo;
     private String nombre;
     private double precio;
     private int stock;
     private String categoria;
 
-    public Producto(int id, String nombre, double precio, int stock, String categoria) {
-        this.id = id;
+    public Producto(int codigo, String nombre, double precio, int stock, String categoria) {
+        this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
         this.categoria = categoria;
     }
 
-    public int getId() {
-        return id;
+    public int getCodigo() {
+        return codigo;
     }
 
     public String getNombre() {
@@ -46,7 +46,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return String.format("ID: %d, Nombre: %s, Precio: $%.2f, Stock: %d, Categoría: %s",
-                id, nombre, precio, stock, categoria);
+        return String.format("Codigo Tienda: %d, Nombre: %s, Precio: $%.2f, Stock: %d, Categoría: %s",
+                codigo, nombre, precio, stock, categoria);
     }
 }
