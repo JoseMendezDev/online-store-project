@@ -22,7 +22,7 @@ public class Inventario {
 
     public Producto buscarProducto(int id) {
         for (Producto p : productos) {
-            if (p.getId() == id) {
+            if (p.getCodigo() == id) {
                 return p;
             }
         }
