@@ -10,13 +10,13 @@ package ecommerce;
  */
 public class Producto {
 
-    private int codigo;
+    private String codigo;
     private String nombre;
     private double precio;
     private int stock;
     private String categoria;
 
-    public Producto(int codigo, String nombre, double precio, int stock, String categoria) {
+    public Producto(String codigo, String nombre, double precio, int stock, String categoria) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
@@ -24,7 +24,7 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
