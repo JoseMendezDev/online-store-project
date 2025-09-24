@@ -14,19 +14,16 @@ import java.util.Comparator;
  */
 public class OrdenacionInterna {
     
-    public static void ordenarPorPrecio(ArrayList<Producto> catalogo){
+    public static void ordenarPorPrecio(ArrayList<Producto> catalogo) {
         Collections.sort(catalogo, Comparator.comparingDouble(Producto::getPrecio));
     }
-    
-    //Ordenamiento por insercion
 
     public static void ordenarPorInsercion(ArrayList<Producto> catalogo) {
         int n = catalogo.size();
         for (int i = 1; i < n; i++) {
             Producto key = catalogo.get(i);
             int j = i - 1;
-
-            while (j >= 0 && catalogo.get(j).getCodigo() > key.getCodigo()) {
+            while (j >= 0 && catalogo.get(j).getCodigo().compareTo(key.getCodigo()) > 0) {
                 catalogo.set(j + 1, catalogo.get(j));
                 j = j - 1;
             }
@@ -43,7 +40,7 @@ public class OrdenacionInterna {
             for (int i = salto; i < n; i++) {
                 Producto temp = catalogo.get(i);
                 int j = i;
-                while (j >= salto && catalogo.get(j - salto).getCodigo() > temp.getCodigo()) {
+                while (j >= salto && catalogo.get(j - salto).getCodigo().compareTo(temp.getCodigo()) > 0) {
                     catalogo.set(j, catalogo.get(j - salto));
                     j -= salto;
                 }
@@ -56,4 +53,6 @@ public class OrdenacionInterna {
     public static void ordenarPorNombre(ArrayList<Producto> catalogo) {
         Collections.sort(catalogo, Comparator.comparing(Producto::getNombre));
     }
+    
+    
 }
