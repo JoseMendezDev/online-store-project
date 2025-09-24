@@ -2,6 +2,9 @@ package ecommerce;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -29,7 +32,6 @@ public class EcommerceGUI {
         CardLayout cardLayout = new CardLayout();
         frame.setLayout(cardLayout);
 
-        // Inicialización de Paneles
         createMainPanel();
         createListadoPanel();
         createAgregarPanel();
@@ -67,7 +69,7 @@ public class EcommerceGUI {
         listadoPanel = new JPanel(new BorderLayout());
 
         listadoDisplayPanel = new JPanel();
-        listadoDisplayPanel.setLayout(new GridLayout(0, 3, 10, 10)); // 3 columnas, filas automaticas
+        listadoDisplayPanel.setLayout(new GridLayout(0, 3, 10, 10));
 
         scrollPanel = new JScrollPane(listadoDisplayPanel);
         scrollPanel.setBorder(BorderFactory.createTitledBorder("Listado de Productos"));
@@ -75,7 +77,7 @@ public class EcommerceGUI {
         JPanel controlPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 5, 5));
 
-        JButton ordenarCodigoButton = new JButton("Ordenar por Codigo");
+        JButton ordenarCodigoButton = new JButton("Ordenar por Código");
         JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
         JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
         JButton resetButton = new JButton("Resetear");
@@ -122,7 +124,7 @@ public class EcommerceGUI {
         });
         searchButton.addActionListener(e -> {
             try {
-                int codigo = Integer.parseInt(searchField.getText());
+                String codigo = searchField.getText();
                 Producto productoEncontrado = Ecommerce.buscarProductoPorHash(codigo);
                 listadoDisplayPanel.removeAll();
                 listadoDisplayPanel.revalidate();
@@ -170,25 +172,34 @@ public class EcommerceGUI {
 
         guardarButton.addActionListener(e -> {
             try {
-                int codigo = Integer.parseInt(codigoField.getText());
+                String codigo = codigoField.getText();
                 String nombre = nombreField.getText();
                 double precio = Double.parseDouble(precioField.getText());
                 int stock = Integer.parseInt(stockField.getText());
                 String categoria = categoriaField.getText();
 
-                Ecommerce.agregarProducto(new Producto(codigo, nombre, precio, stock, categoria));
+                // Validacion del código (6 digitos)
+                if (codigo.length() != 6 || !codigo.matches("\\d+")) {
+                    JOptionPane.showMessageDialog(frame, "El código debe tener 6 dígitos numéricos.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-                JOptionPane.showMessageDialog(frame, "Producto agregado con éxito!");
+                // Llamada al método de la capa de negocio
+                boolean agregado = Ecommerce.agregarProducto(new Producto(codigo, nombre, precio, stock, categoria));
 
-                // Limpiar campos
-                codigoField.setText("");
-                nombreField.setText("");
-                precioField.setText("");
-                stockField.setText("");
-                categoriaField.setText("");
+                if (agregado) {
+                    JOptionPane.showMessageDialog(frame, "Producto agregado con éxito!");
+                    codigoField.setText("");
+                    nombreField.setText("");
+                    precioField.setText("");
+                    stockField.setText("");
+                    categoriaField.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Error: El código de producto ya existe.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                }
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Codigo y Precio deben ser números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Precio y Stock deben ser números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         regresarButton.addActionListener(e -> {
