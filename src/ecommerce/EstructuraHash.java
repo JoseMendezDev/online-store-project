@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class EstructuraHash {
 
-    private static HashMap<Integer, Producto> productoMap = new HashMap<>();
+    private static HashMap<String, Producto> productoMap = new HashMap<>();
 
     public static void inicializar(ArrayList<Producto> catalogo) {
         productoMap.clear();
@@ -25,8 +25,12 @@ public class EstructuraHash {
     public static void agregarProducto(Producto producto) {
         productoMap.put(producto.getCodigo(), producto);
     }
+    
+    public static boolean existeCodigo(String codigo){
+        return productoMap.containsKey(codigo);
+    }
 
-    public static Producto buscarProducto(int codigo) {
+    public static Producto buscarProducto(String codigo) {
         return productoMap.get(codigo);
     }
 }
