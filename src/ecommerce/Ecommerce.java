@@ -15,16 +15,16 @@ public class Ecommerce {
 
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static ArrayList<Producto> CATALOGO_ORIGINAL = new ArrayList<>(Arrays.asList(
-        new Producto(523654, "Monitor Ultrawide", 350.50, 15, "Periféricos"), 
-        new Producto(265843, "Laptop Gamer", 1200.00, 5, "Portátiles"),
-        new Producto(545154, "Auriculares Bluetooth", 99.99, 40, "Audio"),
-        new Producto(523457, "Teclado Mecánico", 150.00, 25, "Periféricos"),
-        new Producto(244846, "Mouse Inalámbrico", 75.25, 30, "Periféricos"),
-        new Producto(695328, "Silla Ergonomica", 250.75, 10, "Mobiliario"),
-        new Producto(662374, "Disco Duro Externo 1TB", 60.00, 50, "Almacenamiento"),
-        new Producto(985263, "Webcam HD", 45.50, 35, "Periféricos"),
-        new Producto(752236, "Micrófono USB", 85.00, 20, "Audio"),
-        new Producto(412576, "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes")
+        new Producto("523654", "Monitor Ultrawide", 350.50, 15, "Periféricos"), 
+        new Producto("265843", "Laptop Gamer", 1200.00, 5, "Portátiles"),
+        new Producto("545154", "Auriculares Bluetooth", 99.99, 40, "Audio"),
+        new Producto("523457", "Teclado Mecánico", 150.00, 25, "Periféricos"),
+        new Producto("244846", "Mouse Inalámbrico", 75.25, 30, "Periféricos"),
+        new Producto("695328", "Silla Ergonomica", 250.75, 10, "Mobiliario"),
+        new Producto("662374", "Disco Duro Externo 1TB", 60.00, 50, "Almacenamiento"),
+        new Producto("985263", "Webcam HD", 45.50, 35, "Periféricos"),
+        new Producto("752236", "Micrófono USB", 85.00, 20, "Audio"),
+        new Producto("412576", "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes")
     ));
 
     public static ArrayList<Producto> catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
@@ -42,9 +42,13 @@ public class Ecommerce {
         return catalogo;
     }
 
-    public static void agregarProducto(Producto nuevoProducto) {
+    public static boolean agregarProducto(Producto nuevoProducto) {
+        if (EstructuraHash.existeCodigo(nuevoProducto.getCodigo())) {
+            return false;
+        }
         catalogo.add(nuevoProducto);
         EstructuraHash.agregarProducto(nuevoProducto);
+        return true;
     }
 
     public static void ordenarCatalogoPorPrecio() {
@@ -67,15 +71,15 @@ public class Ecommerce {
         OrdenacionExterna.ordenarPorFusionNatural(catalogo);
     }
 
-    public static Producto buscarProductoPorCodigo(int codigo) {
+    public static Producto buscarProductoPorCodigo(String codigo) {
         return Busqueda.buscarLineal(catalogo, codigo);
     }
 
-    public static Producto buscarProductoPorCodigoBinaria(int codigo) {
+    public static Producto buscarProductoPorCodigoBinaria(String codigo) {
         return Busqueda.buscarBinaria(catalogo, codigo);
     }
     
-    public static Producto buscarProductoPorHash(int codigo) {
+    public static Producto buscarProductoPorHash(String codigo) {
         return EstructuraHash.buscarProducto(codigo);
     }
 }
