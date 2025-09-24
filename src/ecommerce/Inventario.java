@@ -20,9 +20,9 @@ public class Inventario {
         this.stock = new ArrayList<>();
     }
 
-    public Producto buscarProducto(int id) {
+    public Producto buscarProducto(String codigo) {
         for (Producto p : productos) {
-            if (p.getCodigo() == id) {
+            if (p.getCodigo() == codigo) {
                 return p;
             }
         }
