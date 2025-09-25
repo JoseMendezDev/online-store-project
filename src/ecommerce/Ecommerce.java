@@ -6,6 +6,11 @@ package ecommerce;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -15,6 +20,7 @@ public class Ecommerce {
 
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static ArrayList<Producto> CATALOGO_ORIGINAL = new ArrayList<>(Arrays.asList(
+        // Codigo, Nombre, Precio, Stock, Categoria    
         new Producto("523654", "Monitor Ultrawide", 350.50, 15, "Periféricos"), 
         new Producto("265843", "Laptop Gamer", 1200.00, 5, "Portátiles"),
         new Producto("545154", "Auriculares Bluetooth", 99.99, 40, "Audio"),
@@ -49,6 +55,14 @@ public class Ecommerce {
         catalogo.add(nuevoProducto);
         EstructuraHash.agregarProducto(nuevoProducto);
         return true;
+    }
+    
+    public static ArrayList<String> getCategoriasUnicas(){
+        Set<String> categorias = new HashSet<>();
+        for (Producto p : CATALOGO_ORIGINAL){
+            categorias.add(p.getCategoria());
+        }
+        return new ArrayList<>(categorias);
     }
 
     public static void ordenarCatalogoPorPrecio() {
