@@ -1,6 +1,7 @@
 package ecommerce;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,13 +18,22 @@ import java.util.ArrayList;
 public class EcommerceGUI {
 
     private JFrame frame;
-    private JPanel listadoDisplayPanel;
-    private JScrollPane scrollPanel;
+    private JTable productTable;
+    private DefaultTableModel tableModel;
+    private JComboBox<String> categoryFilter;
+    
     private JPanel mainPanel, listadoPanel, agregarPanel;
 
     private JTextField codigoField, nombreField, precioField, stockField, categoriaField, searchField;
 
     public EcommerceGUI() {
+        
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
         frame = new JFrame("Plataforma E-commerce");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 700);
@@ -47,13 +57,13 @@ public class EcommerceGUI {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-
+        
         JButton agregarProductoButton = new JButton("Agregar Producto");
         JButton verListadoButton = new JButton("Ver Listado de Productos");
-
+        
         agregarProductoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         verListadoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        
         mainPanel.add(agregarProductoButton);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         mainPanel.add(verListadoButton);
@@ -61,85 +71,94 @@ public class EcommerceGUI {
         agregarProductoButton.addActionListener(e -> ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Agregar"));
         verListadoButton.addActionListener(e -> {
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Listado");
-            displayCatalogo("Catálogo Inicial");
+            displayCatalogo(Ecommerce.getCatalogo());
         });
     }
 
     private void createListadoPanel() {
         listadoPanel = new JPanel(new BorderLayout());
+        
+        String[] columnNames = {"Código", "Nombre", "Precio", "Stock", "Categoría"};
+        tableModel = new DefaultTableModel(columnNames, 0);
+        productTable = new JTable(tableModel);
 
-        listadoDisplayPanel = new JPanel();
-        listadoDisplayPanel.setLayout(new GridLayout(0, 3, 10, 10));
+        productTable.setAutoCreateRowSorter(true);
 
-        scrollPanel = new JScrollPane(listadoDisplayPanel);
+        JScrollPane scrollPanel = new JScrollPane(productTable);
         scrollPanel.setBorder(BorderFactory.createTitledBorder("Listado de Productos"));
 
         JPanel controlPanel = new JPanel(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 5, 5));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
         JButton ordenarCodigoButton = new JButton("Ordenar por Código");
         JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
         JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
         JButton resetButton = new JButton("Resetear");
-        JButton regresarButton = new JButton("Regresar");
-
-        JPanel searchPanel = new JPanel(new FlowLayout());
+        
+        JPanel searchAndFilterPanel = new JPanel(new FlowLayout());
+        
         searchField = new JTextField(15);
         JButton searchButton = new JButton("Buscar Código");
+        
+        categoryFilter = new JComboBox<>();
+        categoryFilter.addItem("Todas las categorías");
+        categoryFilter.addActionListener(e -> filtrarPorCategoria());
+        
+        for (String categoria : Ecommerce.getCategoriasUnicas()){
+            categoryFilter.addItem(categoria);
+        }
+        
+        searchAndFilterPanel.add(new JLabel("Filtrar por:"));
+        searchAndFilterPanel.add(categoryFilter);
+        searchAndFilterPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        searchAndFilterPanel.add(new JLabel("Código a buscar:"));
+        searchAndFilterPanel.add(searchField);
+        searchAndFilterPanel.add(searchButton);
 
         buttonPanel.add(ordenarCodigoButton);
         buttonPanel.add(ordenarNombreButton);
         buttonPanel.add(ordenarPrecioButton);
         buttonPanel.add(resetButton);
-        buttonPanel.add(regresarButton);
-
-        searchPanel.add(new JLabel("Código a buscar:"));
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
-
-        controlPanel.add(buttonPanel, BorderLayout.NORTH);
-        controlPanel.add(searchPanel, BorderLayout.CENTER);
-
-        listadoPanel.add(buttonPanel, BorderLayout.NORTH);
+        
+        controlPanel.add(searchAndFilterPanel, BorderLayout.NORTH);
+        controlPanel.add(buttonPanel, BorderLayout.CENTER);
+    
+        listadoPanel.add(controlPanel, BorderLayout.NORTH);
         listadoPanel.add(scrollPanel, BorderLayout.CENTER);
+        
+        JButton regresarButton = new JButton("Regresar");
+        listadoPanel.add(regresarButton, BorderLayout.SOUTH);
 
         ordenarCodigoButton.addActionListener(e -> {
             Ecommerce.ordenarCatalogoPorCodigo();
-            displayCatalogo("Catálogo Ordenado por Código de Tienda");
+            displayCatalogo(Ecommerce.getCatalogo());
         });
         ordenarNombreButton.addActionListener(e -> {
             Ecommerce.ordenarCatalogoPorNombre();
-            displayCatalogo("Catálogo Ordenado por Nombre");
+            displayCatalogo(Ecommerce.getCatalogo());
         });
         ordenarPrecioButton.addActionListener(e -> {
             Ecommerce.ordenarCatalogoPorPrecio();
-            displayCatalogo("Catálogo Ordenado por Precio");
+            displayCatalogo(Ecommerce.getCatalogo());
         });
         resetButton.addActionListener(e -> {
             Ecommerce.resetCatalogo();
-            displayCatalogo("Catálogo Reseteado");
+            categoryFilter.setSelectedIndex(0);
+            displayCatalogo(Ecommerce.getCatalogo());
         });
         regresarButton.addActionListener(e -> {
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Main");
         });
         searchButton.addActionListener(e -> {
-            try {
-                String codigo = searchField.getText();
-                Producto productoEncontrado = Ecommerce.buscarProductoPorHash(codigo);
-                listadoDisplayPanel.removeAll();
-                listadoDisplayPanel.revalidate();
-                listadoDisplayPanel.repaint();
-                if (productoEncontrado != null) {
-                    listadoDisplayPanel.add(createProductCard(productoEncontrado));
-                    scrollPanel.setBorder(BorderFactory.createTitledBorder("Resultado de Búsqueda (HASH)"));
-
-                } else {
-                    listadoDisplayPanel.add(new JLabel("Producto con Código " + codigo + " no encontrado."));
-                    scrollPanel.setBorder(BorderFactory.createTitledBorder("Resultado de Búsqueda"));
-
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Por favor, ingrese un Código válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            String codigo = searchField.getText();
+            Producto productoEncontrado = Ecommerce.buscarProductoPorHash(codigo);
+            if (productoEncontrado != null) {
+                ArrayList<Producto> lista = new ArrayList<>();
+                lista.add(productoEncontrado);
+                displayCatalogo(lista);
+                scrollPanel.setBorder(BorderFactory.createTitledBorder("Resultado de Búsqueda"));
+            } else {
+                JOptionPane.showMessageDialog(frame, "Producto con código " + codigo + " no encontrado.", "Búsqueda Fallida", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
@@ -153,7 +172,7 @@ public class EcommerceGUI {
         precioField = new JTextField(15);
         stockField = new JTextField(15);
         categoriaField = new JTextField(15);
-
+        
         JButton guardarButton = new JButton("Guardar Producto");
         JButton regresarButton = new JButton("Regresar");
 
@@ -177,16 +196,14 @@ public class EcommerceGUI {
                 double precio = Double.parseDouble(precioField.getText());
                 int stock = Integer.parseInt(stockField.getText());
                 String categoria = categoriaField.getText();
-
-                // Validacion del código (6 digitos)
+                
                 if (codigo.length() != 6 || !codigo.matches("\\d+")) {
                     JOptionPane.showMessageDialog(frame, "El código debe tener 6 dígitos numéricos.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                // Llamada al método de la capa de negocio
                 boolean agregado = Ecommerce.agregarProducto(new Producto(codigo, nombre, precio, stock, categoria));
-
+                
                 if (agregado) {
                     JOptionPane.showMessageDialog(frame, "Producto agregado con éxito!");
                     codigoField.setText("");
@@ -206,38 +223,36 @@ public class EcommerceGUI {
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Main");
         });
     }
-
-    private JPanel createProductCard(Producto p) {
-        JPanel card = new JPanel(new GridLayout(6, 1));
-        card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.GRAY),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
-        ));
-
-        card.add(new JLabel("<html><b>" + p.getNombre() + "</b></html>"));
-        card.add(new JLabel("Codigo: " + p.getCodigo()));
-        card.add(new JLabel("Precio: $" + String.format("%.2f", p.getPrecio())));
-        card.add(new JLabel("Stock: " + p.getStock()));
-        card.add(new JLabel("Categoría: " + p.getCategoria()));
-
-        if (p.getStock() <= 10) {
-            card.setBackground(new Color(255, 220, 220)); // Rojo claro si hay poco stock
-        } else {
-            card.setBackground(Color.WHITE);
+    
+    private void displayCatalogo(ArrayList<Producto> listaProductos) {
+        tableModel.setRowCount(0); // Limpia la tabla
+        for (Producto p : listaProductos) {
+            Object[] rowData = {
+                p.getCodigo(),
+                p.getNombre(),
+                p.getPrecio(),
+                p.getStock(),
+                p.getCategoria()
+            };
+            tableModel.addRow(rowData);
         }
-
-        return card;
     }
 
-    private void displayCatalogo(String title) {
-        scrollPanel.setBorder(BorderFactory.createTitledBorder(title));
-        listadoDisplayPanel.removeAll();
-        for (Producto p : Ecommerce.getCatalogo()) {
-            listadoDisplayPanel.add(createProductCard(p));
+    private void filtrarPorCategoria() {
+        String categoriaSeleccionada = (String) categoryFilter.getSelectedItem();
+        ArrayList<Producto> catalogoCompleto = Ecommerce.getCatalogo();
+        
+        if ("Todas las categorías".equals(categoriaSeleccionada)) {
+            displayCatalogo(catalogoCompleto);
+        } else {
+            ArrayList<Producto> listaFiltrada = new ArrayList<>();
+            for (Producto p : catalogoCompleto) {
+                if (p.getCategoria().equals(categoriaSeleccionada)) {
+                    listaFiltrada.add(p);
+                }
+            }
+            displayCatalogo(listaFiltrada);
         }
-
-        listadoDisplayPanel.revalidate();
-        listadoDisplayPanel.repaint();
     }
 
     public static void main(String[] args) {
