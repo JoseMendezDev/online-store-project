@@ -49,4 +49,9 @@ public class Producto {
         return String.format("Codigo Tienda: %d, Nombre: %s, Precio: $%.2f, Stock: %d, Categoría: %s",
                 codigo, nombre, precio, stock, categoria);
     }
+    
+    public static String getCodigoFromLine(String line) {
+        String[] parts = line.split("\\|");
+        return parts[0].trim();
+    }
 }
