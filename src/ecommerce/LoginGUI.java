@@ -25,41 +25,54 @@ public class LoginGUI {
     private static String HASH_CONTRASENA_VALIDA = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f";
 
     public LoginGUI() {
-        frame = new JFrame("Iniciar Sesión");
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        frame = new JFrame("Inicio de Sesión");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 200);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 30, 40));
 
-        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+
         inputPanel.add(new JLabel("Usuario:"));
         userField = new JTextField(20);
         inputPanel.add(userField);
+
         inputPanel.add(new JLabel("Contraseña:"));
         passwordField = new JPasswordField(20);
         inputPanel.add(passwordField);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         JButton loginButton = new JButton("Ingresar");
         JButton forgotPasswordButton = new JButton("¿Olvidaste tu contraseña?");
+
+        loginButton.setPreferredSize(new Dimension(150, 30));
+        forgotPasswordButton.setPreferredSize(new Dimension(200, 30));
+
         buttonPanel.add(loginButton);
         buttonPanel.add(forgotPasswordButton);
 
-        messageLabel = new JLabel("");
+        messageLabel = new JLabel("Ingrese sus credenciales");
         messageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         mainPanel.add(inputPanel);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20))); // Espacio
         mainPanel.add(buttonPanel);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espacio
         mainPanel.add(messageLabel);
 
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.pack();
+        frame.setLocationRelativeTo(null);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -87,11 +100,20 @@ public class LoginGUI {
         forgotPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nuevaContrasena = JOptionPane.showInputDialog(frame, "Ingresa tu nueva contraseña:");
+
+                JPasswordField nuevoPasswordField = new JPasswordField(20);
+                int option = JOptionPane.showConfirmDialog(frame, nuevoPasswordField,
+                        "Ingresa tu nueva contraseña", JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                String nuevaContrasena = null;
+                if (option == JOptionPane.OK_OPTION) {
+
+                    nuevaContrasena = new String(nuevoPasswordField.getPassword());
+                }
 
                 if (nuevaContrasena != null && !nuevaContrasena.isEmpty()) {
                     String hashAnterior = HASH_CONTRASENA_VALIDA;
-
                     String nuevoHash = HashUtilidades.generarHash(nuevaContrasena);
                     HASH_CONTRASENA_VALIDA = nuevoHash;
 
@@ -109,5 +131,13 @@ public class LoginGUI {
         });
 
         frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new LoginGUI();
+            }
+        });
     }
 }
