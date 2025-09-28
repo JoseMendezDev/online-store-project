@@ -141,6 +141,10 @@ public class EcommerceGUI {
         });
         resetButton.addActionListener(e -> {
             Ecommerce.resetCatalogo();
+            
+            if (productTable.getRowSorter() != null){
+                productTable.getRowSorter().setSortKeys(null);
+            }
             categoryFilter.setSelectedIndex(0);
             displayCatalogo(Ecommerce.getCatalogo());
         });
