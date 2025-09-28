@@ -257,7 +257,8 @@ public class EcommerceGUI {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new LoginGUI());
     }
+*/
 }
