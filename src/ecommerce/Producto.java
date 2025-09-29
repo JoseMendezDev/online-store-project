@@ -8,20 +8,22 @@ package ecommerce;
  *
  * @author USER
  */
-public class Producto {
+public class Producto implements Comparable<Producto>{
 
     private String codigo;
     private String nombre;
     private double precio;
     private int stock;
     private String categoria;
+    private double rating;
 
-    public Producto(String codigo, String nombre, double precio, int stock, String categoria) {
+    public Producto(String codigo, String nombre, double precio, int stock, String categoria, double rating) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
         this.categoria = categoria;
+        this.rating = rating;
     }
 
     public String getCodigo() {
@@ -44,14 +46,27 @@ public class Producto {
         return categoria;
     }
 
+    public double getRating() {
+        return rating;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    @Override
+    public int compareTo(Producto other) {
+        return this.codigo.compareTo(other.codigo);
+    }
+
     @Override
     public String toString() {
-        return String.format("Codigo Tienda: %d, Nombre: %s, Precio: $%.2f, Stock: %d, Categoría: %s",
-                codigo, nombre, precio, stock, categoria);
+        return String.format("Product{id='%s', name='%s', price=%.2f, stock=%d, category='%s', rating=%.1f}",
+                codigo, nombre, precio, stock, categoria, rating);
     }
     
-    public static String getCodigoFromLine(String line) {
-        String[] parts = line.split("\\|");
-        return parts[0].trim();
+    public static String getCodigoPorLinea(String linea) {
+        String[] partes = linea.split("\\|");
+        return partes[0].trim();
     }
 }
