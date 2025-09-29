@@ -22,7 +22,7 @@ public class EcommerceGUI {
     
     private JPanel mainPanel, listadoPanel, agregarPanel;
 
-    private JTextField codigoField, nombreField, precioField, stockField, categoriaField, searchField;
+    private JTextField codigoField, nombreField, precioField, stockField, categoriaField, ratingField, searchField;
 
     public EcommerceGUI() {
         
@@ -76,7 +76,7 @@ public class EcommerceGUI {
     private void createListadoPanel() {
         listadoPanel = new JPanel(new BorderLayout());
         
-        String[] columnNames = {"Código", "Nombre", "Precio", "Stock", "Categoría"};
+        String[] columnNames = {"Código", "Nombre", "Precio", "Stock", "Categoría", "Rating"};
         tableModel = new DefaultTableModel(columnNames, 0);
         productTable = new JTable(tableModel);
 
@@ -174,6 +174,7 @@ public class EcommerceGUI {
         precioField = new JTextField(15);
         stockField = new JTextField(15);
         categoriaField = new JTextField(15);
+        ratingField = new JTextField(15);
         
         JButton guardarButton = new JButton("Guardar Producto");
         JButton regresarButton = new JButton("Regresar");
@@ -188,6 +189,8 @@ public class EcommerceGUI {
         agregarPanel.add(stockField);
         agregarPanel.add(new JLabel("Categoría:"));
         agregarPanel.add(categoriaField);
+        agregarPanel.add(new JLabel("Rating:"));
+        agregarPanel.add(ratingField);
         agregarPanel.add(guardarButton);
         agregarPanel.add(regresarButton);
 
@@ -198,13 +201,14 @@ public class EcommerceGUI {
                 double precio = Double.parseDouble(precioField.getText());
                 int stock = Integer.parseInt(stockField.getText());
                 String categoria = categoriaField.getText();
+                double rating = Double.parseDouble(ratingField.getText());
                 
                 if (codigo.length() != 6 || !codigo.matches("\\d+")) {
                     JOptionPane.showMessageDialog(frame, "El código debe tener 6 dígitos numéricos.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                boolean agregado = Ecommerce.agregarProducto(new Producto(codigo, nombre, precio, stock, categoria));
+                boolean agregado = Ecommerce.agregarProducto(new Producto(codigo, nombre, precio, stock, categoria, rating));
                 
                 if (agregado) {
                     JOptionPane.showMessageDialog(frame, "Producto agregado con éxito!");
@@ -234,7 +238,8 @@ public class EcommerceGUI {
                 p.getNombre(),
                 p.getPrecio(),
                 p.getStock(),
-                p.getCategoria()
+                p.getCategoria(),
+                p.getRating()
             };
             tableModel.addRow(rowData);
         }
