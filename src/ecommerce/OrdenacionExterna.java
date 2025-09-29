@@ -118,7 +118,7 @@ public class OrdenacionExterna {
                 }
 
                 Collections.sort(serie, (s1, s2)
-                        -> Producto.getCodigoFromLine(s1).compareTo(Producto.getCodigoFromLine(s2)));
+                        -> Producto.getCodigoPorLinea(s1).compareTo(Producto.getCodigoPorLinea(s2)));
 
                 BufferedWriter writer = usarWriter1 ? writer1 : writer2;
                 for (String s : serie) {
@@ -150,8 +150,8 @@ public class OrdenacionExterna {
             }
 
             while (linea1 != null || linea2 != null) {
-                String codigo1 = (linea1 != null) ? Producto.getCodigoFromLine(linea1) : null;
-                String codigo2 = (linea2 != null) ? Producto.getCodigoFromLine(linea2) : null;
+                String codigo1 = (linea1 != null) ? Producto.getCodigoPorLinea(linea1) : null;
+                String codigo2 = (linea2 != null) ? Producto.getCodigoPorLinea(linea2) : null;
 
                 while (linea1 != null && linea2 != null) {
                     if (codigo1.compareTo(codigo2) <= 0) {
@@ -160,10 +160,10 @@ public class OrdenacionExterna {
                         linesInOutput++;
                         linea1 = reader1.readLine();
                         if (linea1 != null) {
-                            if (Producto.getCodigoFromLine(linea1).compareTo(codigo1) < 0) {
+                            if (Producto.getCodigoPorLinea(linea1).compareTo(codigo1) < 0) {
                                 break;
                             }
-                            codigo1 = Producto.getCodigoFromLine(linea1);
+                            codigo1 = Producto.getCodigoPorLinea(linea1);
                         }
                     } else {
                         writer.write(linea2);
@@ -171,10 +171,10 @@ public class OrdenacionExterna {
                         linesInOutput++;
                         linea2 = reader2.readLine();
                         if (linea2 != null) {
-                            if (Producto.getCodigoFromLine(linea2).compareTo(codigo2) < 0) {
+                            if (Producto.getCodigoPorLinea(linea2).compareTo(codigo2) < 0) {
                                 break;
                             }
-                            codigo2 = Producto.getCodigoFromLine(linea2);
+                            codigo2 = Producto.getCodigoPorLinea(linea2);
                         }
                     }
                 }
@@ -200,7 +200,7 @@ public class OrdenacionExterna {
     
     private static String copyRemainingSeries(BufferedReader reader, BufferedWriter writer, String currentLine, String lastCode) throws IOException {
         while (currentLine != null) {
-            String nextCode = Producto.getCodigoFromLine(currentLine);
+            String nextCode = Producto.getCodigoPorLinea(currentLine);
             if (nextCode.compareTo(lastCode) < 0) {
                 return currentLine; 
             }
