@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class EstructuraHash
 {
-
+//Encadenamiento Separado (Separate Chaining)
     private static final int TAMANO_TABLA = 10;
     private static List<Producto>[] tabla;
 
