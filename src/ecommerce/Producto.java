@@ -65,8 +65,34 @@ public class Producto implements Comparable<Producto>{
                 codigo, nombre, precio, stock, categoria, rating);
     }
     
-    public static String getCodigoPorLinea(String linea) {
-        String[] partes = linea.split("\\|");
-        return partes[0].trim();
+    public String toFileString() {
+        return String.format("%s|%s|%.2f|%d|%s|%.1f", codigo, nombre, precio, stock, categoria, rating);
+    }
+    
+    public static Producto fromString(String line) {
+        String[] parts = line.split("\\|");
+        if (parts.length < 6) {
+            throw new IllegalArgumentException("Línea de archivo incompleta: " + line);
+                }
+        try {
+            return new Producto(
+                parts[0].trim(),                     
+                parts[1].trim(),                     
+                Double.parseDouble(parts[2].trim()), 
+                Integer.parseInt(parts[3].trim()),   
+                parts[4].trim(),
+                Double.parseDouble(parts[5].trim())
+            );
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Formato numérico inválido en línea: " + line);
+        }
+    }
+    
+    public static String getCodigoFromLine(String line) {
+        String[] parts = line.split("\\|");
+        if (parts.length > 0) {
+            return parts[0].trim();
+        }
+        return "";
     }
 }
