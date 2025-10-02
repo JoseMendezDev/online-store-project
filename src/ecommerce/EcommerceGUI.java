@@ -207,6 +207,10 @@ public class EcommerceGUI {
                     JOptionPane.showMessageDialog(frame, "El código debe tener 6 dígitos numéricos.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                if (rating < 0.0 || rating > 5.0) {
+                JOptionPane.showMessageDialog(frame, "El Rating debe estar entre 0.0 y 5.0.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+                }
 
                 boolean agregado = Ecommerce.agregarProducto(new Producto(codigo, nombre, precio, stock, categoria, rating));
                 
@@ -261,9 +265,4 @@ public class EcommerceGUI {
             displayCatalogo(listaFiltrada);
         }
     }
-
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new LoginGUI());
-    }
-*/
 }
