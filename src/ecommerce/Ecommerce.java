@@ -26,7 +26,7 @@ public class Ecommerce
 
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static ArrayList<Producto> CATALOGO_ORIGINAL = new ArrayList<>(Arrays.asList(
-            // Codigo, Nombre, Precio, Stock, Categoria    
+            // Codigo, Nombre, Precio, Stock, Categoria, Rating    
             new Producto("523654", "Monitor Ultrawide", 350.50, 15, "Periféricos", 4.5),
             new Producto("265843", "Laptop Gamer", 1200.00, 5, "Portátiles", 4.3),
             new Producto("545154", "Auriculares Bluetooth", 99.99, 40, "Audio", 4.7),
@@ -41,7 +41,7 @@ public class Ecommerce
 
     private static ArrayList<Producto> catalogo;
 
-    private static final int PRODUCTOS_POR_PAGINA = 31;
+    private static final int PRODUCTOS_POR_PAGINA = 30;
 
     static
     {
@@ -97,14 +97,25 @@ public class Ecommerce
 
     public static void resetCatalogo()
     {
-        catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
-        EstructuraHash.inicializar(CATALOGO_ORIGINAL);
+        File archivoPersistencia = new File(ARCHIVO);
         try
         {
-            guardarCatalogoEnArchivo();
+            if (archivoPersistencia.exists() && archivoPersistencia.length() > 0)
+            {
+                catalogo = cargarCatalogoDesdeArchivo(archivoPersistencia);
+                System.out.println("🔄 Catálogo reseteado en memoria: Datos recargados desde el archivo " + ARCHIVO);
+            } else
+            {
+                catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
+                System.out.println("⚠️ Archivo de persistencia no encontrado al resetear. Usando catálogo por defecto.");
+            }
+
+            EstructuraHash.inicializar(catalogo);
+
         } catch (IOException e)
         {
-            System.err.println("Error al guardar el catálogo reseteado: " + e.getMessage());
+            System.err.println("❌ ERROR: Fallo al recargar el archivo de catálogo durante el reset. Usando catálogo por defecto. " + e.getMessage());
+            catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
         }
     }
 
