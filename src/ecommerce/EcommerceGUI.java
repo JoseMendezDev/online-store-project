@@ -44,7 +44,7 @@ public class EcommerceGUI
 
         frame = new JFrame("Plataforma E-commerce");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 700);
+        frame.setSize(1000, 690);
         frame.setLocationRelativeTo(null);
 
         CardLayout cardLayout = new CardLayout();
