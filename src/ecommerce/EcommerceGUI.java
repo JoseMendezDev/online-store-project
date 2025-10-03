@@ -343,7 +343,7 @@ public class EcommerceGUI
                 double precio = Double.parseDouble(precioField.getText());
                 int stock = Integer.parseInt(stockField.getText());
                 String categoria = categoriaField.getText();
-                double rating = Double.parseDouble(ratingField.getText()); // Lectura del nuevo campo
+                double rating = Double.parseDouble(ratingField.getText());
 
                 if (codigo.length() != 6 || !codigo.matches("\\d+"))
                 {
@@ -362,7 +362,6 @@ public class EcommerceGUI
                 if (agregado)
                 {
                     JOptionPane.showMessageDialog(frame, "Producto agregado con éxito!");
-                    // Limpiar campos
                     codigoField.setText("");
                     nombreField.setText("");
                     precioField.setText("");
@@ -387,7 +386,7 @@ public class EcommerceGUI
 
     private void displayCatalogo(ArrayList<Producto> listaProductos)
     {
-        tableModel.setRowCount(0); // Limpia la tabla
+        tableModel.setRowCount(0);
         for (Producto p : listaProductos)
         {
             Object[] rowData =
