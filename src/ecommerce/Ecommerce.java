@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,6 +40,8 @@ public class Ecommerce
     ));
 
     private static ArrayList<Producto> catalogo;
+
+    private static final int PRODUCTOS_POR_PAGINA = 20;
 
     static
     {
@@ -105,9 +108,40 @@ public class Ecommerce
         }
     }
 
+    public static int getTotalPaginas()
+    {
+        if (catalogo == null || catalogo.isEmpty())
+        {
+            return 1;
+        }
+        return (int) Math.ceil((double) catalogo.size() / PRODUCTOS_POR_PAGINA);
+    }
+
     public static ArrayList<Producto> getCatalogo()
     {
         return catalogo;
+    }
+
+    public static ArrayList<Producto> getPagina(int numeroPagina)
+    {
+        if (catalogo == null || catalogo.isEmpty())
+        {
+            return new ArrayList<>();
+        }
+
+        int totalProductos = catalogo.size();
+        int totalPaginas = getTotalPaginas();
+
+        if (numeroPagina < 1 || numeroPagina > totalPaginas)
+        {
+            return new ArrayList<>();
+        }
+
+        int inicio = (numeroPagina - 1) * PRODUCTOS_POR_PAGINA;
+        int fin = Math.min(inicio + PRODUCTOS_POR_PAGINA, totalProductos);
+
+        List<Producto> sublista = catalogo.subList(inicio, fin);
+        return new ArrayList<>(sublista);
     }
 
     public static void setCatalogo(ArrayList<Producto> nuevoCatalogo)
