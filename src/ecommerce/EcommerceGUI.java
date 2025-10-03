@@ -402,4 +402,35 @@ public class EcommerceGUI
             tableModel.addRow(rowData);
         }
     }
+    
+        private void filtrarPorCategoria()
+    {
+        String categoriaSeleccionada = (String) categoryFilter.getSelectedItem();
+        if (productTable.getRowSorter() != null)
+        {
+            productTable.getRowSorter().setSortKeys(null);
+        }
+
+        if ("Todas las categorías".equals(categoriaSeleccionada))
+        {
+            paginaActual = 1;
+            updateProductView();
+        } else
+        {
+            ArrayList<Producto> catalogoCompleto = Ecommerce.getCatalogo();
+            ArrayList<Producto> listaFiltrada = new ArrayList<>();
+            for (Producto p : catalogoCompleto)
+            {
+                if (p.getCategoria().equals(categoriaSeleccionada))
+                {
+                    listaFiltrada.add(p);
+                }
+            }
+            displayCatalogo(listaFiltrada);
+
+            pageStatusLabel.setText("Filtro Activo (" + listaFiltrada.size() + " ítems)");
+            prevButton.setEnabled(false);
+            nextButton.setEnabled(false);
+        }
+    }
 }
