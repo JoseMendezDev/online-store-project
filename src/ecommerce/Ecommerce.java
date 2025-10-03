@@ -41,7 +41,7 @@ public class Ecommerce
 
     private static ArrayList<Producto> catalogo;
 
-    private static final int PRODUCTOS_POR_PAGINA = 20;
+    private static final int PRODUCTOS_POR_PAGINA = 31;
 
     static
     {
