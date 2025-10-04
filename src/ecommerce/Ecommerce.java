@@ -4,25 +4,34 @@
  */
 package ecommerce;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- *
- * @author USER
+ * Clase principal de gestión del catálogo de productos. 
+ * Maneja la inicialización, persistencia (lectura opcional), búsqueda, 
+ * ordenación y paginación del catálogo.
  */
 public class Ecommerce
 {
 
     private static final String ARCHIVO = "catalogo_productos.txt";
+    private static final int PRODUCTOS_POR_PAGINA = 30;
+    private static ArrayList<Producto> catalogo;
+    private static java.io.File archivoPersistenciaActual;
 
     //Simulación de catálogo desordenado para probar el algoritmo de ordenamiento
     public static ArrayList<Producto> CATALOGO_ORIGINAL = new ArrayList<>(Arrays.asList(
@@ -38,10 +47,63 @@ public class Ecommerce
             new Producto("752236", "Micrófono USB", 85.00, 20, "Audio", 4.6),
             new Producto("412576", "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes", 4.2)
     ));
+    
+    static {
+        // 1. Intentar cargar el archivo, pidiendo la ruta al usuario si es necesario.
+        boolean cargaExitosa = intentarCargarCatalogo();
 
-    private static ArrayList<Producto> catalogo;
+        if (!cargaExitosa) {
+            catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
+            System.out.println("⚠️ Fallo en la carga de archivo o selección cancelada. Usando catálogo por defecto.");
+        }
+        
+        // 3. Inicializar la tabla Hash
+        EstructuraHash.inicializar(catalogo);
+    }
+    
+    private static boolean intentarCargarCatalogo() {
+        File archivoDefault = new File(ARCHIVO);
 
-    private static final int PRODUCTOS_POR_PAGINA = 30;
+        if (archivoDefault.exists() && archivoDefault.length() > 0) {
+            archivoPersistenciaActual = archivoDefault;
+            return cargarCatalogoDesdeArchivoEncontrado(archivoPersistenciaActual);
+        }
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccione el archivo de catálogo: " + ARCHIVO);
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de Texto (*.txt)", "txt"));
+
+        int userSelection = fileChooser.showOpenDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fileChooser.getSelectedFile();
+            
+            if (!archivoSeleccionado.getName().equals(ARCHIVO)) {
+                JOptionPane.showMessageDialog(null, 
+                    "El archivo seleccionado debe llamarse '" + ARCHIVO + "'. Por favor, inténtelo de nuevo.", 
+                    "Error de Archivo", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+            archivoPersistenciaActual = archivoSeleccionado;
+            return cargarCatalogoDesdeArchivoEncontrado(archivoPersistenciaActual);
+
+        } else {
+            // El usuario canceló la selección.
+            return false; 
+        }
+    }
+    
+    private static boolean cargarCatalogoDesdeArchivoEncontrado(File archivo) {
+        try {
+            catalogo = cargarCatalogoDesdeArchivo(archivo);
+            System.out.println("✅ Catálogo cargado EXITOSAMENTE desde la ruta: " + archivo.getAbsolutePath());
+            return true;
+        } catch (IOException | IllegalArgumentException e) {
+            System.err.println("❌ ERROR: Fallo al leer o parsear el archivo. Mensaje: " + e.getMessage());
+            return false;
+        }
+    }
 
     static
     {
@@ -96,30 +158,25 @@ public class Ecommerce
         }
     }
 
-    public static void resetCatalogo()
-    {
-        File archivoPersistencia = new File(ARCHIVO);
-        try
-        {
-            if (archivoPersistencia.exists() && archivoPersistencia.length() > 0)
-            {
-                catalogo = cargarCatalogoDesdeArchivo(archivoPersistencia);
-                System.out.println("🔄 Catálogo reseteado en memoria: Datos recargados desde el archivo " + ARCHIVO);
-            } else
-            {
-                catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
-                System.out.println("⚠️ Archivo de persistencia no encontrado al resetear. Usando catálogo por defecto.");
+    public static void resetCatalogo() {
+        if (archivoPersistenciaActual != null && archivoPersistenciaActual.exists()) {
+            if (cargarCatalogoDesdeArchivoEncontrado(archivoPersistenciaActual)) {
+                EstructuraHash.inicializar(catalogo);
+                System.out.println("🔄 Catálogo reseteado en memoria: Datos recargados desde la ruta guardada.");
+                return;
             }
-
-            EstructuraHash.inicializar(catalogo);
-
-        } catch (IOException e)
-        {
-            System.err.println("❌ ERROR: Fallo al recargar el archivo de catálogo durante el reset. Usando catálogo por defecto. " + e.getMessage());
-            catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
         }
+        
+        catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
+        EstructuraHash.inicializar(CATALOGO_ORIGINAL);
+        System.out.println("⚠️ Fallback: Catálogo reseteado a valores de fábrica solo en memoria.");
     }
 
+
+    public static ArrayList<Producto> getCatalogo() {
+        return catalogo;
+    }
+    
     public static int getTotalPaginas()
     {
         if (catalogo == null || catalogo.isEmpty())
@@ -127,11 +184,6 @@ public class Ecommerce
             return 1;
         }
         return (int) Math.ceil((double) catalogo.size() / PRODUCTOS_POR_PAGINA);
-    }
-
-    public static ArrayList<Producto> getCatalogo()
-    {
-        return catalogo;
     }
 
     public static ArrayList<Producto> getPagina(int numeroPagina)
@@ -156,46 +208,28 @@ public class Ecommerce
         return new ArrayList<>(sublista);
     }
 
-    public static void setCatalogo(ArrayList<Producto> nuevoCatalogo)
-    {
+    public static void setCatalogo(ArrayList<Producto> nuevoCatalogo) {
         catalogo = nuevoCatalogo;
-        EstructuraHash.inicializar(catalogo);
-        try
-        {
-            guardarCatalogoEnArchivo();
-        } catch (IOException e)
-        {
-            System.err.println("Error al guardar el catálogo después de la ordenación: " + e.getMessage());
-        }
+        EstructuraHash.inicializar(catalogo); 
     }
 
-    public static boolean agregarProducto(Producto nuevoProducto)
-    {
-        if (EstructuraHash.existeCodigo(nuevoProducto.getCodigo()))
-        {
+    public static boolean agregarProducto(Producto nuevoProducto) {
+        if (EstructuraHash.existeCodigo(nuevoProducto.getCodigo())) {
             return false;
         }
         catalogo.add(nuevoProducto);
         EstructuraHash.agregarProducto(nuevoProducto);
-
-        try
-        {
-            guardarCatalogoEnArchivo();
-        } catch (IOException e)
-        {
-            System.err.println("Error al guardar el catálogo después de agregar un producto: " + e.getMessage());
-        }
         return true;
     }
-
-    public static ArrayList<String> getCategoriasUnicas()
-    {
+        
+    public static ArrayList<String> getCategoriasUnicas() {
         Set<String> categorias = new HashSet<>();
-        for (Producto p : catalogo)
-        {
+        for (Producto p : catalogo) {
             categorias.add(p.getCategoria());
         }
-        return new ArrayList<>(categorias);
+        ArrayList<String> sortedCategories = new ArrayList<>(categorias);
+        Collections.sort(sortedCategories);
+        return sortedCategories;
     }
 
     public static void ordenarCatalogoPorPrecio()
