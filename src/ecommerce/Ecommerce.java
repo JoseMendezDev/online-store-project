@@ -51,19 +51,20 @@ public class Ecommerce
             if (archivoPersistencia.exists() && archivoPersistencia.length() > 0)
             {
                 catalogo = cargarCatalogoDesdeArchivo(archivoPersistencia);
-                System.out.println("Catálogo cargado desde " + ARCHIVO);
+                System.out.println("✅ Catálogo cargado EXITOSAMENTE desde el archivo: " + ARCHIVO);
             } else
             {
                 catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
-                guardarCatalogoEnArchivo();
-                System.out.println("Usando catálogo por defecto y guardando archivo.");
+                System.out.println("⚠️ Archivo de persistencia no encontrado. Usando catálogo por defecto.");
             }
-        } catch (IOException e)
+        } catch (java.io.IOException | IllegalArgumentException e)
         {
-            System.err.println("Error al manejar el archivo de catálogo. Usando default. " + e.getMessage());
+            System.err.println("❌ ERROR: Fallo al leer o parsear el archivo. Usando catálogo por defecto. Mensaje: " + e.getMessage());
             catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
+        } finally
+        {
+            EstructuraHash.inicializar(catalogo);
         }
-        EstructuraHash.inicializar(catalogo);
     }
 
     public static ArrayList<Producto> cargarCatalogoDesdeArchivo(File archivo) throws IOException
