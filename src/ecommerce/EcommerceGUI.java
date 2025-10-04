@@ -108,9 +108,7 @@ public class EcommerceGUI
         JButton ordenarCodigoButton = new JButton("Ordenar Código (Inserción)");
         JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
         JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
-
         JButton ordenarExternaButton = new JButton("Ordenar Código (Externa)");
-
         JButton resetButton = new JButton("Resetear");
 
         JPanel searchAndFilterPanel = new JPanel(new FlowLayout());
@@ -296,7 +294,6 @@ public class EcommerceGUI
                     "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             inputFile.delete();
-            outputFile.delete();
 
         } catch (IOException ex)
         {
