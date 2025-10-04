@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class OrdenacionExterna {
 
-    private static final int MEMORIA_MAXIMA = 5;
+    private static final int MEMORIA_MAXIMA = 100;
 
     public static void ordenarPorFusionNatural(ArrayList<Producto> catalogo) {
         int n = catalogo.size();
