@@ -6,16 +6,20 @@ package ecommerce;
 
 /**
  *
- * @author USER
+ * Clase principal que representa un producto en el sistema
  */
 public class Producto implements Comparable<Producto>{
 
     private String codigo;
     private String nombre;
+    //private String descripcion;
     private double precio;
     private int stock;
     private String categoria;
+    //private List<String> tags;
     private double rating;
+    //private int numeroVentas;
+    //private LocalDateTime fechaCreacion;
 
     public Producto(String codigo, String nombre, double precio, int stock, String categoria, double rating) {
         this.codigo = codigo;
