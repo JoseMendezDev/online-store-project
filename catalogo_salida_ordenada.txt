@@ -1,0 +1,110 @@
+102756|Tarjeta Capturadora 4K|150.00|65|Multimedia|4.5
+105638|Escáner Documentos Portátil|180.00|40|Impresión|4.7
+109623|Candado Seguridad Laptop|22.50|300|Seguridad|4.2
+114952|Funda Protectora Tablet|19.99|400|Accesorios|4.0
+115963|Tarjeta MicroSD 256GB|35.00|320|Almacenamiento|4.5
+128476|Webcam 1080p con Mic|49.99|160|Periféricos|4.1
+135728|Auriculares Cancelación Ruido|149.99|150|Audio|4.9
+140579|Tarjeta Sonido Externa|59.99|130|Audio|4.1
+146079|Sistema Operativo Pro|199.00|90|Software|4.5
+150843|Base de Carga Inalámbrica|45.00|250|Accesorios|4.1
+159283|Stylus Pen Alta Precisión|40.00|260|Accesorios|4.7
+169045|Cargador Rápido 65W|39.90|300|Accesorios|4.5
+176940|Soporte Monitor VESA|45.99|190|Periféricos|4.3
+183945|Raspberry Pi Kit Inicial|70.00|90|Componentes|4.9
+190547|Memoria RAM 16GB DDR4|75.00|95|Componentes|4.7
+198752|Cámara Exterior IP65|155.00|60|Seguridad|4.7
+206481|Cámara de Seguridad 4K|125.00|90|Seguridad|4.4
+208567|Memoria USB 128GB|25.00|600|Almacenamiento|4.6
+216478|Gamepad Bluetooth|45.00|180|Periféricos|4.4
+227459|Convertible 2-en-1|699.00|38|Portátiles|4.3
+238541|Mesa Gaming Ajustable|299.00|30|Mobiliario|4.8
+239108|Software Edición Video|199.00|45|Software|4.6
+244846|Mouse Inalámbrico|75.25|30|Periféricos|4.2
+245670|Módulo WiFi ESP32|10.00|450|Componentes|4.6
+251809|Cable Ethernet Cat 6|19.90|200|Redes|4.4
+265843|Laptop Gamer|1200.00|5|Portátiles|4.3
+273901|Hub USB-C 7 en 1|49.90|210|Accesorios|4.6
+280496|Estuche Transporte Disco Duro|9.99|500|Accesorios|3.9
+285093|Ventilador CPU Líquido|120.00|60|Componentes|4.6
+293510|Asistente Voz Pantalla 8"|149.00|85|Hogar|4.6
+304196|Libro Electrónico Paper|129.99|70|Tablets|4.5
+315609|Rack Servidor 9U|199.00|12|Componentes|4.8
+321586|Monitor Curvo 34"|499.00|15|Periféricos|4.9
+336471|Teclado Numérico USB|20.00|250|Periféricos|4.0
+342958|Batería Externa 20000mAh|65.00|110|Móviles|4.7
+348910|Mouse Vertical|35.00|200|Periféricos|4.1
+356021|Disco Duro Sólido 1TB|89.90|140|Almacenamiento|4.9
+359218|Software Diseño Gráfico|450.00|18|Software|4.9
+367098|Soldador USB|25.00|220|Accesorios|4.4
+370596|Dron Plegable HD|350.50|30|Multimedia|3.9
+375084|Aspiradora Robot WiFi|300.00|40|Hogar|4.8
+384729|Smartwatch Serie 7|299.00|120|Wearables|4.5
+392845|Micrófono Condensador Estudio|119.00|70|Audio|4.7
+403615|Servidor NAS 4-Bay|450.00|20|Almacenamiento|4.9
+407234|Filtro de Privacidad 24"|55.00|110|Accesorios|4.5
+412576|Tarjeta Gráfica RTX 4070|800.00|8|Componentes|4.2
+437190|Lector Tarjetas USB 3.0|18.00|420|Accesorios|4.1
+458367|Impresora Láser Color|299.99|40|Impresión|4.4
+461879|Disco Blu-Ray Regrabable|15.00|400|Almacenamiento|4.0
+472190|Headset Gaming Inalámbrico|85.00|130|Audio|4.7
+473985|Kit Limpieza Pantallas|12.00|550|Accesorios|4.5
+489023|Laptop Ultra Fina|850.00|22|Portátiles|4.6
+501678|Termostato Inteligente|120.00|50|Hogar|4.4
+508931|Volante Carreras Force|250.00|20|Periféricos|4.6
+510469|Cable HDMI 2.1|29.99|350|Accesorios|4.3
+517893|Placa Arduino Uno|25.00|380|Componentes|4.8
+523457|Teclado Mecánico|150.00|25|Periféricos|4.8
+523654|Monitor Ultrawide|350.50|15|Periféricos|4.5
+538612|Adaptador Inalámbrico PC|20.00|330|Redes|4.2
+545154|Auriculares Bluetooth|99.99|40|Audio|4.7
+559317|Batería Li-Ion 18650|8.00|750|Accesorios|4.2
+568247|Switch de Red 8 Puertos|40.00|170|Redes|4.8
+570134|Mini PC Escritorio|420.00|45|Componentes|4.7
+583692|SSD Portátil 500GB|79.99|115|Almacenamiento|4.8
+584963|Ratón Gaming RGB|59.99|190|Periféricos|4.6
+596714|Gabinete PC Vidrio Temp.|150.00|75|Componentes|4.3
+602391|Servicio VPN 1 Año|59.00|300|Software|4.3
+607812|Adaptador Bluetooth 5.0|9.99|700|Accesorios|4.0
+612984|Cartuchos Tinta Pack|49.00|280|Impresión|4.1
+624397|Sensor Movimiento Smart|29.99|350|Seguridad|4.1
+635780|Router WiFi 6|110.00|150|Redes|4.7
+649251|Mochila Laptop 16"|69.90|100|Portátiles|4.5
+662374|Disco Duro Externo 1TB|60.00|50|Almacenamiento|4.6
+670834|Webcam Profesional Streaming|99.00|85|Periféricos|4.7
+682495|Amplificador Auriculares|75.00|90|Audio|4.3
+691285|Impresora Térmica Tickets|99.00|60|Impresión|4.5
+695328|Silla Ergonomica|250.75|10|Mobiliario|4.0
+701258|Sensor Temperatura IoT|15.00|300|Componentes|4.1
+705924|Licencia Antivirus Anual|35.00|500|Software|4.5
+719365|Smartphone P-8 Pro|999.99|55|Móviles|4.7
+720364|Gafas VR Standalone|450.00|28|Multimedia|4.9
+736481|Destornillador Precisión|30.00|450|Accesorios|4.6
+741638|Procesador i7 Última Gen|399.00|25|Componentes|5.0
+752236|Micrófono USB|85.00|20|Audio|4.6
+774309|Teléfono Fijo Inalámbrico|49.90|100|Hogar|3.9
+802147|Tablet Compacta X10|399.00|65|Tablets|4.8
+813705|Alfombrilla Ratón XL|25.00|240|Periféricos|4.4
+815269|Teclado Ergonómico|85.00|175|Periféricos|4.4
+823460|Fuente Poder 750W|95.00|105|Componentes|4.4
+824701|Multímetro Digital|35.00|180|Accesorios|4.5
+831092|Proyector Portátil Mini|150.75|70|Multimedia|4.3
+846921|Kit Luces LED Smart|35.50|280|Hogar|4.2
+857203|Adaptador USB-C a HDMI|15.00|550|Accesorios|4.0
+860713|Altavoces PC 2.1|99.00|140|Audio|4.4
+871049|Software Contabilidad PYME|299.00|15|Software|4.8
+883705|Papel Fotográfico Premium|15.00|600|Impresión|4.5
+889745|Cable Fibra Óptica 10m|35.00|100|Redes|4.1
+890124|Kit Componentes Electrónica|45.00|150|Componentes|4.3
+894073|UPS Batería de Respaldo|130.00|80|Componentes|4.7
+901732|Estación de Acoplamiento|180.00|50|Periféricos|4.8
+910378|Funda Neopreno Tablet|14.50|350|Tablets|4.0
+925134|Guantes Anti-Estática|5.00|800|Accesorios|3.7
+934512|Anillo de Luz LED|49.00|160|Multimedia|4.3
+940732|Etiquetas Adhesivas Pack|12.00|500|Impresión|4.1
+947510|Altavoz Inteligente S|89.99|180|Audio|4.6
+951806|Cerradura Inteligente|199.00|35|Seguridad|4.5
+960187|Cable Auxiliar Reforzado|11.50|480|Accesorios|4.0
+973408|Bolsa Reutilizable Tech|5.00|1000|Accesorios|4.0
+978231|Malla Extensor WiFi|55.50|220|Redes|4.2
+985263|Webcam HD|45.50|35|Periféricos|4.4

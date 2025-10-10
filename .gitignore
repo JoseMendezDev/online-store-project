@@ -1,2 +1,14 @@
-/build/
-/dist/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+config.properties
+
+*.jar
+lib/
+
+.DS_Store
+Thumbs.db
