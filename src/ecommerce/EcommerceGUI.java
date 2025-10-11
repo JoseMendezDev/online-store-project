@@ -38,7 +38,7 @@ public class EcommerceGUI {
 
         frame = new JFrame("Plataforma E-commerce");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 700);
+        frame.setSize(1000, 690);
         frame.setLocationRelativeTo(null);
         
         CardLayout cardLayout = new CardLayout();
@@ -106,10 +106,12 @@ public class EcommerceGUI {
         
         JPanel searchAndFilterPanel = new JPanel(new FlowLayout());
         searchField = new JTextField(15);
-        JButton searchButton = new JButton("Buscar Código (HASH)");
+        
+        JButton searchHashButton = new JButton("Buscar Código (HASH)");
+        JButton searchContentButton = new JButton("Buscar Contenido (Invertida)");
+        
         categoryFilter = new JComboBox<>();
         categoryFilter.addItem("Todas las categorías");
-        
         for (String categoria : Ecommerce.getCategoriasUnicas()) {
             categoryFilter.addItem(categoria);
         }
@@ -117,9 +119,9 @@ public class EcommerceGUI {
         searchAndFilterPanel.add(new JLabel("Filtrar por:"));
         searchAndFilterPanel.add(categoryFilter);
         searchAndFilterPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-        searchAndFilterPanel.add(new JLabel("Código a buscar:"));
         searchAndFilterPanel.add(searchField);
-        searchAndFilterPanel.add(searchButton);
+        searchAndFilterPanel.add(searchHashButton);
+        searchAndFilterPanel.add(searchContentButton);
 
         buttonPanel.add(ordenarCodigoButton);
         buttonPanel.add(ordenarNombreButton);
@@ -140,8 +142,8 @@ public class EcommerceGUI {
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton regresarButton = new JButton("Regresar");
         
-        JButton addToCartButton = new JButton("➕ Añadir al Carrito"); // Nuevo botón
-        JButton viewCartButton = new JButton("🛒 Ver Carrito");      // Nuevo botón
+        JButton addToCartButton = new JButton("➕ Añadir al Carrito");
+        JButton viewCartButton = new JButton("🛒 Ver Carrito");
         
         actionPanel.add(regresarButton);
         actionPanel.add(Box.createRigidArea(new Dimension(150, 0)));
@@ -151,7 +153,6 @@ public class EcommerceGUI {
         bottomControlPanel.add(paginationPanel, BorderLayout.CENTER);
         bottomControlPanel.add(actionPanel, BorderLayout.SOUTH);
         
-
         JPanel topControls = new JPanel(new GridLayout(2, 1));
         topControls.add(searchAndFilterPanel);
         topControls.add(buttonPanel);
@@ -192,7 +193,9 @@ public class EcommerceGUI {
             scrollPanel.setBorder(BorderFactory.createTitledBorder("Listado de Productos")); 
         });
         categoryFilter.addActionListener(e -> filtrarPorCategoria());
-        searchButton.addActionListener(e -> buscarProductoPorCodigo());
+        
+        searchHashButton.addActionListener(e -> buscarProductoPorCodigo());
+        searchContentButton.addActionListener(e -> buscarProductoPorContenido());
 
         // Paginación
         prevButton.addActionListener(e -> {
@@ -343,7 +346,8 @@ public class EcommerceGUI {
             nextButton.setEnabled(false);
         }
     }
-
+    
+    //Búsqueda por Código (HASH)
     private void buscarProductoPorCodigo() {
         String codigo = searchField.getText();
         Producto productoEncontrado = Ecommerce.buscarProductoPorHash(codigo);
@@ -360,6 +364,29 @@ public class EcommerceGUI {
             nextButton.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(frame, "Producto con código " + codigo + " no encontrado.", "Búsqueda Fallida", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    //Búsqueda por Contenido (Lista Invertida)
+    private void buscarProductoPorContenido() {
+        String palabra = searchField.getText();
+        if (palabra.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "Ingrese una palabra clave para buscar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        ArrayList<Producto> resultados = Ecommerce.buscarPorPalabraClave(palabra);
+        
+        if (!resultados.isEmpty()) {
+            resetTableSorter();
+            displayCatalogo(resultados);
+            
+            pageStatusLabel.setText("Resultados (Lista Invertida: " + resultados.size() + " ítems)");
+            prevButton.setEnabled(false);
+            nextButton.setEnabled(false);
+            
+        } else {
+            JOptionPane.showMessageDialog(frame, "No se encontraron productos que contengan '" + palabra + "'.", "Búsqueda Fallida", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
