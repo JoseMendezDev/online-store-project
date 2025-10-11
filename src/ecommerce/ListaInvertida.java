@@ -22,7 +22,6 @@ public class ListaInvertida {
         indiceInvertido = new HashMap<>();
 
         for (Producto p : catalogo) {
-            // Indexamos por Nombre y Categoría
             indexarTexto(p.getNombre(), p.getCodigo());
             indexarTexto(p.getCategoria(), p.getCodigo());
         }
