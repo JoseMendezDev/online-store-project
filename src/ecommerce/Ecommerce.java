@@ -21,12 +21,11 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * Clase principal de gestión del catálogo de productos. 
- * Maneja la inicialización, persistencia (lectura opcional), búsqueda, 
- * ordenación y paginación del catálogo.
+ * Clase principal de gestión del catálogo de productos. Maneja la
+ * inicialización, persistencia (lectura opcional), búsqueda, ordenación y
+ * paginación del catálogo.
  */
-public class Ecommerce
-{
+public class Ecommerce {
 
     private static final String ARCHIVO = "catalogo_productos.txt";
     private static final int PRODUCTOS_POR_PAGINA = 30;
@@ -47,20 +46,20 @@ public class Ecommerce
             new Producto("752236", "Micrófono USB", 85.00, 20, "Audio", 4.6),
             new Producto("412576", "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes", 4.2)
     ));
-    
+
     static {
-        // 1. Intentar cargar el archivo, pidiendo la ruta al usuario si es necesario.
         boolean cargaExitosa = intentarCargarCatalogo();
 
         if (!cargaExitosa) {
             catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
             System.out.println("⚠️ Fallo en la carga de archivo o selección cancelada. Usando catálogo por defecto.");
         }
-        
-        // 3. Inicializar la tabla Hash
+
         EstructuraHash.inicializar(catalogo);
+
+        ListaInvertida.inicializar(catalogo);
     }
-    
+
     private static boolean intentarCargarCatalogo() {
         File archivoDefault = new File(ARCHIVO);
 
@@ -68,7 +67,7 @@ public class Ecommerce
             archivoPersistenciaActual = archivoDefault;
             return cargarCatalogoDesdeArchivoEncontrado(archivoPersistenciaActual);
         }
-        
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Seleccione el archivo de catálogo: " + ARCHIVO);
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de Texto (*.txt)", "txt"));
@@ -77,23 +76,22 @@ public class Ecommerce
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File archivoSeleccionado = fileChooser.getSelectedFile();
-            
+
             if (!archivoSeleccionado.getName().equals(ARCHIVO)) {
-                JOptionPane.showMessageDialog(null, 
-                    "El archivo seleccionado debe llamarse '" + ARCHIVO + "'. Por favor, inténtelo de nuevo.", 
-                    "Error de Archivo", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "El archivo seleccionado debe llamarse '" + ARCHIVO + "'. Por favor, inténtelo de nuevo.",
+                        "Error de Archivo", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            
+
             archivoPersistenciaActual = archivoSeleccionado;
             return cargarCatalogoDesdeArchivoEncontrado(archivoPersistenciaActual);
 
         } else {
-            // El usuario canceló la selección.
-            return false; 
+            return false;
         }
     }
-    
+
     private static boolean cargarCatalogoDesdeArchivoEncontrado(File archivo) {
         try {
             catalogo = cargarCatalogoDesdeArchivo(archivo);
@@ -105,40 +103,30 @@ public class Ecommerce
         }
     }
 
-    static
-    {
+    static {
         File archivoPersistencia = new File(ARCHIVO);
-        try
-        {
-            if (archivoPersistencia.exists() && archivoPersistencia.length() > 0)
-            {
+        try {
+            if (archivoPersistencia.exists() && archivoPersistencia.length() > 0) {
                 catalogo = cargarCatalogoDesdeArchivo(archivoPersistencia);
                 System.out.println("✅ Catálogo cargado EXITOSAMENTE desde el archivo: " + ARCHIVO);
-            } else
-            {
+            } else {
                 catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
                 System.out.println("⚠️ Archivo de persistencia no encontrado. Usando catálogo por defecto.");
             }
-        } catch (java.io.IOException | IllegalArgumentException e)
-        {
+        } catch (java.io.IOException | IllegalArgumentException e) {
             System.err.println("❌ ERROR: Fallo al leer o parsear el archivo. Usando catálogo por defecto. Mensaje: " + e.getMessage());
             catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
-        } finally
-        {
+        } finally {
             EstructuraHash.inicializar(catalogo);
         }
     }
 
-    public static ArrayList<Producto> cargarCatalogoDesdeArchivo(File archivo) throws IOException
-    {
+    public static ArrayList<Producto> cargarCatalogoDesdeArchivo(File archivo) throws IOException {
         ArrayList<Producto> productos = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(archivo)))
-        {
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String line;
-            while ((line = reader.readLine()) != null)
-            {
-                if (!line.trim().isEmpty())
-                {
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
                     productos.add(Producto.fromString(line));
                 }
             }
@@ -146,12 +134,9 @@ public class Ecommerce
         return productos;
     }
 
-    public static void guardarCatalogoEnArchivo() throws IOException
-    {
-        try (FileWriter writer = new FileWriter(ARCHIVO))
-        {
-            for (Producto p : catalogo)
-            {
+    public static void guardarCatalogoEnArchivo() throws IOException {
+        try (FileWriter writer = new FileWriter(ARCHIVO)) {
+            for (Producto p : catalogo) {
                 writer.write(p.toFileString());
                 writer.write(System.lineSeparator());
             }
@@ -166,38 +151,35 @@ public class Ecommerce
                 return;
             }
         }
-        
+
         catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
         EstructuraHash.inicializar(CATALOGO_ORIGINAL);
         System.out.println("⚠️ Fallback: Catálogo reseteado a valores de fábrica solo en memoria.");
-    }
 
+        ListaInvertida.inicializar(catalogo);
+        
+    }
 
     public static ArrayList<Producto> getCatalogo() {
         return catalogo;
     }
-    
-    public static int getTotalPaginas()
-    {
-        if (catalogo == null || catalogo.isEmpty())
-        {
+
+    public static int getTotalPaginas() {
+        if (catalogo == null || catalogo.isEmpty()) {
             return 1;
         }
         return (int) Math.ceil((double) catalogo.size() / PRODUCTOS_POR_PAGINA);
     }
 
-    public static ArrayList<Producto> getPagina(int numeroPagina)
-    {
-        if (catalogo == null || catalogo.isEmpty())
-        {
+    public static ArrayList<Producto> getPagina(int numeroPagina) {
+        if (catalogo == null || catalogo.isEmpty()) {
             return new ArrayList<>();
         }
 
         int totalProductos = catalogo.size();
         int totalPaginas = getTotalPaginas();
 
-        if (numeroPagina < 1 || numeroPagina > totalPaginas)
-        {
+        if (numeroPagina < 1 || numeroPagina > totalPaginas) {
             return new ArrayList<>();
         }
 
@@ -210,7 +192,7 @@ public class Ecommerce
 
     public static void setCatalogo(ArrayList<Producto> nuevoCatalogo) {
         catalogo = nuevoCatalogo;
-        EstructuraHash.inicializar(catalogo); 
+        EstructuraHash.inicializar(catalogo);
     }
 
     public static boolean agregarProducto(Producto nuevoProducto) {
@@ -221,7 +203,7 @@ public class Ecommerce
         EstructuraHash.agregarProducto(nuevoProducto);
         return true;
     }
-        
+
     public static ArrayList<String> getCategoriasUnicas() {
         Set<String> categorias = new HashSet<>();
         for (Producto p : catalogo) {
@@ -232,43 +214,48 @@ public class Ecommerce
         return sortedCategories;
     }
 
-    public static void ordenarCatalogoPorPrecio()
-    {
+    public static ArrayList<Producto> buscarPorPalabraClave(String palabra) {
+        List<String> codigosEncontrados = ListaInvertida.buscarPorPalabra(palabra);
+        ArrayList<Producto> productos = new ArrayList<>();
+
+        for (String codigo : codigosEncontrados) {
+            Producto p = EstructuraHash.buscarProducto(codigo);
+            if (p != null) {
+                productos.add(p);
+            }
+        }
+        return productos;
+    }
+
+    public static void ordenarCatalogoPorPrecio() {
         OrdenacionInterna.ordenarPorPrecio(catalogo);
     }
 
-    public static void ordenarCatalogoPorCodigo()
-    {
+    public static void ordenarCatalogoPorCodigo() {
         OrdenacionInterna.ordenarPorInsercion(catalogo);
     }
 
-    public static void ordenarCatalogoPorNombre()
-    {
+    public static void ordenarCatalogoPorNombre() {
         OrdenacionInterna.ordenarPorNombre(catalogo);
     }
 
-    public static void ordenarCatalogoPorShellSort()
-    {
+    public static void ordenarCatalogoPorShellSort() {
         OrdenacionInterna.ordenarPorShellSort(catalogo);
     }
 
-    public static void ordenarCatalogoPorFusionNatural()
-    {
+    public static void ordenarCatalogoPorFusionNatural() {
         OrdenacionExterna.ordenarPorFusionNatural(catalogo);
     }
 
-    public static Producto buscarProductoPorCodigo(String codigo)
-    {
+    public static Producto buscarProductoPorCodigo(String codigo) {
         return Busqueda.buscarLineal(catalogo, codigo);
     }
 
-    public static Producto buscarProductoPorCodigoBinaria(String codigo)
-    {
+    public static Producto buscarProductoPorCodigoBinaria(String codigo) {
         return Busqueda.buscarBinaria(catalogo, codigo);
     }
 
-    public static Producto buscarProductoPorHash(String codigo)
-    {
+    public static Producto buscarProductoPorHash(String codigo) {
         return EstructuraHash.buscarProducto(codigo);
     }
 }
