@@ -4,10 +4,20 @@
  */
 package main;
 
+import gui.LoginGUI;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author USER
  */
 public class Main {
-    
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new LoginGUI();
+            }
+        });
+    }
 }
