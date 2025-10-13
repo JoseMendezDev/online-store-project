@@ -4,11 +4,11 @@
  */
 package negocio;
 
-import ecommerce.Busqueda;
-import estructuras.EstructuraHash;
+import estructuras.Busqueda;
+import estructuras.CatalogoHash;
 import estructuras.ListaInvertida;
 import estructuras.OrdenacionExterna;
-import ecommerce.OrdenacionInterna;
+import estructuras.OrdenacionInterna;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -60,7 +60,7 @@ public class Ecommerce {
             System.out.println("⚠️ Fallo en la carga de archivo o selección cancelada. Usando catálogo por defecto.");
         }
 
-        EstructuraHash.inicializar(catalogo);
+        CatalogoHash.inicializar(catalogo);
 
         ListaInvertida.inicializar(catalogo);
     }
@@ -122,7 +122,7 @@ public class Ecommerce {
             System.err.println("❌ ERROR: Fallo al leer o parsear el archivo. Usando catálogo por defecto. Mensaje: " + e.getMessage());
             catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
         } finally {
-            EstructuraHash.inicializar(catalogo);
+            CatalogoHash.inicializar(catalogo);
         }
     }
 
@@ -151,14 +151,14 @@ public class Ecommerce {
     public static void resetCatalogo() {
         if (archivoPersistenciaActual != null && archivoPersistenciaActual.exists()) {
             if (cargarCatalogoDesdeArchivoEncontrado(archivoPersistenciaActual)) {
-                EstructuraHash.inicializar(catalogo);
+                CatalogoHash.inicializar(catalogo);
                 System.out.println("🔄 Catálogo reseteado en memoria: Datos recargados desde la ruta guardada.");
                 return;
             }
         }
 
         catalogo = new ArrayList<>(CATALOGO_ORIGINAL);
-        EstructuraHash.inicializar(CATALOGO_ORIGINAL);
+        CatalogoHash.inicializar(CATALOGO_ORIGINAL);
         System.out.println("⚠️ Fallback: Catálogo reseteado a valores de fábrica solo en memoria.");
 
         ListaInvertida.inicializar(catalogo);
@@ -197,15 +197,15 @@ public class Ecommerce {
 
     public static void setCatalogo(ArrayList<Producto> nuevoCatalogo) {
         catalogo = nuevoCatalogo;
-        EstructuraHash.inicializar(catalogo);
+        CatalogoHash.inicializar(catalogo);
     }
 
     public static boolean agregarProducto(Producto nuevoProducto) {
-        if (EstructuraHash.existeCodigo(nuevoProducto.getCodigo())) {
+        if (CatalogoHash.existeCodigo(nuevoProducto.getCodigo())) {
             return false;
         }
         catalogo.add(nuevoProducto);
-        EstructuraHash.agregarProducto(nuevoProducto);
+        CatalogoHash.agregarProducto(nuevoProducto);
         return true;
     }
 
@@ -224,7 +224,7 @@ public class Ecommerce {
         ArrayList<Producto> productos = new ArrayList<>();
 
         for (String codigo : codigosEncontrados) {
-            Producto p = EstructuraHash.buscarProducto(codigo);
+            Producto p = CatalogoHash.buscarProducto(codigo);
             if (p != null) {
                 productos.add(p);
             }
@@ -261,6 +261,6 @@ public class Ecommerce {
     }
 
     public static Producto buscarProductoPorHash(String codigo) {
-        return EstructuraHash.buscarProducto(codigo);
+        return CatalogoHash.buscarProducto(codigo);
     }
 }
