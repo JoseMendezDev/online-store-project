@@ -1,5 +1,9 @@
-package ecommerce;
+package gui;
 
+import ecommerce.CarritoDeCompras;
+import ecommerce.Ecommerce;
+import ecommerce.OrdenacionExterna;
+import ecommerce.Producto;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;

@@ -4,6 +4,7 @@
  */
 package ecommerce;
 
+import gui.EcommerceGUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
