@@ -1,6 +1,6 @@
 package gui;
 
-import ecommerce.CarritoDeCompras;
+import negocio.CarritoDeCompras;
 import negocio.Ecommerce;
 import ecommerce.OrdenacionExterna;
 import negocio.Producto;
