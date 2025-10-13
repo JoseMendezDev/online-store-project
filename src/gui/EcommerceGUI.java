@@ -2,7 +2,7 @@ package gui;
 
 import negocio.CarritoDeCompras;
 import negocio.Ecommerce;
-import ecommerce.OrdenacionExterna;
+import estructuras.OrdenacionExterna;
 import negocio.Producto;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

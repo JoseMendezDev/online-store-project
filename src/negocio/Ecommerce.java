@@ -5,9 +5,9 @@
 package negocio;
 
 import ecommerce.Busqueda;
-import ecommerce.EstructuraHash;
-import ecommerce.ListaInvertida;
-import ecommerce.OrdenacionExterna;
+import estructuras.EstructuraHash;
+import estructuras.ListaInvertida;
+import estructuras.OrdenacionExterna;
 import ecommerce.OrdenacionInterna;
 import java.io.File;
 import java.io.FileWriter;
