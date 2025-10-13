@@ -4,6 +4,7 @@
  */
 package ecommerce;
 
+import negocio.Producto;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;

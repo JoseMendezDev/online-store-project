@@ -4,6 +4,8 @@
  */
 package ecommerce;
 
+import negocio.Producto;
+import negocio.Ecommerce;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
