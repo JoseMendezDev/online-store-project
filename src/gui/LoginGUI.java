@@ -22,7 +22,6 @@ public class LoginGUI {
     private JTextField userField;
     private JPasswordField passwordField;
     private JLabel messageLabel;
-
     private static final String USUARIO_VALIDO = "admin";
     private static String HASH_CONTRASENA_VALIDA = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f";
 
@@ -76,33 +75,21 @@ public class LoginGUI {
         frame.pack();
         frame.setLocationRelativeTo(null);
 
-        loginButton.addActionListener(new ActionListener() {
+        ActionListener loginAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String user = userField.getText();
-                String password = new String(passwordField.getPassword());
-
-                if (user.isEmpty() || password.isEmpty()) {
-                    messageLabel.setText("Usuario y contraseña no pueden estar vacíos.");
-                    return;
-                }
-
-                String passwordHashIngresado = HashUtilidades.generarHash(password);
-
-                if (user.equals(USUARIO_VALIDO) && passwordHashIngresado.equals(HASH_CONTRASENA_VALIDA)) {
-                    messageLabel.setText("Iniciando sesión...");
-                    frame.dispose();
-                    SwingUtilities.invokeLater(() -> new EcommerceGUI());
-                } else {
-                    messageLabel.setText("Credenciales incorrectas.");
-                }
+                intentarLogin();
             }
-        });
+        };
+        
+        loginButton.addActionListener(loginAction);
+
+        userField.addActionListener(loginAction);
+        passwordField.addActionListener(loginAction);
 
         forgotPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 JPasswordField nuevoPasswordField = new JPasswordField(20);
                 int option = JOptionPane.showConfirmDialog(frame, nuevoPasswordField,
                         "Ingresa tu nueva contraseña", JOptionPane.OK_CANCEL_OPTION,
@@ -110,7 +97,6 @@ public class LoginGUI {
 
                 String nuevaContrasena = null;
                 if (option == JOptionPane.OK_OPTION) {
-
                     nuevaContrasena = new String(nuevoPasswordField.getPassword());
                 }
 
@@ -133,5 +119,28 @@ public class LoginGUI {
         });
 
         frame.setVisible(true);
+    }
+    
+    /**
+     * Contiene la lógica de validación de credenciales.
+     */
+    private void intentarLogin() {
+        String user = userField.getText();
+        String password = new String(passwordField.getPassword());
+
+        if (user.isEmpty() || password.isEmpty()) {
+            messageLabel.setText("Usuario y contraseña no pueden estar vacíos.");
+            return;
+        }
+
+        String passwordHashIngresado = HashUtilidades.generarHash(password);
+
+        if (user.equals(USUARIO_VALIDO) && passwordHashIngresado.equals(HASH_CONTRASENA_VALIDA)) {
+            messageLabel.setText("Iniciando sesión...");
+            frame.dispose();
+            SwingUtilities.invokeLater(() -> new EcommerceGUI()); 
+        } else {
+            messageLabel.setText("Credenciales incorrectas.");
+        }
     }
 }
