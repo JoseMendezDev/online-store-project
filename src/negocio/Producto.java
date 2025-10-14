@@ -8,7 +8,7 @@ package negocio;
  *
  * Clase principal que representa un producto en el sistema
  */
-public class Producto implements Comparable<Producto>{
+public class Producto implements Comparable<Producto> {
 
     private String codigo;
     private String nombre;
@@ -68,30 +68,36 @@ public class Producto implements Comparable<Producto>{
         return String.format("Product{id='%s', name='%s', price=%.2f, stock=%d, category='%s', rating=%.1f}",
                 codigo, nombre, precio, stock, categoria, rating);
     }
-    
+
     public String toFileString() {
         return String.format("%s|%s|%.2f|%d|%s|%.1f", codigo, nombre, precio, stock, categoria, rating);
     }
-    
+
     public static Producto fromString(String line) {
-        String[] parts = line.split("\\|");
-        if (parts.length < 6) {
-            throw new IllegalArgumentException("Línea de archivo incompleta: " + line);
-                }
+        if (line == null || line.trim().isEmpty()) {
+            return null;
+        }
+        String[] parts = line.split(";");
+        if (parts.length < 5) {
+            // Manejo de error si la línea no tiene suficientes partes
+            return null;
+        }
+
         try {
-            return new Producto(
-                parts[0].trim(),                     
-                parts[1].trim(),                     
-                Double.parseDouble(parts[2].trim()), 
-                Integer.parseInt(parts[3].trim()),   
-                parts[4].trim(),
-                Double.parseDouble(parts[5].trim())
-            );
+            String codigo = parts[0].trim();
+            String nombre = parts[1].trim();
+            double precio = Double.parseDouble(parts[2].trim());
+            int stock = Integer.parseInt(parts[3].trim());
+            String categoria = parts[4].trim();
+            double rating = (parts.length > 5) ? Double.parseDouble(parts[5].trim()) : 0.0;
+
+            return new Producto(codigo, nombre, precio, stock, categoria, rating);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Formato numérico inválido en línea: " + line);
+            System.err.println("Error de formato al crear Producto: " + line);
+            return null;
         }
     }
-    
+
     public static String getCodigoFromLine(String line) {
         String[] parts = line.split("\\|");
         if (parts.length > 0) {
