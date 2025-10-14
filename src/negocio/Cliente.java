@@ -12,8 +12,8 @@ import java.util.List;
  *
  * Clase que representa un cliente
  */
-public class Cliente
-{
+public class Cliente {
+
     private String id;
     private String nombre;
     private String email;
@@ -22,8 +22,7 @@ public class Cliente
     private List<String> historialCompras;
     private LocalDateTime fechaRegistro;
 
-    public Cliente(String id, String nombre, String email, String direccion)
-    {
+    public Cliente(String id, String nombre, String email, String direccion) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
@@ -31,46 +30,28 @@ public class Cliente
         this.historialCompras = new ArrayList<>();
         this.fechaRegistro = LocalDateTime.now();
     }
-    
-    public String getId()
-    {
+
+    public String getId() {
         return id;
     }
 
-    public String getNombre()
-    {
+    public String getNombre() {
         return nombre;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public String getDireccion()
-    {
+    public String getDireccion() {
         return direccion;
     }
 
-    public String getTelefono()
-    {
+    public String getTelefono() {
         return telefono;
     }
 
-    public List<String> getHistorialCompras()
-    {
+    public List<String> getHistorialCompras() {
         return historialCompras;
     }
-    
-    public void setTelefono(String telefono)
-    {
-        this.telefono = telefono;
-    }
-
-    public void agregarCompra(String pedidoId)
-    {
-        historialCompras.add(pedidoId);
-    }
 }
-
-
