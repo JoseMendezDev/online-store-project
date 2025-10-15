@@ -74,27 +74,21 @@ public class Producto implements Comparable<Producto> {
     }
 
     public static Producto fromString(String line) {
-        if (line == null || line.trim().isEmpty()) {
-            return null;
-        }
-        String[] parts = line.split(";");
-        if (parts.length < 5) {
-            // Manejo de error si la línea no tiene suficientes partes
-            return null;
-        }
-
+        String[] parts = line.split("\\|");
+        if (parts.length < 6) {
+            throw new IllegalArgumentException("Línea de archivo incompleta: " + line);
+                }
         try {
-            String codigo = parts[0].trim();
-            String nombre = parts[1].trim();
-            double precio = Double.parseDouble(parts[2].trim());
-            int stock = Integer.parseInt(parts[3].trim());
-            String categoria = parts[4].trim();
-            double rating = (parts.length > 5) ? Double.parseDouble(parts[5].trim()) : 0.0;
-
-            return new Producto(codigo, nombre, precio, stock, categoria, rating);
+            return new Producto(
+                parts[0].trim(),                     
+                parts[1].trim(),                     
+                Double.parseDouble(parts[2].trim()), 
+                Integer.parseInt(parts[3].trim()),   
+                parts[4].trim(),
+                Double.parseDouble(parts[5].trim())
+            );
         } catch (NumberFormatException e) {
-            System.err.println("Error de formato al crear Producto: " + line);
-            return null;
+            throw new IllegalArgumentException("Formato numérico inválido en línea: " + line);
         }
     }
 
