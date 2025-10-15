@@ -19,11 +19,15 @@ public class EcommerceGUI {
     private JTable productTable;
     private DefaultTableModel tableModel;
     private JComboBox<String> categoryFilter;
+    
     private JPanel mainPanel, listadoPanel, agregarPanel;
+    
     private JTextField codigoField, nombreField, precioField, stockField, categoriaField, ratingField, searchField;
-    private int paginaActual = 1;
+
+    private int paginaActual = 1; 
     private JLabel pageStatusLabel;
     private JButton prevButton, nextButton;
+    
     private CarritoDeCompras carrito; 
 
     public EcommerceGUI() {
@@ -59,81 +63,22 @@ public class EcommerceGUI {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
         
-        String[] columnNames = {"Código", "Nombre", "Precio", "Stock", "Categoría", "Rating"};
-        tableModel = new DefaultTableModel(columnNames, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) { return false; }
-        };
-        productTable = new JTable(tableModel);
+        JButton agregarProductoButton = new JButton("Agregar Producto");
+        JButton verListadoButton = new JButton("Ver Listado de Productos");
         
-        JScrollPane scrollPanel = new JScrollPane(productTable);
+        agregarProductoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        verListadoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        // Simulación de inicialización de controles
-        searchField = new JTextField(15);
-        JButton searchHashButton = new JButton("Buscar Código (HASH)"); 
-        JButton searchContentButton = new JButton("Buscar Contenido (Invertida)");
-        categoryFilter = new JComboBox<>();
-        categoryFilter.addItem("Todas las categorías");
-        Ecommerce.getCategoriasUnicas().forEach(categoryFilter::addItem);
-        JButton ordenarCodigoButton = new JButton("Ordenar Código (Interna)");
-        JButton ordenarExternaButton = new JButton("Ordenar Código (Externa)");
-        JButton resetButton = new JButton("Resetear Catálogo");
-        JButton regresarButton = new JButton("Regresar");
-        JButton addToCartButton = new JButton("➕ Añadir al Carrito"); 
-        JButton viewCartButton = new JButton("🛒 Ver Carrito");
+        mainPanel.add(agregarProductoButton);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        mainPanel.add(verListadoButton);
 
-        // Panel de Controles Superiores (Simulación)
-        JPanel topControls = new JPanel(new BorderLayout());
-        JPanel searchPanel = new JPanel(new FlowLayout());
-        searchPanel.add(categoryFilter);
-        searchPanel.add(searchField);
-        searchPanel.add(searchHashButton);
-        searchPanel.add(searchContentButton);
-        JPanel sortPanel = new JPanel(new FlowLayout());
-        sortPanel.add(ordenarCodigoButton);
-        sortPanel.add(ordenarExternaButton);
-        sortPanel.add(resetButton);
-        topControls.add(searchPanel, BorderLayout.NORTH);
-        topControls.add(sortPanel, BorderLayout.SOUTH);
-
-        listadoPanel.add(topControls, BorderLayout.NORTH);
-        listadoPanel.add(scrollPanel, BorderLayout.CENTER);
+        agregarProductoButton.addActionListener(e -> ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Agregar"));
         
-        // Controles Inferiores (Paginación, Carrito, LogOut)
-        JPanel bottomControlPanel = new JPanel(new BorderLayout());
-        JPanel paginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        prevButton = new JButton("<< Anterior");
-        nextButton = new JButton("Siguiente >>");
-        pageStatusLabel = new JLabel("Página 1 de 1");
-        
-        paginationPanel.add(prevButton);
-        paginationPanel.add(pageStatusLabel);
-        paginationPanel.add(nextButton);
-        
-        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        // Botones de acción existentes
-        actionPanel.add(regresarButton);
-        actionPanel.add(Box.createRigidArea(new Dimension(150, 0)));
-        actionPanel.add(addToCartButton);
-        actionPanel.add(viewCartButton);
-        
-        // --- 🔴 Implementación del Botón de Cierre de Sesión (NUEVO) ---
-        JButton logoutButton = new JButton("➡️ Cerrar Sesión"); 
-        logoutButton.setForeground(Color.RED);
-        actionPanel.add(logoutButton); // Añadir el botón
-        
-        bottomControlPanel.add(paginationPanel, BorderLayout.CENTER);
-        bottomControlPanel.add(actionPanel, BorderLayout.SOUTH);
-        listadoPanel.add(bottomControlPanel, BorderLayout.SOUTH);
-
-        // --- Listeners de Cierre de Sesión ---
-        logoutButton.addActionListener(e -> {
-            int confirm = JOptionPane.showConfirmDialog(frame, "¿Está seguro que desea cerrar la sesión?", 
-                                                        "Confirmar Cierre", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                frame.dispose(); // Cierra la ventana principal
-                new LoginGUI(); // Vuelve a abrir la ventana de Login
-            }
+        verListadoButton.addActionListener(e -> {
+            ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Listado");
+            paginaActual = 1; 
+            updateProductView();
         });
     }
 
