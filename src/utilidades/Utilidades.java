@@ -5,11 +5,15 @@
 package utilidades;
 
 import java.util.ArrayList;
+import negocio.Producto;
 
 /**
- *
- * @author USER
- */
+* Intercambia dos elementos en un ArrayList.
+*/
 public class Utilidades {
-
+    public static void intercambiar(ArrayList<Producto> A, int i, int j) {
+        Producto temp = A.get(i);
+        A.set(i, A.get(j));
+        A.set(j, temp);
+    }
 }
