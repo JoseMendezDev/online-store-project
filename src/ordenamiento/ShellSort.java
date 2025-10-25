@@ -15,21 +15,21 @@ import negocio.Producto;
  */
 public class ShellSort {
 
-    public static void ordenar(ArrayList<Producto> A) {
+    public static void ordenarPorRating(ArrayList<Producto> A) {
         int n = A.size();
-
+        //Inicialización de la secuencia de brechas (h)
         int h = 1;
         while (h < n / 3) {
             h = 3 * h + 1;
         }
-
+        //Ordenamiento por inserción para cada brecha
         while (h >= 1) {
             for (int i = h; i < n; i++) {
 
                 int j = i;
-
-                while (j >= h && A.get(j).getCodigo().compareTo(A.get(j - h).getCodigo()) < 0) {
-
+                //Mientras j > h y A[j] < A[j-h] (comparación por rating)
+                while (j >= h && A.get(j).getRating() < A.get(j - h).getRating()) {
+                    // intercambiar A[j] con A[j-h]
                     Utilidades.intercambiar(A, j, j - h);
 
                     j = j - h;
