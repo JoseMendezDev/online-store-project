@@ -1,6 +1,7 @@
 package gui;
 
 import negocio.*;
+import negocio.Ecommerce;
 import estructuras.*;
 import negocio.Producto;
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
-import ordenamiento.ShellSort;
+import ordenamiento.*;
 
 public class EcommerceGUI {
 
@@ -134,8 +135,6 @@ public class EcommerceGUI {
         JScrollPane scrollPanel = new JScrollPane(productTable);
         scrollPanel.setBorder(BorderFactory.createTitledBorder("Listado de Productos"));
 
-        JPanel controlPanel = new JPanel(new BorderLayout());
-
         JPanel searchAndFilterPanel = new JPanel(new FlowLayout());
         searchField = new JTextField(15);
         JButton searchHashButton = new JButton("Buscar Código (HASH)");
@@ -151,16 +150,19 @@ public class EcommerceGUI {
         searchAndFilterPanel.add(searchContentButton);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        JButton ordenarCodigoButton = new JButton("Ordenar Código (QuickSort)");
+        
+        JButton ordenarCodigoButton = new JButton("Ordenar Código (QuickSort)"); 
+        JButton ordenarRatingShellSortButton = new JButton("Ordenar por Rating (ShellSort)"); 
+        JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
+        JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
         JButton ordenarExternaButton = new JButton("Ordenar Código (Externa)");
-
-        JButton ordenarRatingShellSortButton = new JButton("Ordenar por Rating (ShellSort)");
-
         JButton resetButton = new JButton("Resetear Catálogo");
 
         buttonPanel.add(ordenarCodigoButton);
-        buttonPanel.add(ordenarExternaButton);
         buttonPanel.add(ordenarRatingShellSortButton);
+        buttonPanel.add(ordenarNombreButton); 
+        buttonPanel.add(ordenarPrecioButton);
+        buttonPanel.add(ordenarExternaButton); 
         buttonPanel.add(resetButton);
 
         JPanel topControls = new JPanel(new GridLayout(2, 1));
@@ -200,21 +202,43 @@ public class EcommerceGUI {
         listadoPanel.add(bottomControlPanel, BorderLayout.SOUTH);
 
         // Ordenación
-        ordenarCodigoButton.addActionListener(e -> {
-            Ecommerce.ordenarCatalogoPorCodigo();
-            paginaActual = 1;
-            resetTableSorter();
-            updateProductView();
+        ordenarCodigoButton.addActionListener(e -> { 
+            ArrayList<Producto> catalogo = Ecommerce.getCatalogo();
+            QuickSort.ordenar(catalogo); 
+            Ecommerce.setCatalogo(catalogo); 
+            paginaActual = 1; 
+            updateProductView(); 
         });
 
         ordenarRatingShellSortButton.addActionListener(e -> {
             ArrayList<Producto> catalogo = Ecommerce.getCatalogo();
-            ShellSort.ordenarPorRating(catalogo); // Ordena por Rating
-            Ecommerce.setCatalogo(catalogo); // Reemplaza el catálogo
+            ShellSort.ordenarPorRating(catalogo);
+            Ecommerce.setCatalogo(catalogo);
             resetTableSorter();
             paginaActual = 1;
             updateProductView();
         });
+        
+        ordenarNombreButton.addActionListener(e -> { 
+            Ecommerce.ordenarCatalogoPorNombre(); 
+            paginaActual = 1; 
+            updateProductView(); 
+        });
+        
+        ordenarPrecioButton.addActionListener(e -> { 
+            Ecommerce.ordenarCatalogoPorPrecio(); 
+            paginaActual = 1; 
+            updateProductView(); 
+        });
+        
+        ordenarExternaButton.addActionListener(e -> ejecutarOrdenacionExterna());
+        
+        resetButton.addActionListener(e -> { 
+            Ecommerce.resetCatalogo(); 
+            paginaActual = 1; 
+            updateProductView(); 
+        });
+        
         categoryFilter.addActionListener(e -> filtrarPorCategoria());
         searchHashButton.addActionListener(e -> buscarProductoPorCodigo());
         searchContentButton.addActionListener(e -> buscarProductoPorContenido());
@@ -235,6 +259,15 @@ public class EcommerceGUI {
         });
         addToCartButton.addActionListener(e -> añadirAlCarrito());
         viewCartButton.addActionListener(e -> mostrarVentanaCarrito());
+        
+        logoutButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(frame, "¿Está seguro que desea cerrar la sesión?", 
+                                                        "Confirmar Cierre", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                frame.dispose(); 
+                new LoginGUI(); 
+            }
+        });
 
         // Paginación
         prevButton.addActionListener(e -> {
@@ -256,21 +289,6 @@ public class EcommerceGUI {
 
         addToCartButton.addActionListener(e -> añadirAlCarrito());
         viewCartButton.addActionListener(e -> mostrarVentanaCarrito());
-
-        logoutButton.addActionListener(e -> {
-            int confirm = JOptionPane.showConfirmDialog(frame, "¿Está seguro que desea cerrar la sesión?",
-                    "Confirmar Cierre", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                frame.dispose();
-                new LoginGUI();
-            }
-        });
-        
-        resetButton.addActionListener(e -> {
-            Ecommerce.resetCatalogo();
-            paginaActual = 1;
-            updateProductView();
-        });
     }
 
     private void guardarNuevoProducto() {
