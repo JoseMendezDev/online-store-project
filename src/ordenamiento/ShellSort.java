@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import negocio.Producto;
 
 /**
- * Ordena el ArrayList de Productos usando ShellSort.
- *
+ * 
  * @author USER
  */
 public class ShellSort {
