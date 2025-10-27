@@ -44,7 +44,7 @@ public class QuickSort {
                 E.add(producto);
             }
         }
-
+//Ordenamiento de sublistas de pivote (derecha e izquierda)
         ArrayList<Producto> L_sorted = quickSortRecursive(L);
         ArrayList<Producto> G_sorted = quickSortRecursive(G);
 
