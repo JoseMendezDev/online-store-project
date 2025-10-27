@@ -26,7 +26,6 @@ public class ShellSort {
             for (int i = h; i < n; i++) {
 
                 int j = i;
-                //Mientras j > h y A[j] < A[j-h] (comparación por rating)
                 while (j >= h && A.get(j).getRating() < A.get(j - h).getRating()) {
                     // intercambiar A[j] con A[j-h]
                     Utilidades.intercambiar(A, j, j - h);
