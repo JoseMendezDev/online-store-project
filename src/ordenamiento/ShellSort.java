@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import negocio.Producto;
 
 /**
- * 
+ * https://opendsa-server.cs.vt.edu/ODSA/Books/CS3/html/SortingEmpirical.html
  * @author USER
  */
 public class ShellSort {
