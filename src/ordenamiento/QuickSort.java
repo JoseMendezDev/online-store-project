@@ -7,8 +7,7 @@ package ordenamiento;
 import java.util.ArrayList;
 import negocio.Producto;
 
-/**
- *
+/** *https://medium.com/@joohan224/algorithms-sorting-2-shell-sort-4b4dc0dae357
  * @author USER
  */
 public class QuickSort {
