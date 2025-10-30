@@ -7,8 +7,7 @@ package ordenamiento;
 import java.util.ArrayList;
 import negocio.Producto;
 
-/**
- *
+/** *https://medium.com/@joohan224/algorithms-sorting-2-shell-sort-4b4dc0dae357
  * @author USER
  */
 public class QuickSort {
@@ -44,7 +43,7 @@ public class QuickSort {
                 E.add(producto);
             }
         }
-
+//Ordenamiento de sublistas de pivote (derecha e izquierda)
         ArrayList<Producto> L_sorted = quickSortRecursive(L);
         ArrayList<Producto> G_sorted = quickSortRecursive(G);
 
