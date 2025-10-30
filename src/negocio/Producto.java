@@ -290,5 +290,49 @@ public class Producto implements Comparable<Producto> {
     public String toShortString() {
         return String.format("%s - %s (S/.%.2f)", codigo, nombre, precio);
     }
-
+    
+    // BUILDER PATTERN
+    
+    public static class Builder {
+        private String codigo;
+        private String nombre;
+        private double precio;
+        private int stock;
+        private String categoria;
+        private double rating = 0.0; // Default
+        
+        public Builder codigo(String codigo) {
+            this.codigo = codigo;
+            return this;
+        }
+        
+        public Builder nombre(String nombre) {
+            this.nombre = nombre;
+            return this;
+        }
+        
+        public Builder precio(double precio) {
+            this.precio = precio;
+            return this;
+        }
+        
+        public Builder stock(int stock) {
+            this.stock = stock;
+            return this;
+        }
+        
+        public Builder categoria(String categoria) {
+            this.categoria = categoria;
+            return this;
+        }
+        
+        public Builder rating(double rating) {
+            this.rating = rating;
+            return this;
+        }
+        
+        public Producto build() {
+            return Producto.crear(codigo, nombre, precio, stock, categoria, rating);
+        }
+    }
 }
