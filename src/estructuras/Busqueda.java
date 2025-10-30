@@ -135,4 +135,27 @@ public class Busqueda {
         }
         return resultados;
     }
+    
+    /**
+     * Búsqueda por categoría - O(n)
+     * 
+     */
+    
+    public static List<Producto> buscarPorCategoria(List<Producto> productos, String categoria) {
+        List<Producto> resultados = new ArrayList<>();
+        
+        if (productos == null || categoria == null) {
+            return resultados;
+        }
+        
+        String categoriaLower = categoria.toLowerCase().trim();
+        
+        for (Producto p : productos) {
+            if (p.getCategoria().toLowerCase().equals(categoriaLower)) {
+                resultados.add(p);
+            }
+        }
+        
+        return resultados;
+    }
 }
