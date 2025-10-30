@@ -4,7 +4,7 @@
  */
 package estructuras;
 
-import negocio.Producto;
+import domain.Producto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

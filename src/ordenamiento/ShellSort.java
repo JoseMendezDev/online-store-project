@@ -6,7 +6,7 @@ package ordenamiento;
 
 import utilidades.Utilidades;
 import java.util.ArrayList;
-import negocio.Producto;
+import domain.Producto;
 
 /**
  * https://opendsa-server.cs.vt.edu/ODSA/Books/CS3/html/SortingEmpirical.html

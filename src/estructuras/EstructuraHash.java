@@ -4,12 +4,12 @@
  */
 package estructuras;
 
-import negocio.Producto;
+import domain.Producto;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import negocio.Producto;
+import domain.Producto;
 
 /**
  *

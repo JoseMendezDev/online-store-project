@@ -5,7 +5,7 @@
 package utilidades;
 
 import java.util.ArrayList;
-import negocio.Producto;
+import domain.Producto;
 
 /**
 * Intercambia dos elementos en un ArrayList.
