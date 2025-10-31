@@ -155,4 +155,61 @@ public class CatalogoService {
         }
     }
 
+    // BÚSQUEDAS
+    public Optional<Producto> buscarPorCodigo(String codigo) {
+        lock.readLock().lock();
+        try {
+            return Optional.ofNullable(indiceRapido.get(codigo));
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public List<Producto> buscarPorCategoria(String categoria) {
+        lock.readLock().lock();
+        try {
+            return catalogo.stream()
+                    .filter(p -> p.getCategoria().equalsIgnoreCase(categoria))
+                    .collect(Collectors.toList());
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public List<Producto> buscarPorRangoPrecio(double min, double max) {
+        lock.readLock().lock();
+        try {
+            return catalogo.stream()
+                    .filter(p -> p.getPrecio() >= min && p.getPrecio() <= max)
+                    .collect(Collectors.toList());
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public List<Producto> buscarPorPalabraClave(String palabraClave) {
+        List<String> codigos = ListaInvertida.buscarPorPalabra(palabraClave);
+
+        lock.readLock().lock();
+        try {
+            return codigos.stream()
+                    .map(indiceRapido::get)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public Set<String> obtenerCategoriasUnicas() {
+        lock.readLock().lock();
+        try {
+            return catalogo.stream()
+                    .map(Producto::getCategoria)
+                    .collect(Collectors.toCollection(TreeSet::new)); // TreeSet para ordenar
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
 }
