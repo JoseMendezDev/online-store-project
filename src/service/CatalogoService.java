@@ -45,4 +45,37 @@ public class CatalogoService {
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private File archivoActual;
     private boolean modificado = false;
+    
+    // INICIALIZACIÓN
+    private void inicializar() {
+        lock.writeLock().lock();
+        try {
+            cargarCatalogoInicial();
+            construirIndices();
+            CatalogoHash.inicializar(new ArrayList<>(catalogo));
+            ListaInvertida.inicializar(catalogo);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    private void cargarCatalogoInicial() {
+        File archivo = new File(ARCHIVO_DEFAULT);
+        
+        if (archivo.exists() && archivo.length() > 0) {
+            try {
+                cargarDesdeArchivo(archivo);
+                this.archivoActual = archivo;
+                System.out.println("✅ Catálogo cargado desde: " + archivo.getAbsolutePath());
+                return;
+            } catch (IOException e) {
+                System.err.println("⚠️ Error al cargar archivo: " + e.getMessage());
+            }
+        }
+        
+        // Fallback: catálogo por defecto
+        cargarCatalogoDefecto();
+        System.out.println("📦 Catálogo por defecto cargado");
+    }
+
 }
