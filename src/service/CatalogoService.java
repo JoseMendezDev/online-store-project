@@ -259,4 +259,123 @@ public class CatalogoService {
             lock.writeLock().unlock();
         }
     }
+    
+    // ORDENACIÓN
+    public void ordenarPorCodigo() {
+        lock.writeLock().lock();
+        try {
+            Collections.sort(catalogo);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    public void ordenarPorPrecio() {
+        lock.writeLock().lock();
+        try {
+            catalogo.sort(Comparator.comparingDouble(Producto::getPrecio));
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    public void ordenarPorNombre() {
+        lock.writeLock().lock();
+        try {
+            catalogo.sort(Comparator.comparing(Producto::getNombre));
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    public void ordenarPorRating() {
+        lock.writeLock().lock();
+        try {
+            catalogo.sort(Comparator.comparingDouble(Producto::getRating).reversed());
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    // PERSISTENCIA
+    public void guardar() throws IOException {
+        lock.readLock().lock();
+        try {
+            if (archivoActual == null) {
+                archivoActual = new File(ARCHIVO_DEFAULT);
+            }
+            
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoActual))) {
+                for (Producto p : catalogo) {
+                    writer.write(p.toFileString());
+                    writer.newLine();
+                }
+            }
+            
+            modificado = false;
+            System.out.println("💾 Catálogo guardado exitosamente");
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+    
+    public void guardarEn(File archivo) throws IOException {
+        this.archivoActual = archivo;
+        guardar();
+    }
+    
+    private void cargarDesdeArchivo(File archivo) throws IOException {
+        catalogo.clear();
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            int lineaNumero = 0;
+            
+            while ((linea = reader.readLine()) != null) {
+                lineaNumero++;
+                linea = linea.trim();
+                
+                if (linea.isEmpty()) continue;
+                
+                try {
+                    Producto producto = Producto.fromString(linea);
+                    catalogo.add(producto);
+                } catch (IllegalArgumentException e) {
+                    System.err.println("⚠️ Error en línea " + lineaNumero + ": " + e.getMessage());
+                }
+            }
+        }
+        
+        modificado = false;
+    }
+    
+    public void resetear() {
+        lock.writeLock().lock();
+        try {
+            if (archivoActual != null && archivoActual.exists()) {
+                try {
+                    cargarDesdeArchivo(archivoActual);
+                    construirIndices();
+                    CatalogoHash.inicializar(new ArrayList<>(catalogo));
+                    System.out.println("🔄 Catálogo reseteado desde archivo");
+                    return;
+                } catch (IOException e) {
+                    System.err.println("Error al resetear: " + e.getMessage());
+                }
+            }
+            
+            // Fallback
+            catalogo.clear();
+            cargarCatalogoDefecto();
+            construirIndices();
+            CatalogoHash.inicializar(new ArrayList<>(catalogo));
+            modificado = false;
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    public boolean tieneModificacionesSinGuardar() {
+        return modificado;
+    }
 }
