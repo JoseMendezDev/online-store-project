@@ -211,5 +211,52 @@ public class CatalogoService {
             lock.readLock().unlock();
         }
     }
-
+    
+    // OPERACIONES DE ESCRITURA
+    public boolean agregarProducto(Producto producto) {
+        lock.writeLock().lock();
+        try {
+            if (indiceRapido.containsKey(producto.getCodigo())) {
+                return false; // Ya existe
+            }
+            
+            catalogo.add(producto);
+            indiceRapido.put(producto.getCodigo(), producto);
+            CatalogoHash.agregarProducto(producto);
+            
+            modificado = true;
+            return true;
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    public boolean eliminarProducto(String codigo) {
+        lock.writeLock().lock();
+        try {
+            Producto producto = indiceRapido.remove(codigo);
+            if (producto != null) {
+                catalogo.remove(producto);
+                modificado = true;
+                return true;
+            }
+            return false;
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+    
+    public void actualizarStock(String codigo, int nuevoStock) throws IllegalArgumentException {
+        lock.writeLock().lock();
+        try {
+            Producto producto = indiceRapido.get(codigo);
+            if (producto == null) {
+                throw new IllegalArgumentException("Producto no encontrado: " + codigo);
+            }
+            producto.setStock(nuevoStock);
+            modificado = true;
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
 }
