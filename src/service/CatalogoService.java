@@ -378,4 +378,29 @@ public class CatalogoService {
     public boolean tieneModificacionesSinGuardar() {
         return modificado;
     }
+    
+    // ESTADÍSTICAS
+    public Map<String, Long> obtenerEstadisticasPorCategoria() {
+        lock.readLock().lock();
+        try {
+            return catalogo.stream()
+                .collect(Collectors.groupingBy(
+                    Producto::getCategoria,
+                    Collectors.counting()
+                ));
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+    
+    public double calcularValorTotalInventario() {
+        lock.readLock().lock();
+        try {
+            return catalogo.stream()
+                .mapToDouble(p -> p.getPrecio() * p.getStock())
+                .sum();
+        } finally {
+            lock.readLock().unlock();
+        }
+    } 
 }
