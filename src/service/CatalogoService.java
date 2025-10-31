@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
  * @author USER
  */
 public class CatalogoService {
+    
+    private static volatile CatalogoService instance;
 
     private CatalogoService() {
         inicializar();
