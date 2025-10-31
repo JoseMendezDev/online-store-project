@@ -3,14 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/negocio/Producto.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/domain/Producto.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/estructuras/CatalogoHash.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/gui/LoginGUI.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/gui/EcommerceGUI.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/ordenamiento/ShellSort.java</file>
-            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/negocio/Ecommerce.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/domain/Ecommerce.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/ordenamiento/QuickSort.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/estructuras/OrdenacionInterna.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/estructuras/Busqueda.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/domain/Inventario.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/exception/EcommerceException.java</file>
         </group>
     </open-files>
 </project-private>
