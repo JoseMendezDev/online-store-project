@@ -77,5 +77,19 @@ public class CatalogoService {
         cargarCatalogoDefecto();
         System.out.println("📦 Catálogo por defecto cargado");
     }
-
+    
+    private void cargarCatalogoDefecto() {
+        catalogo.addAll(Arrays.asList(
+            Producto.crear("523654", "Monitor Ultrawide", 350.50, 15, "Periféricos", 4.5),
+            Producto.crear("265843", "Laptop Gamer", 1200.00, 5, "Portátiles", 4.3),
+            Producto.crear("545154", "Auriculares Bluetooth", 99.99, 40, "Audio", 4.7),
+            Producto.crear("523457", "Teclado Mecánico", 150.00, 25, "Periféricos", 4.8),
+            Producto.crear("244846", "Mouse Inalámbrico", 75.25, 30, "Periféricos", 4.2),
+            Producto.crear("695328", "Silla Ergonomica", 250.75, 10, "Mobiliario", 4.0),
+            Producto.crear("662374", "Disco Duro Externo 1TB", 60.00, 50, "Almacenamiento", 4.6),
+            Producto.crear("985263", "Webcam HD", 45.50, 35, "Periféricos", 4.4),
+            Producto.crear("752236", "Micrófono USB", 85.00, 20, "Audio", 4.6),
+            Producto.crear("412576", "Tarjeta Gráfica RTX 4070", 800.00, 8, "Componentes", 4.2)
+        ));
+    }
 }
