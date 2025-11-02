@@ -215,6 +215,15 @@ public class CarritoDeCompras {
     public int contarItems() {
         return items.size();
     }
+    
+    /*
+    * Cuenta el total de productos (suma de cantidades)
+    */
+    public int contarProductos() {
+        return items.values().stream()
+                .mapToInt(ItemCarrito::getCantidad)
+                .sum();
+    }
 
     public Map<Producto, Integer> getItems() {
         return this.items;
