@@ -5,7 +5,6 @@
 package domain;
 
 import domain.Producto;
-import domain.Ecommerce;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -327,4 +326,74 @@ public class CarritoDeCompras {
     public void vaciar() {
         items.clear();
     }
+    
+    // VALIDACIONES
+    
+    /**
+     * Valida que todos los productos en el carrito tengan stock disponible
+     */
+    public List<String> validarDisponibilidad() {
+        List<String> errores = new ArrayList<>();
+        
+        for (ItemCarrito item : items.values()) {
+            Producto producto = item.getProducto();
+            int cantidad = item.getCantidad();
+            
+            if (!producto.hayStockDisponible(cantidad)) {
+                errores.add(String.format(
+                    "%s: stock insuficiente (disponible: %d, en carrito: %d)",
+                    producto.getNombre(), producto.getStock(), cantidad
+                ));
+            }
+        }
+        
+        return errores;
+    }
+    
+    // UTILIDADES
+    
+    /**
+     * Genera un resumen del carrito
+     */
+    public String generarResumen() {
+        if (estaVacio()) {
+            return "Carrito vacío";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("🛒 Carrito de Compras (%d items)\n", contarItems()));
+        sb.append("─".repeat(50)).append("\n");
+        
+        for (ItemCarrito item : items.values()) {
+            sb.append(String.format("• %s\n", item.toString()));
+        }
+        
+        sb.append("─".repeat(50)).append("\n");
+        sb.append(String.format("TOTAL: S/.%.2f\n", calcularTotal()));
+        
+        return sb.toString();
+    }
+    
+    @Override
+    public String toString() {
+        return generarResumen();
+    }
+    
+    // MÉTODOS DE COMPATIBILIDAD
+    
+    @Deprecated
+    public boolean agregarProducto_OLD(Producto producto, int cantidad) {
+        return agregarProducto(producto, cantidad).isExitoso();
+    }
+    
+    @Deprecated
+    public boolean checkout() {
+        return procesarCompra().isExitoso();
+    }
+    
+    @Deprecated
+    public void vaciarCarrito() {
+        vaciar();
+    }
+    
 }
