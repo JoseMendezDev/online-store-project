@@ -200,6 +200,14 @@ public class CarritoDeCompras {
                 .mapToDouble(ItemCarrito::calcularSubtotal)
                 .sum();
     }
+    
+    /*
+    * Calcula el subtotal de un producto específico
+    */
+    public double calcularSubtotal(String codigoProducto) {
+        ItemCarrito item = items.get(codigoProducto);
+        return item != null ? item.calcularSubtotal() : 0.0;
+    }
 
     public Map<Producto, Integer> getItems() {
         return this.items;
