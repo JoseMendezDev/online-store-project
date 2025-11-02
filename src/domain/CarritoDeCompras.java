@@ -6,9 +6,8 @@ package domain;
 
 import domain.Producto;
 import domain.Ecommerce;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -16,10 +15,18 @@ import java.util.ArrayList;
  */
 public class CarritoDeCompras {
 
-    private Map<Producto, Integer> items;
-
-    public CarritoDeCompras() {
-        this.items = new HashMap<>();
+    private final Map<String, ItemCarrito> items = new ConcurrentHashMap<>();
+    /*
+    * Clase interna para representar un ítem en el carrito
+    */
+    public static class ItemCarrito {
+        private Producto producto;
+        private int cantidad;
+        
+        public ItemCarrito(Producto producto, int cantidad){
+            this.producto = producto;
+            this.cantidad = cantidad;
+        }
     }
 
     public boolean agregarProducto(Producto producto, int cantidad) {
