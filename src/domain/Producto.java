@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Clase que representa un producto en el sistema.
  * @author USER
  */
-public class Producto implements Comparable<Producto> {
+public final class Producto implements Comparable<Producto> {
     // Constantes de validación
     private static final Pattern CODIGO_PATTERN = Pattern.compile("\\d{6}");
     private static final double RATING_MIN = 0.0;
