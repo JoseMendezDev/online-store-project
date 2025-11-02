@@ -20,15 +20,38 @@ public class CarritoDeCompras {
     * Clase interna para representar un ítem en el carrito
     */
     public static class ItemCarrito {
+
         private Producto producto;
         private int cantidad;
-        
-        public ItemCarrito(Producto producto, int cantidad){
+
+        public ItemCarrito(Producto producto, int cantidad) {
             this.producto = producto;
             this.cantidad = cantidad;
         }
-    }
 
+        public Producto getProducto() {
+            return producto;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
+        
+        public double calcularSubtotal() {
+            return producto.getPrecio() * cantidad;
+        }
+        
+        @Override
+        public String toString() {
+            return String.format("%dx %s - S/.%.2f", 
+                cantidad, producto.getNombre(), calcularSubtotal());
+        }
+    }
+    
     public boolean agregarProducto(Producto producto, int cantidad) {
         if (cantidad <= 0) {
             return false;
