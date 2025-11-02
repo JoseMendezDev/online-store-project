@@ -52,26 +52,90 @@ public class CarritoDeCompras {
         }
     }
     
-    public boolean agregarProducto(Producto producto, int cantidad) {
-        if (cantidad <= 0) {
-            return false;
+    /*
+    * Resultado de operaciones del carrito
+    */
+    public static class ResultadoOperacion {
+
+        private final boolean exitoso;
+        private final String mensaje;
+
+        private ResultadoOperacion(boolean exitoso, String mensaje) {
+            this.exitoso = exitoso;
+            this.mensaje = mensaje;
         }
 
-        if (producto.getStock() < cantidad) {
-            return false;
+        public static ResultadoOperacion exito(String mensaje) {
+            return new ResultadoOperacion(true, mensaje);
         }
 
-        int cantidadActual = items.getOrDefault(producto, 0);
-        int nuevaCantidadTotal = cantidadActual + cantidad;
-
-        if (producto.getStock() < nuevaCantidadTotal) {
-            return false;
+        public static ResultadoOperacion fallo(String mensaje) {
+            return new ResultadoOperacion(false, mensaje);
         }
 
-        items.put(producto, nuevaCantidadTotal);
-        return true;
+        public boolean isExitoso() {
+            return exitoso;
+        }
+
+        public String getMensaje() {
+            return mensaje;
+        }
     }
+    
+    // OPERACIONES PRINCIPALES
+    
+    /*
+    * Agrega un producto al carrito.
+    */
+    public ResultadoOperacion agregarProducto(Producto producto, int cantidad) {
+        // Validaciones
+        if (producto == null) {
+            return ResultadoOperacion.fallo("El producto no puede ser nulo");
+        }
 
+        if (cantidad <= 0) {
+            return ResultadoOperacion.fallo("La cantidad debe ser mayor a cero");
+        }
+
+        String codigo = producto.getCodigo();
+
+        // Verificar si ya existe en el carrito
+        if (items.containsKey(codigo)) {
+            ItemCarrito itemExistente = items.get(codigo);
+            int nuevaCantidad = itemExistente.getCantidad() + cantidad;
+
+            // Validar stock disponible
+            if (!producto.hayStockDisponible(nuevaCantidad)) {
+                return ResultadoOperacion.fallo(
+                        String.format("Stock insuficiente. Disponible: %d, En carrito: %d, Solicitado: %d",
+                                producto.getStock(), itemExistente.getCantidad(), cantidad)
+                );
+            }
+
+            itemExistente.setCantidad(nuevaCantidad);
+            return ResultadoOperacion.exito(
+                    String.format("Cantidad actualizada: %dx %s", nuevaCantidad, producto.getNombre())
+            );
+        }
+
+        // Nuevo producto en el carrito
+        if (!producto.hayStockDisponible(cantidad)) {
+            return ResultadoOperacion.fallo(
+                    String.format("Stock insuficiente. Disponible: %d, Solicitado: %d",
+                            producto.getStock(), cantidad)
+            );
+        }
+
+        items.put(codigo, new ItemCarrito(producto, cantidad));
+        return ResultadoOperacion.exito(
+                String.format("Agregado: %dx %s", cantidad, producto.getNombre())
+        );
+    }
+    
+    /*
+    * Remueve un producto del carrito completamente o reduce su cantidad
+    */
+    
     public void removerProducto(Producto producto, int cantidad) {
         if (!items.containsKey(producto)) {
             return;
