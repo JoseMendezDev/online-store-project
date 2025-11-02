@@ -161,6 +161,34 @@ public class CarritoDeCompras {
                 String.format("Cantidad reducida: %dx %s", nuevaCantidad, item.getProducto().getNombre())
         );
     }
+    
+    /*
+    * Actualiza la cantidad de un producto específico
+    */
+    public ResultadoOperacion actualizarCantidad(String codigoProducto, int nuevaCantidad) {
+        if (nuevaCantidad <= 0) {
+            return removerProducto(codigoProducto, Integer.MAX_VALUE);
+        }
+
+        ItemCarrito item = items.get(codigoProducto);
+
+        if (item == null) {
+            return ResultadoOperacion.fallo("El producto no está en el carrito");
+        }
+
+        if (!item.getProducto().hayStockDisponible(nuevaCantidad)) {
+            return ResultadoOperacion.fallo(
+                    String.format("Stock insuficiente. Disponible: %d",
+                            item.getProducto().getStock())
+            );
+        }
+
+        item.setCantidad(nuevaCantidad);
+        return ResultadoOperacion.exito(
+                String.format("Cantidad actualizada: %dx %s",
+                        nuevaCantidad, item.getProducto().getNombre())
+        );
+    }
 
     public double calcularTotal() {
         double total = 0.0;
