@@ -259,6 +259,14 @@ public class CarritoDeCompras {
     public boolean contieneProducto(String codigoProducto) {
         return items.containsKey(codigoProducto);
     }
+    
+    /**
+     * Obtiene la cantidad de un producto en el carrito
+     */
+    public int obtenerCantidad(String codigoProducto) {
+        ItemCarrito item = items.get(codigoProducto);
+        return item != null ? item.getCantidad() : 0;
+    }
 
 
     public boolean checkout() {
