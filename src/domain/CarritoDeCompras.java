@@ -135,19 +135,31 @@ public class CarritoDeCompras {
     /*
     * Remueve un producto del carrito completamente o reduce su cantidad
     */
-    
-    public void removerProducto(Producto producto, int cantidad) {
-        if (!items.containsKey(producto)) {
-            return;
+    public ResultadoOperacion removerProducto(String codigoProducto, int cantidad) {
+        if (codigoProducto == null || codigoProducto.trim().isEmpty()) {
+            return ResultadoOperacion.fallo("Código de producto inválido");
         }
 
-        int cantidadActual = items.get(producto);
+        ItemCarrito item = items.get(codigoProducto);
 
-        if (cantidad >= cantidadActual || cantidad == 0) {
-            items.remove(producto);
-        } else {
-            items.put(producto, cantidadActual - cantidad);
+        if (item == null) {
+            return ResultadoOperacion.fallo("El producto no está en el carrito");
         }
+
+        // Si cantidad es 0 o mayor/igual a la cantidad actual, remover completamente
+        if (cantidad <= 0 || cantidad >= item.getCantidad()) {
+            items.remove(codigoProducto);
+            return ResultadoOperacion.exito(
+                    String.format("Producto removido: %s", item.getProducto().getNombre())
+            );
+        }
+
+        // Reducir cantidad
+        int nuevaCantidad = item.getCantidad() - cantidad;
+        item.setCantidad(nuevaCantidad);
+        return ResultadoOperacion.exito(
+                String.format("Cantidad reducida: %dx %s", nuevaCantidad, item.getProducto().getNombre())
+        );
     }
 
     public double calcularTotal() {
