@@ -5,9 +5,14 @@
 package excepciones;
 
 /**
+ * Cuando un producto no se encuentra
  *
  * @author USER
  */
-public class ProductoNoEncontradoException {
-    
+public class ProductoNoEncontradoException extends EcommerceException {
+
+    public ProductoNoEncontradoException(String codigo) {
+        super("Producto no encontrado: " + codigo);
+    }
+
 }
