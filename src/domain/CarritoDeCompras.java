@@ -267,21 +267,64 @@ public class CarritoDeCompras {
         ItemCarrito item = items.get(codigoProducto);
         return item != null ? item.getCantidad() : 0;
     }
+    
+    // CHECKOUT
+    
+    /*
+     * Procesa la compra y actualiza el stock 
+     */
 
-
-    public boolean checkout() {
-        for (Map.Entry<Producto, Integer> entry : items.entrySet()) {
-            Producto producto = entry.getKey();
-            int cantidadComprada = entry.getValue();
-
-            Producto productoEnCatalogo = Ecommerce.buscarProductoPorHash(producto.getCodigo());
-
-            if (productoEnCatalogo != null) {
-                productoEnCatalogo.setStock(productoEnCatalogo.getStock() - cantidadComprada);
+    public ResultadoOperacion procesarCompra() {
+        if (estaVacio()) {
+            return ResultadoOperacion.fallo("El carrito está vacío");
+        }
+        
+        // Primero verificamos que todo el stock esté disponible
+        List<String> errores = new ArrayList<>();
+        
+        for (ItemCarrito item : items.values()) {
+            Producto producto = item.getProducto();
+            int cantidad = item.getCantidad();
+            
+            if (!producto.hayStockDisponible(cantidad)) {
+                errores.add(String.format("%s: stock insuficiente (disponible: %d, necesario: %d)",
+                    producto.getNombre(), producto.getStock(), cantidad));
             }
         }
-
-        vaciarCarrito();
-        return true;
+        
+        if (!errores.isEmpty()) {
+            return ResultadoOperacion.fallo(
+                "No se puede completar la compra:\n" + String.join("\n", errores)
+            );
+        }
+        
+        // Actualizar stock de todos los productos
+        for (ItemCarrito item : items.values()) {
+            Producto producto = item.getProducto();
+            int cantidad = item.getCantidad();
+            
+            if (!producto.reducirStock(cantidad)) {
+                // Esto no debería ocurrir si las validaciones son correctas
+                return ResultadoOperacion.fallo(
+                    "Error inesperado al actualizar stock de " + producto.getNombre()
+                );
+            }
+        }
+        
+        double total = calcularTotal();
+        int totalItems = contarProductos();
+        
+        vaciar();
+        
+        return ResultadoOperacion.exito(
+            String.format("Compra exitosa! Total: S/.%.2f (%d productos)", total, totalItems)
+        );
+    }
+    
+    /**
+     * Vacía el carrito completamente
+     */
+    public void vaciar() {
+        items.clear();
     }
 }
