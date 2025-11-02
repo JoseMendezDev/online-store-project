@@ -5,9 +5,12 @@
 package excepciones;
 
 /**
- *
+ * Cuando hay errores de persistencia
  * @author USER
  */
-public class PersistenciaException {
-    
+class PersistenciaException extends EcommerceException {
+
+    public PersistenciaException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
