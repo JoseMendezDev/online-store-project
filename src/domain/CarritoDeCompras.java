@@ -245,10 +245,21 @@ public class CarritoDeCompras {
     public List<ItemCarrito> getItemsList() {
         return new ArrayList<>(items.values());
     }
-
-    public void vaciarCarrito() {
-        this.items.clear();
+    
+    /**
+     * Verifica si el carrito está vacío
+     */
+    public boolean estaVacio() {
+        return items.isEmpty();
     }
+    
+    /**
+     * Verifica si un producto está en el carrito
+     */
+    public boolean contieneProducto(String codigoProducto) {
+        return items.containsKey(codigoProducto);
+    }
+
 
     public boolean checkout() {
         for (Map.Entry<Producto, Integer> entry : items.entrySet()) {
