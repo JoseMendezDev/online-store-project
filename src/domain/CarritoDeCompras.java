@@ -208,6 +208,13 @@ public class CarritoDeCompras {
         ItemCarrito item = items.get(codigoProducto);
         return item != null ? item.calcularSubtotal() : 0.0;
     }
+    
+    /*
+    * Cuenta el total de items en el carrito
+    */
+    public int contarItems() {
+        return items.size();
+    }
 
     public Map<Producto, Integer> getItems() {
         return this.items;
