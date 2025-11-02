@@ -362,16 +362,27 @@ public class CarritoDeCompras {
         
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("🛒 Carrito de Compras (%d items)\n", contarItems()));
-        sb.append("─".repeat(50)).append("\n");
+        sb.append(repetirCaracter("-", 50)).append("\n");
         
         for (ItemCarrito item : items.values()) {
             sb.append(String.format("• %s\n", item.toString()));
         }
         
-        sb.append("─".repeat(50)).append("\n");
+        sb.append(repetirCaracter("-", 50)).append("\n");
         sb.append(String.format("TOTAL: S/.%.2f\n", calcularTotal()));
         
         return sb.toString();
+    }
+    
+    /**
+     * Método helper para repetir un caracter
+     */
+    private static String repetirCaracter(String str, int count) {
+        StringBuilder resultado = new StringBuilder(count);
+        for (int i = 0; i < count; i++) {
+            resultado.append(str);
+        }
+        return resultado.toString();
     }
     
     @Override
