@@ -5,9 +5,13 @@
 package excepciones;
 
 /**
- *
+ * Cuando hay errores de validación
  * @author USER
  */
-public class ValidacionException {
-    
+
+class ValidacionException extends EcommerceException {
+
+    public ValidacionException(String message) {
+        super(message);
+    }
 }
