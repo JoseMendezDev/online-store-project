@@ -224,10 +224,20 @@ public class CarritoDeCompras {
                 .mapToInt(ItemCarrito::getCantidad)
                 .sum();
     }
-
+    
+    // CONSULTAS
+    
+    /*
+    * Obtiene una copia de los items del carrito
+    */
     public Map<Producto, Integer> getItems() {
-        return this.items;
+        Map<Producto, Integer> resultado = new LinkedHashMap<>();
+        items.values().forEach(item -> 
+            resultado.put(item.getProducto(), item.getCantidad())
+        );
+        return Collections.unmodifiableMap(resultado);
     }
+
 
     public void vaciarCarrito() {
         this.items.clear();
