@@ -189,15 +189,16 @@ public class CarritoDeCompras {
                         nuevaCantidad, item.getProducto().getNombre())
         );
     }
-
+    
+    // CÁLCULOS
+    
+    /*
+    * Calcula el total del carrito
+    */
     public double calcularTotal() {
-        double total = 0.0;
-        for (Map.Entry<Producto, Integer> entry : items.entrySet()) {
-            Producto p = entry.getKey();
-            int cantidad = entry.getValue();
-            total += p.getPrecio() * cantidad;
-        }
-        return total;
+        return items.values().stream()
+                .mapToDouble(ItemCarrito::calcularSubtotal)
+                .sum();
     }
 
     public Map<Producto, Integer> getItems() {
