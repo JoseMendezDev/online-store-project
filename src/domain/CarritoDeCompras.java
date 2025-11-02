@@ -237,7 +237,14 @@ public class CarritoDeCompras {
         );
         return Collections.unmodifiableMap(resultado);
     }
-
+    
+        
+    /*
+    * Obtiene una lista de items del carrito
+    */
+    public List<ItemCarrito> getItemsList() {
+        return new ArrayList<>(items.values());
+    }
 
     public void vaciarCarrito() {
         this.items.clear();
