@@ -5,9 +5,13 @@
 package excepciones;
 
 /**
+ * Cuando un código de producto ya existe
  *
  * @author USER
  */
-public class ProductoDuplicadoException {
-    
+class ProductoDuplicadoException extends EcommerceException {
+
+    public ProductoDuplicadoException(String codigo) {
+        super("Ya existe un producto con el código: " + codigo);
+    }
 }
