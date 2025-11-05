@@ -56,23 +56,49 @@ public class EcommerceGUI {
     * Constructor principal - Inicializa la interfaz gráfica
     */
     public EcommerceGUI() {
-        
+        aplicarLookAndFeel();
+        inicializarComponentes();
+        crearVentanaPrincipal();
+        configurarPaneles();
+        mostrarVentana();
+    }
+
+    // INICIALIZACIÓN
+
+    /*
+    * Aplica el Look and Feel del sistema operativo
+    */
+    private void aplicarLookAndFeel(){ 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error al aplicar Look and Feel: " + e.getMessage());
         }
+    }
+    
+    /*
+    * Inicializa los componentes principales
+    */
+    private void inicializarComponentes(){
+        carrito = new CarritoDeCompras();
+    }
 
-        carrito = new CarritoDeCompras(); // Inicialización del Carrito
-
-        frame = new JFrame("Plataforma E-commerce");
+    /*
+    * Crea la ventana principal
+    */
+    private void crearVentanaPrincipal() {
+        frame = new JFrame(TITULO_APP);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 690);
+        frame.setSize(ANCHO_VENTANA, ALTO_VENTANA);
         frame.setLocationRelativeTo(null);
+        frame.setLocationRelativeTo(null);
+        frame.setLayout(new CardLayout()); 
+    }
 
-        CardLayout cardLayout = new CardLayout();
-        frame.setLayout(cardLayout);
-
+    /*
+    * Configura todos los paneles
+    */
+    private void configurarPaneles(){
         createMainPanel();
         createListadoPanel();
         createAgregarPanel();
@@ -81,31 +107,60 @@ public class EcommerceGUI {
         frame.add(listadoPanel, "Listado");
         frame.add(agregarPanel, "Agregar");
 
+    }
+    
+    /*
+    * Muestra la ventana
+    */
+    private void mostrarVentana(){
         frame.setVisible(true);
     }
-
+    
+    // PANEL PRINCIPAL (MENÚ)
+    
+    /*
+    * Crea el panel principal con el menú de opciones
+    */
     private void createMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-
-        JButton agregarProductoButton = new JButton("Agregar Producto");
-        JButton verListadoButton = new JButton("Ver Listado de Productos");
-
-        agregarProductoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        verListadoButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        mainPanel.add(agregarProductoButton);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        mainPanel.add(verListadoButton);
-
-        agregarProductoButton.addActionListener(e -> ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Agregar"));
-
+        
+        // TITULO
+        JLabel titleLabel = new JLabel("Sustema E-commerce");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Botones principales
+        JButton agregarProductoButton = crearBotonPrincipal("Agregar Producto");
+        JButton verListadoButton =crearBotonPrincipal("Ver Listado de Productos");
+        
+        // Listeners
+        agregarProductoButton.addActionListener(e ->
+            mostrarPanel("Agregar"));
         verListadoButton.addActionListener(e -> {
-            ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Listado");
             paginaActual = 1;
             updateProductView();
+            mostrarPanel("Listado");
         });
+        
+        // Agregar componentes
+        mainPanel.add(titleLabel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 40)));
+        mainPanel.add(agregarProductoButton);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 40)));
+        mainPanel.add(verListadoButton);
+    }
+
+    /*
+    * Crea un botón estilizado para el menú principal
+    */
+    private JButton crearBotonPrincipal(String texto){
+        JButton button = new JButton(texto);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setPreferredSize(new Dimension(250, 40));
+        button.setMaximumSize(new Dimension(250, 40));
+        return button;
     }
 
     private void createAgregarPanel() {
