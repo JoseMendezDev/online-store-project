@@ -1,38 +1,62 @@
 package gui;
 
-import domain.CarritoDeCompras;
-import domain.Ecommerce;
+import domain.*;
 import estructuras.*;
-import domain.Producto;
+import ordenamiento.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import ordenamiento.*;
+
+/*
+ * Interfaz gráfica principal del sistema E-commerce
+ */
 
 public class EcommerceGUI {
-
+    
+    // COMPONENTES PRINCIPALES
     private JFrame frame;
     private JTable productTable;
     private DefaultTableModel tableModel;
-    private JComboBox<String> categoryFilter;
-
+    private TableRowSorter<DefaultTableModel> sorter;
+    
+    // PANELES
     private JPanel mainPanel, listadoPanel, agregarPanel;
+    
+    // CONTROLES DE BÚSQUEDA Y FILTROS
+    private JComboBox<String> categoryFilter;
+    private JTextField searchField;
 
-    private JTextField codigoField, nombreField, precioField, stockField, categoriaField, ratingField, searchField;
-
+    // CAMPOS DE FOMULARIO
+    private JTextField codigoField, nombreField, precioField, stockField, categoriaField, ratingField;
+    
+    // PAGINACIÓN
     private int paginaActual = 1;
     private JLabel pageStatusLabel;
     private JButton prevButton, nextButton;
-
+    
+    // CARRITO DE COMPRAS
     private CarritoDeCompras carrito;
-
+    
+    // CONSTANTES
+    private static final String TITULO_APP = "Plataforma E-commerce";
+    private static final int ANCHO_VENTANA = 1000;
+    private static final int ALTO_VENTANA = 690;
+    
+    // CONSTRUCTOR
+    
+    /*
+    * Constructor principal - Inicializa la interfaz gráfica
+    */
     public EcommerceGUI() {
+        
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -458,42 +482,61 @@ public class EcommerceGUI {
             JOptionPane.showMessageDialog(frame, "Error durante la Ordenación Externa: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    // CARRITO DE COMPRAS
+    
+    /*
+    * Añade un producto seleccionado al carrito
+    */
     private void añadirAlCarrito() {
         int selectedRow = productTable.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(frame, "Seleccione un producto de la tabla para añadirlo al carrito.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            mostrarAdvertencia("Seleccione un producto de la tabla");
             return;
         }
 
         try {
-            String codigo = productTable.getValueAt(selectedRow, 0).toString();
+            int modelRow = productTable.convertRowIndexToModel(selectedRow);
+            String codigo = (String) tableModel.getValueAt(modelRow, 0);
 
             Producto producto = Ecommerce.buscarProductoPorHash(codigo);
 
             if (producto == null) {
+                mostrarError("Producto no encontrado")
                 return;
             }
 
-            String cantidadStr = JOptionPane.showInputDialog(frame, "Ingrese la cantidad de " + producto.getNombre() + ":", "Cantidad", JOptionPane.QUESTION_MESSAGE);
+            // Solicitar Cantidad
+            String cantidadStr = JOptionPane.showInputDialog(frame,
+                    "Ingrese la cantidad de '" + producto.getNombre() + "':",
+                    "Cantidad",
+                    JOptionPane.QUESTION_MESSAGE);
+
             if (cantidadStr == null) {
-                return; // Cancelado
+                return; // Usuario canceló
             }
-            int cantidad = Integer.parseInt(cantidadStr);
+
+            int cantidad = Integer.parseInt(cantidadStr.trim());
 
             if (cantidad <= 0) {
-                JOptionPane.showMessageDialog(frame, "La cantidad debe ser mayor a cero.", "Error", JOptionPane.ERROR_MESSAGE);
+                mostrarError("La cantidad debe ser mayor a cero");
                 return;
             }
 
+            // Agregar al carrito
             if (carrito.agregarProducto(producto, cantidad)) {
-                JOptionPane.showMessageDialog(frame, cantidad + "x " + producto.getNombre() + " añadido al carrito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                mostrarExito(cantidad + "x " + producto.getNombre() + " añadido al carrito");
+                actualizarContadorCarrito();
             } else {
-                JOptionPane.showMessageDialog(frame, "Stock insuficiente en el carrito. Stock disponible: " + producto.getStock(), "Error de Stock", JOptionPane.ERROR_MESSAGE);
+                mostrarError("Stock insuficiente.\nDisponible: " + producto.getStock()
+                        + "\nEn carrito: " + carrito.obtenerCantidad(codigo)
+                        + "\nSolicitado: " + cantidad);
             }
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(frame, "Cantidad inválida.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException ex) {
+            mostrarError("Cantidad inválida. Ingrese un número entero");
+        } catch (Exception ex) {
+            mostrarError("Error al añadir al carrito: " + ex.getMessage());
         }
     }
 
