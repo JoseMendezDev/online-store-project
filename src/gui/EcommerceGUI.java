@@ -197,9 +197,32 @@ public class EcommerceGUI {
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Main");
         });
     }
-
+    
+    // PANEL DE LISTADO DE PRODUCTOS
+    
+    /*
+    * Crea el panel principal de listado de productos
+    */
     private void createListadoPanel() {
-        listadoPanel = new JPanel(new BorderLayout());
+        listadoPanel = new JPanel(new BorderLayout(10, 10));
+        listadoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Tabla de productos
+        crearTablaProductos();
+        
+        // Panel superior: búsqueda, filtros y botones
+        JPanel topPanel = crearPanelSuperior();
+        
+        // Panel inferior: paginación y acciones
+        JPanel bottomPanel = crearPanelInferior();
+        
+        // Agregar componentes
+        listadoPanel.add(topPanel, BorderLayout.NORTH);
+        listadoPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
+        listadoPanel.add(bottomPanel, BorderLayout.SOUTH);
+    }
+    
+    //AVANCE DE LIMPIEZA DE CÓDIGO
 
         String[] columnNames = {"Código", "Nombre", "Precio", "Stock", "Categoría", "Rating"};
         tableModel = new DefaultTableModel(columnNames, 0) {
