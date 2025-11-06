@@ -18,43 +18,41 @@ import java.util.stream.Collectors;
 /*
  * Interfaz gráfica principal del sistema E-commerce
  */
-
 public class EcommerceGUI {
-    
+
     // COMPONENTES PRINCIPALES
     private JFrame frame;
     private JTable productTable;
     private DefaultTableModel tableModel;
     private TableRowSorter<DefaultTableModel> sorter;
-    
+
     // PANELES
     private JPanel mainPanel, listadoPanel, agregarPanel;
-    
+
     // CONTROLES DE BÚSQUEDA Y FILTROS
     private JComboBox<String> categoryFilter;
     private JTextField searchField;
 
     // CAMPOS DE FOMULARIO
     private JTextField codigoField, nombreField, precioField, stockField, categoriaField, ratingField;
-    
+
     // PAGINACIÓN
     private int paginaActual = 1;
     private JLabel pageStatusLabel;
     private JButton prevButton, nextButton;
-    
+
     // CARRITO DE COMPRAS
     private CarritoDeCompras carrito;
-    
+
     // CONSTANTES
     private static final String TITULO_APP = "Plataforma E-commerce";
     private static final int ANCHO_VENTANA = 1000;
     private static final int ALTO_VENTANA = 690;
-    
+
     // CONSTRUCTOR
-    
     /*
     * Constructor principal - Inicializa la interfaz gráfica
-    */
+     */
     public EcommerceGUI() {
         aplicarLookAndFeel();
         inicializarComponentes();
@@ -67,38 +65,38 @@ public class EcommerceGUI {
 
     /*
     * Aplica el Look and Feel del sistema operativo
-    */
-    private void aplicarLookAndFeel(){ 
+     */
+    private void aplicarLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             System.err.println("Error al aplicar Look and Feel: " + e.getMessage());
         }
     }
-    
+
     /*
     * Inicializa los componentes principales
-    */
-    private void inicializarComponentes(){
+     */
+    private void inicializarComponentes() {
         carrito = new CarritoDeCompras();
     }
 
     /*
     * Crea la ventana principal
-    */
+     */
     private void crearVentanaPrincipal() {
         frame = new JFrame(TITULO_APP);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(ANCHO_VENTANA, ALTO_VENTANA);
         frame.setLocationRelativeTo(null);
         frame.setLocationRelativeTo(null);
-        frame.setLayout(new CardLayout()); 
+        frame.setLayout(new CardLayout());
     }
 
     /*
     * Configura todos los paneles
-    */
-    private void configurarPaneles(){
+     */
+    private void configurarPaneles() {
         createMainPanel();
         createListadoPanel();
         createAgregarPanel();
@@ -108,42 +106,41 @@ public class EcommerceGUI {
         frame.add(agregarPanel, "Agregar");
 
     }
-    
+
     /*
     * Muestra la ventana
-    */
-    private void mostrarVentana(){
+     */
+    private void mostrarVentana() {
         frame.setVisible(true);
     }
-    
+
     // PANEL PRINCIPAL (MENÚ)
-    
     /*
     * Crea el panel principal con el menú de opciones
-    */
+     */
     private void createMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-        
+
         // TITULO
         JLabel titleLabel = new JLabel("Sustema E-commerce");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
+
         // Botones principales
         JButton agregarProductoButton = crearBotonPrincipal("Agregar Producto");
-        JButton verListadoButton =crearBotonPrincipal("Ver Listado de Productos");
-        
+        JButton verListadoButton = crearBotonPrincipal("Ver Listado de Productos");
+
         // Listeners
-        agregarProductoButton.addActionListener(e ->
-            mostrarPanel("Agregar"));
+        agregarProductoButton.addActionListener(e
+                -> mostrarPanel("Agregar"));
         verListadoButton.addActionListener(e -> {
             paginaActual = 1;
             updateProductView();
             mostrarPanel("Listado");
         });
-        
+
         // Agregar componentes
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 40)));
@@ -154,8 +151,8 @@ public class EcommerceGUI {
 
     /*
     * Crea un botón estilizado para el menú principal
-    */
-    private JButton crearBotonPrincipal(String texto){
+     */
+    private JButton crearBotonPrincipal(String texto) {
         JButton button = new JButton(texto);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setPreferredSize(new Dimension(250, 40));
@@ -197,53 +194,77 @@ public class EcommerceGUI {
             ((CardLayout) frame.getContentPane().getLayout()).show(frame.getContentPane(), "Main");
         });
     }
-    
+
     // PANEL DE LISTADO DE PRODUCTOS
-    
     /*
     * Crea el panel principal de listado de productos
-    */
+     */
     private void createListadoPanel() {
         listadoPanel = new JPanel(new BorderLayout(10, 10));
         listadoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
+
         // Tabla de productos
         crearTablaProductos();
-        
+
         // Panel superior: búsqueda, filtros y botones
         JPanel topPanel = crearPanelSuperior();
-        
+
         // Panel inferior: paginación y acciones
         JPanel bottomPanel = crearPanelInferior();
-        
+
         // Agregar componentes
         listadoPanel.add(topPanel, BorderLayout.NORTH);
         listadoPanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
         listadoPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
-    
-    //AVANCE DE LIMPIEZA DE CÓDIGO
 
+    /*
+    * Crea la tabla de productos
+    */
+    private void crearTablaProductos() {
         String[] columnNames = {"Código", "Nombre", "Precio", "Stock", "Categoría", "Rating"};
-        tableModel = new DefaultTableModel(columnNames, 0) {
+    
+        tableModel  = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
+            
+            @Override
+            public Class<?> getColumnClass( int columnIndex) {
+                // Para ordernar correctamente
+                switch (columnIndex){
+                    case 2: // Precio
+                    case 5: // Rating
+                        return Double.class;
+                    case 3: // Stock
+                        return Integer.class;
+                    default:
+                        return String.class;
+                }
+            }
         };
-        productTable = new JTable(tableModel);
-        productTable.setAutoCreateRowSorter(true);
+        
+        productTable  = new JTable(tableModel);
+        productTable.setAutoCreateRowSorter (
+        true);
 
         JScrollPane scrollPanel = new JScrollPane(productTable);
-        scrollPanel.setBorder(BorderFactory.createTitledBorder("Listado de Productos"));
+
+    scrollPanel.setBorder (BorderFactory.createTitledBorder
+    ("Listado de Productos"));
 
         JPanel searchAndFilterPanel = new JPanel(new FlowLayout());
-        searchField = new JTextField(15);
-        JButton searchHashButton = new JButton("Buscar Código (HASH)");
-        JButton searchContentButton = new JButton("Buscar Contenido (Invertida)");
-        categoryFilter = new JComboBox<>();
-        categoryFilter.addItem("Todas las categorías");
-        Ecommerce.getCategoriasUnicas().forEach(categoryFilter::addItem);
+    searchField  = new JTextField(15);
+    JButton searchHashButton = new JButton("Buscar Código (HASH)");
+    JButton searchContentButton = new JButton("Buscar Contenido (Invertida)");
+    categoryFilter  = new JComboBox<>();
+
+    categoryFilter.addItem (
+
+    "Todas las categorías");
+    Ecommerce.getCategoriasUnicas () 
+        .forEach(categoryFilter::addItem);
 
         searchAndFilterPanel.add(new JLabel("Filtrar por:"));
         searchAndFilterPanel.add(categoryFilter);
@@ -252,9 +273,9 @@ public class EcommerceGUI {
         searchAndFilterPanel.add(searchContentButton);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        
-        JButton ordenarCodigoButton = new JButton("Ordenar Código (QuickSort)"); 
-        JButton ordenarRatingShellSortButton = new JButton("Ordenar por Rating (ShellSort)"); 
+
+        JButton ordenarCodigoButton = new JButton("Ordenar Código (QuickSort)");
+        JButton ordenarRatingShellSortButton = new JButton("Ordenar por Rating (ShellSort)");
         JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
         JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
         JButton ordenarExternaButton = new JButton("Ordenar Código (Externa)");
@@ -262,9 +283,9 @@ public class EcommerceGUI {
 
         buttonPanel.add(ordenarCodigoButton);
         buttonPanel.add(ordenarRatingShellSortButton);
-        buttonPanel.add(ordenarNombreButton); 
+        buttonPanel.add(ordenarNombreButton);
         buttonPanel.add(ordenarPrecioButton);
-        buttonPanel.add(ordenarExternaButton); 
+        buttonPanel.add(ordenarExternaButton);
         buttonPanel.add(resetButton);
 
         JPanel topControls = new JPanel(new GridLayout(2, 1));
@@ -304,12 +325,12 @@ public class EcommerceGUI {
         listadoPanel.add(bottomControlPanel, BorderLayout.SOUTH);
 
         // Ordenación
-        ordenarCodigoButton.addActionListener(e -> { 
+        ordenarCodigoButton.addActionListener(e -> {
             ArrayList<Producto> catalogo = Ecommerce.getCatalogo();
-            QuickSort.ordenar(catalogo); 
-            Ecommerce.setCatalogo(catalogo); 
-            paginaActual = 1; 
-            updateProductView(); 
+            QuickSort.ordenar(catalogo);
+            Ecommerce.setCatalogo(catalogo);
+            paginaActual = 1;
+            updateProductView();
         });
 
         ordenarRatingShellSortButton.addActionListener(e -> {
@@ -320,27 +341,27 @@ public class EcommerceGUI {
             paginaActual = 1;
             updateProductView();
         });
-        
-        ordenarNombreButton.addActionListener(e -> { 
-            Ecommerce.ordenarCatalogoPorNombre(); 
-            paginaActual = 1; 
-            updateProductView(); 
+
+        ordenarNombreButton.addActionListener(e -> {
+            Ecommerce.ordenarCatalogoPorNombre();
+            paginaActual = 1;
+            updateProductView();
         });
-        
-        ordenarPrecioButton.addActionListener(e -> { 
-            Ecommerce.ordenarCatalogoPorPrecio(); 
-            paginaActual = 1; 
-            updateProductView(); 
+
+        ordenarPrecioButton.addActionListener(e -> {
+            Ecommerce.ordenarCatalogoPorPrecio();
+            paginaActual = 1;
+            updateProductView();
         });
-        
+
         ordenarExternaButton.addActionListener(e -> ejecutarOrdenacionExterna());
-        
-        resetButton.addActionListener(e -> { 
-            Ecommerce.resetCatalogo(); 
-            paginaActual = 1; 
-            updateProductView(); 
+
+        resetButton.addActionListener(e -> {
+            Ecommerce.resetCatalogo();
+            paginaActual = 1;
+            updateProductView();
         });
-        
+
         categoryFilter.addActionListener(e -> filtrarPorCategoria());
         searchHashButton.addActionListener(e -> buscarProductoPorCodigo());
         searchContentButton.addActionListener(e -> buscarProductoPorContenido());
@@ -361,13 +382,13 @@ public class EcommerceGUI {
         });
         addToCartButton.addActionListener(e -> añadirAlCarrito());
         viewCartButton.addActionListener(e -> mostrarVentanaCarrito());
-        
+
         logoutButton.addActionListener(e -> {
-            int confirm = JOptionPane.showConfirmDialog(frame, "¿Está seguro que desea cerrar la sesión?", 
-                                                        "Confirmar Cierre", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(frame, "¿Está seguro que desea cerrar la sesión?",
+                    "Confirmar Cierre", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                frame.dispose(); 
-                new LoginGUI(); 
+                frame.dispose();
+                new LoginGUI();
             }
         });
 
@@ -560,12 +581,11 @@ public class EcommerceGUI {
             JOptionPane.showMessageDialog(frame, "Error durante la Ordenación Externa: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     // CARRITO DE COMPRAS
-    
     /*
     * Añade un producto seleccionado al carrito
-    */
+     */
     private void añadirAlCarrito() {
         int selectedRow = productTable.getSelectedRow();
         if (selectedRow == -1) {
