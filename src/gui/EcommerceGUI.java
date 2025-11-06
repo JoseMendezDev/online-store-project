@@ -246,10 +246,32 @@ public class EcommerceGUI {
         };
         
         productTable  = new JTable(tableModel);
-        productTable.setAutoCreateRowSorter (
-        true);
-
-        JScrollPane scrollPanel = new JScrollPane(productTable);
+        productTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        productTable.setRowHeight(25);
+        
+        // Configurar sorter
+        sorter = new TableRowSorter<>(tableModel);
+        productTable.setRowSorter(sorter);
+        
+        // Ajustar anchos de columnas
+        productTable.getColumnModel().getColumn(0).setPreferredWidth(80);  // Código
+        productTable.getColumnModel().getColumn(1).setPreferredWidth(200); // Nombre
+        productTable.getColumnModel().getColumn(2).setPreferredWidth(80);  // Precio
+        productTable.getColumnModel().getColumn(3).setPreferredWidth(60);  // Stock
+        productTable.getColumnModel().getColumn(4).setPreferredWidth(120); // Categoría
+        productTable.getColumnModel().getColumn(5).setPreferredWidth(60);  // Rating
+    }
+    
+    /*
+    * Crea el panel superior con búsqueda y filtros
+    */
+    proivate Jpanel crearPanelSuperior(){
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        
+        // Panel de búsqueda y filtros
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT))
+        searchPanel.setBorder(border);
 
     scrollPanel.setBorder (BorderFactory.createTitledBorder
     ("Listado de Productos"));
