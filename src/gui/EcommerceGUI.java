@@ -372,6 +372,56 @@ public class EcommerceGUI {
         return bottomPanel;
     }
 
+    // ACTUALIZACIÓN DE VISTA
+    /*
+    * Actualiza la vista de productos con paginación
+    */
+    private void updateProductView(){
+        ArrayList<Producto> listaPagina = Ecommerce.getPagina(paginaActual);
+        displayCatalogo(listaPagina);
+        
+        int totalPaginas = Ecommerce.getTotalPaginas();
+        pageStatusLabel.setText("Página "+ paginaActual + " de " + totalPaginas);
+    }
+    
+    /*
+    * Muestra una lista de productos en la tabla
+    */
+    private void displaycatalogo(List<Producto> listaProductos){
+        tableModel.setRowCount(0);
+
+        for (Producto p : listaProductos){
+            Object[] rowData = {
+                p.getCodigo(),
+                p.getNombre(),
+                p.getPrecio(),
+                p.getStock(),
+                p.getCategoria(),
+                p.getRating()
+            };
+            tableModel.addRow(rowData);
+        }
+    }
+
+    /*
+    * Actualiza el filtro de categorías
+    */
+    private void actualizarFiltroCategorias() {
+        String seleccionActual = (String) categoryFilter.getSelectedItem();
+        categoryFilter.removeAllItems();
+        categoryFilter.addItem("Todas las categorías");
+        
+        for (String categoria : Ecommerce.getCategoriasUnicas()){
+            categoryFilter.addItem(categoria);
+        }
+        
+        if (seleccionActual != null){
+            categoryFilter.setSelectedItem(seleccionActual);
+        }    
+    }
+
+
+
         // Ordenación
         ordenarCodigoButton.addActionListener(e -> {
             ArrayList<Producto> catalogo = Ecommerce.getCatalogo();
