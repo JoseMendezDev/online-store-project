@@ -305,78 +305,72 @@ public class EcommerceGUI {
         sortPanel.add(ordenarNombreButton);
         sortPanel.add(ordenarPrecioButton);
         sortPanel.add(ordenarExternaButton);
-        sortPanel.add(resetButton);   
-
-    scrollPanel.setBorder (BorderFactory.createTitledBorder
-    ("Listado de Productos"));
-
-        JPanel searchAndFilterPanel = new JPanel(new FlowLayout());
-    searchField  = new JTextField(15);
-    categoryFilter  = new JComboBox<>();
-
-    categoryFilter.addItem (
-
-    "Todas las categorías");
-    Ecommerce.getCategoriasUnicas () 
-        .forEach(categoryFilter::addItem);
-
-        searchAndFilterPanel.add(new JLabel("Filtrar por:"));
-        searchAndFilterPanel.add(categoryFilter);
-        searchAndFilterPanel.add(searchField);
-        searchAndFilterPanel.add(searchHashButton);
-        searchAndFilterPanel.add(searchContentButton);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-        JButton ordenarCodigoButton = new JButton("Ordenar Código (QuickSort)");
-        JButton ordenarRatingShellSortButton = new JButton("Ordenar por Rating (ShellSort)");
-        JButton ordenarNombreButton = new JButton("Ordenar por Nombre");
-        JButton ordenarPrecioButton = new JButton("Ordenar por Precio");
-        JButton ordenarExternaButton = new JButton("Ordenar Código (Externa)");
-        JButton resetButton = new JButton("Resetear Catálogo");
-
-        buttonPanel.add(ordenarCodigoButton);
-        buttonPanel.add(ordenarRatingShellSortButton);
-        buttonPanel.add(ordenarNombreButton);
-        buttonPanel.add(ordenarPrecioButton);
-        buttonPanel.add(ordenarExternaButton);
-        buttonPanel.add(resetButton);
-
-        JPanel topControls = new JPanel(new GridLayout(2, 1));
-        topControls.add(searchAndFilterPanel);
-        topControls.add(buttonPanel);
-
-        listadoPanel.add(topControls, BorderLayout.NORTH);
-        listadoPanel.add(scrollPanel, BorderLayout.CENTER);
-
-        JPanel bottomControlPanel = new JPanel(new BorderLayout());
+        sortPanel.add(resetButton);
+        
+        // Listeners de búsqueda
+        categoryFilter.addActionListener(e -> filtrarPorCategoria());
+        searchHashButton.addActionListener(e -> buscarProductoPorCodigo());
+        searchContentButton.addActionListener(e -> buscarProductoPorContenido());
+        
+        // Listeners de ordenación
+        ordenarCodigoButton.addActionListener(e -> ordenarPorQuickSort());
+        ordenarRatingButton.addActionListener(e -> ordenarPorRatingShellSort());
+        ordenarNombreButton.addActionListener(e -> ordenarPorNombre());
+        ordenarPrecioButton.addActionListener(e -> ordenarPorPrecio());
+        ordenarExternaButton.addActionListener(e -> ejecutarOrdenacionExterna());
+        resetButton.addActionListener(e -> resetearCatalogo());
+        
+        topPanel.add(searchPanel);
+        topPanel.add(sortPanel);
+        
+        return topPanel;
+    }
+          
+    /*
+    * Crea el panel inferior con paginación y acciones
+    */
+    private JPanel crearPanelInferior(){
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        
+        // Paginación
         JPanel paginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         prevButton = new JButton("<< Anterior");
         nextButton = new JButton("Siguiente >>");
         pageStatusLabel = new JLabel("Página 1 de 1");
+        
+        prevButton.addActionListener(e -> irPaginaAnterior());
+        nextButton.addActionListener(e -> irPaginaSiguiente());
 
         paginationPanel.add(prevButton);
         paginationPanel.add(pageStatusLabel);
         paginationPanel.add(nextButton);
-
+        
+        // Acciones
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton regresarButton = new JButton("Regresar");
         JButton addToCartButton = new JButton("➕ Añadir al Carrito");
-        JButton viewCartButton = new JButton("🛒 Ver Carrito");
-
+        JButton viewCartButton = new JButton("🛒 Ver Carrito (" + carrito.contarItems() + ")");
         JButton logoutButton = new JButton("➡️ Cerrar Sesión");
+        
         logoutButton.setForeground(Color.RED);
 
+        regresarButton.addActionListener(e -> mostrarPanel("Main"));
+        addToCartButton.addActionListener(e -> añadirAlCarrito());
+        viewCartButton.addActionListener(e -> mostrarVentanaCarrito());
+        logoutButton.addActionListener(e -> cerrarSesion());
+        
         actionPanel.add(regresarButton);
-        actionPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        actionPanel.add(Box.createHorizontalStrut(30));
         actionPanel.add(addToCartButton);
         actionPanel.add(viewCartButton);
         actionPanel.add(Box.createHorizontalGlue());
         actionPanel.add(logoutButton);
 
-        bottomControlPanel.add(paginationPanel, BorderLayout.CENTER);
-        bottomControlPanel.add(actionPanel, BorderLayout.SOUTH);
-        listadoPanel.add(bottomControlPanel, BorderLayout.SOUTH);
+        bottomPanel.add(paginationPanel, BorderLayout.CENTER);
+        bottomPanel.add(actionPanel, BorderLayout.SOUTH);
+        
+        return bottomPanel;
+    }
 
         // Ordenación
         ordenarCodigoButton.addActionListener(e -> {
