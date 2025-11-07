@@ -265,21 +265,53 @@ public class EcommerceGUI {
     /*
     * Crea el panel superior con búsqueda y filtros
     */
-    proivate Jpanel crearPanelSuperior(){
+    private JPanel crearPanelSuperior(){
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         
         // Panel de búsqueda y filtros
-        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT))
-        searchPanel.setBorder(border);
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchPanel.setBorder(BorderFactory.createTitledBorder("Búsqueda y Filtros"));
+        
+        searchField = new JTextField(15);
+        JButton searchHashButton = new JButton("Buscar Código (HASH)");
+        JButton searchContentButton = new JButton("Buscar Texto (Invertida)");
+        
+        categoryFilter = new JComboBox<>();
+        categoryFilter.addItem("Todas las categorías");
+        actualizarFiltroCategorias();
+        
+        searchPanel.add(new JLabel("Categoría"));
+        searchPanel.add(categoryFilter);
+        searchPanel.add(Box.createHorizontalStrut(20));
+        searchPanel.add(new JLabel("Búsqueda:"));
+        searchPanel.add(searchField);
+        searchPanel.add(searchHashButton);
+        searchPanel.add(searchContentButton);
+        
+        // Panel de botones de ordenacion
+        JPanel sortPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        sortPanel.setBorder(BorderFactory.createTitledBorder("Ordenación"));
+        
+        JButton ordenarCodigoButton = new  JButton("Código (QuickSort)");
+        JButton ordenarRatingButton = new  JButton("Código (SellSort)");
+        JButton ordenarNombreButton = new  JButton("Nombre");
+        JButton ordenarPrecioButton = new  JButton("Precio");
+        JButton ordenarExternaButton = new  JButton("Código (Externa)");
+        JButton resetButton = new  JButton("Código (Externa)");
+        
+        sortPanel.add(ordenarCodigoButton);
+        sortPanel.add(ordenarRatingButton);
+        sortPanel.add(ordenarNombreButton);
+        sortPanel.add(ordenarPrecioButton);
+        sortPanel.add(ordenarExternaButton);
+        sortPanel.add(resetButton);   
 
     scrollPanel.setBorder (BorderFactory.createTitledBorder
     ("Listado de Productos"));
 
         JPanel searchAndFilterPanel = new JPanel(new FlowLayout());
     searchField  = new JTextField(15);
-    JButton searchHashButton = new JButton("Buscar Código (HASH)");
-    JButton searchContentButton = new JButton("Buscar Contenido (Invertida)");
     categoryFilter  = new JComboBox<>();
 
     categoryFilter.addItem (
