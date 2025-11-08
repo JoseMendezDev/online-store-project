@@ -253,6 +253,8 @@ public class EcommerceGUI {
         
         // Acciones
         JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        
+        JButton addToCartButton = new JButton("🛒 Agregar al Carrito");
         addToCartButton.setFont(new Font("SansSerif", Font.BOLD, 14));
         addToCartButton.setBackground(new Color(76, 175, 80));
         addToCartButton.setForeground(Color.WHITE);
@@ -833,9 +835,7 @@ public class EcommerceGUI {
      * Muestra un mensaje de error
      */
     private void mostrarError(String mensaje) {
-        JOptionPane.showMessageDialog(frame,
-            mensaje,
-            "Error",
+        JOptionPane.showMessageDialog(frame, mensaje, "Error", 
             JOptionPane.ERROR_MESSAGE);
     }
     
@@ -843,9 +843,7 @@ public class EcommerceGUI {
      * Muestra un mensaje de éxito
      */
     private void mostrarExito(String mensaje) {
-        JOptionPane.showMessageDialog(frame,
-            mensaje,
-            "Éxito",
+        JOptionPane.showMessageDialog(frame, mensaje, "Éxito", 
             JOptionPane.INFORMATION_MESSAGE);
     }
     
@@ -853,9 +851,7 @@ public class EcommerceGUI {
      * Muestra un mensaje de advertencia
      */
     private void mostrarAdvertencia(String mensaje) {
-        JOptionPane.showMessageDialog(frame,
-            mensaje,
-            "Advertencia",
+        JOptionPane.showMessageDialog(frame, mensaje, "Advertencia", 
             JOptionPane.WARNING_MESSAGE);
     }
     
@@ -863,9 +859,7 @@ public class EcommerceGUI {
      * Muestra un mensaje informativo
      */
     private void mostrarInformacion(String titulo, String mensaje) {
-        JOptionPane.showMessageDialog(frame,
-            mensaje,
-            titulo,
+        JOptionPane.showMessageDialog(frame, mensaje, titulo, 
             JOptionPane.INFORMATION_MESSAGE);
     }
     
