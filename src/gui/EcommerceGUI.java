@@ -27,14 +27,11 @@ public class EcommerceGUI {
     private TableRowSorter<DefaultTableModel> sorter;
 
     // PANELES
-    private JPanel mainPanel, listadoPanel, agregarPanel;
+    private JPanel listadoPanel;
 
     // CONTROLES DE BÚSQUEDA Y FILTROS
     private JComboBox<String> categoryFilter;
     private JTextField searchField;
-
-    // CAMPOS DE FOMULARIO
-    private JTextField codigoField, nombreField, precioField, stockField, categoriaField, ratingField;
 
     // PAGINACIÓN
     private int paginaActual = 1;
@@ -43,6 +40,7 @@ public class EcommerceGUI {
 
     // CARRITO DE COMPRAS
     private CarritoDeCompras carrito;
+    private JButton viewCartButton;
 
     // CONSTANTES
     private static final String TITULO_APP = "Plataforma E-commerce";
@@ -57,7 +55,7 @@ public class EcommerceGUI {
         aplicarLookAndFeel();
         inicializarComponentes();
         crearVentanaPrincipal();
-        configurarPaneles();
+        crearCatalogoPrincipal();
         mostrarVentana();
     }
 
@@ -92,70 +90,19 @@ public class EcommerceGUI {
         frame.setLocationRelativeTo(null);
         frame.setLayout(new CardLayout());
     }
-
-    /*
-    * Configura todos los paneles
-     */
-    private void configurarPaneles() {
-        createMainPanel();
-        createListadoPanel();      
-
-        frame.add(mainPanel, "Main");
-        frame.add(listadoPanel, "Listado");
-
+    
+    private void crearCatalogoPrincipal() {
+        createListadoPanel();
+        frame.add(listadoPanel, BorderLayout.CENTER);
+        paginaActual = 1;
+        updateProductView();
     }
-
+    
     /*
     * Muestra la ventana
      */
     private void mostrarVentana() {
         frame.setVisible(true);
-    }
-
-    // PANEL PRINCIPAL (MENÚ)
-    /*
-    * Crea el panel principal con el menú de opciones
-     */
-    private void createMainPanel() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
-
-        // TITULO
-        JLabel titleLabel = new JLabel("Sistema E-commerce");
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Botones principales
-        JButton agregarProductoButton = crearBotonPrincipal("Agregar Producto");
-        JButton verListadoButton = crearBotonPrincipal("Ver Listado de Productos");
-
-        // Listeners
-        agregarProductoButton.addActionListener(e
-                -> mostrarPanel("Agregar"));
-        verListadoButton.addActionListener(e -> {
-            paginaActual = 1;
-            updateProductView();
-            mostrarPanel("Listado");
-        });
-
-        // Agregar componentes
-        mainPanel.add(titleLabel);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 40)));
-        mainPanel.add(agregarProductoButton);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 40)));
-        mainPanel.add(verListadoButton);
-    }
-
-    /*
-    * Crea un botón estilizado para el menú principal
-     */
-    private JButton crearBotonPrincipal(String texto) {
-        JButton button = new JButton(texto);
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setPreferredSize(new Dimension(250, 40));
-        button.setMaximumSize(new Dimension(250, 40));
-        return button;
     }
 
     // PANEL DE LISTADO DE PRODUCTOS
@@ -236,9 +183,10 @@ public class EcommerceGUI {
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.setBorder(BorderFactory.createTitledBorder("Búsqueda y Filtros"));
         
-        searchField = new JTextField(15);
-        JButton searchHashButton = new JButton("Buscar Código (HASH)");
-        JButton searchContentButton = new JButton("Buscar Texto (Invertida)");
+        searchField = new JTextField(20);
+        JButton searchHashButton = new JButton("🔍 Buscar por Código");
+        JButton searchContentButton = new JButton("📝 Buscar por Texto");
+        JButton clearSearchButton = new JButton("🔄 Limpiar");
         
         categoryFilter = new JComboBox<>();
         categoryFilter.addItem("Todas las categorías");
@@ -247,42 +195,34 @@ public class EcommerceGUI {
         searchPanel.add(new JLabel("Categoría"));
         searchPanel.add(categoryFilter);
         searchPanel.add(Box.createHorizontalStrut(20));
-        searchPanel.add(new JLabel("Búsqueda:"));
         searchPanel.add(searchField);
         searchPanel.add(searchHashButton);
         searchPanel.add(searchContentButton);
+        searchPanel.add(clearSearchButton);
         
         // Panel de botones de ordenacion
         JPanel sortPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        sortPanel.setBorder(BorderFactory.createTitledBorder("Ordenación"));
+        sortPanel.setBorder(BorderFactory.createTitledBorder("Ordenar por"));
         
-        JButton ordenarCodigoButton = new  JButton("Código (QuickSort)");
-        JButton ordenarRatingButton = new  JButton("Código (SellSort)");
-        JButton ordenarNombreButton = new  JButton("Nombre");
-        JButton ordenarPrecioButton = new  JButton("Precio");
-        JButton ordenarExternaButton = new  JButton("Código (Externa)");
-        JButton resetButton = new  JButton("Código (Externa)");
+        JButton ordenarNombreButton = new JButton("📄 Nombre");
+        JButton ordenarPrecioButton = new JButton("💰 Precio");
+        JButton ordenarRatingButton = new JButton("⭐ Rating");
         
-        sortPanel.add(ordenarCodigoButton);
         sortPanel.add(ordenarRatingButton);
         sortPanel.add(ordenarNombreButton);
         sortPanel.add(ordenarPrecioButton);
-        sortPanel.add(ordenarExternaButton);
-        sortPanel.add(resetButton);
         
         // Listeners de búsqueda
         categoryFilter.addActionListener(e -> filtrarPorCategoria());
         searchHashButton.addActionListener(e -> buscarProductoPorCodigo());
         searchContentButton.addActionListener(e -> buscarProductoPorContenido());
+        clearSearchButton.addActionListener(e -> limpiarBusqueda());
         
         // Listeners de ordenación
-        ordenarCodigoButton.addActionListener(e -> ordenarPorQuickSort());
-        ordenarRatingButton.addActionListener(e -> ordenarPorRatingShellSort());
         ordenarNombreButton.addActionListener(e -> ordenarPorNombre());
         ordenarPrecioButton.addActionListener(e -> ordenarPorPrecio());
-        ordenarExternaButton.addActionListener(e -> ejecutarOrdenacionExterna());
-        resetButton.addActionListener(e -> resetearCatalogo());
-        
+        ordenarRatingButton.addActionListener(e -> ordenarPorRatingShellSort());
+                
         topPanel.add(searchPanel);
         topPanel.add(sortPanel);
         
@@ -297,40 +237,47 @@ public class EcommerceGUI {
         
         // Paginación
         JPanel paginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        prevButton = new JButton("<< Anterior");
-        nextButton = new JButton("Siguiente >>");
+        prevButton = new JButton("⬅️ Anterior");
+        nextButton = new JButton("Siguiente ➡️");
         pageStatusLabel = new JLabel("Página 1 de 1");
+        pageStatusLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
         
         prevButton.addActionListener(e -> irPaginaAnterior());
         nextButton.addActionListener(e -> irPaginaSiguiente());
 
         paginationPanel.add(prevButton);
+        paginationPanel.add(Box.createHorizontalStrut(20));
         paginationPanel.add(pageStatusLabel);
+        paginationPanel.add(Box.createHorizontalStrut(20));
         paginationPanel.add(nextButton);
         
         // Acciones
-        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton regresarButton = new JButton("Regresar");
-        JButton addToCartButton = new JButton("➕ Añadir al Carrito");
-        JButton viewCartButton = new JButton("🛒 Ver Carrito (" + carrito.contarItems() + ")");
-        JButton logoutButton = new JButton("➡️ Cerrar Sesión");
+        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        addToCartButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        addToCartButton.setBackground(new Color(76, 175, 80));
+        addToCartButton.setForeground(Color.WHITE);
+        addToCartButton.setFocusPainted(false);
         
+        viewCartButton = new JButton("🛍️ Ver Carrito (0)");
+        viewCartButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        viewCartButton.setBackground(new Color(33, 150, 243));
+        viewCartButton.setForeground(Color.WHITE);
+        viewCartButton.setFocusPainted(false);
+        
+        JButton logoutButton = new JButton("🚪 Cerrar Sesión");
         logoutButton.setForeground(Color.RED);
-
-        regresarButton.addActionListener(e -> mostrarPanel("Main"));
+        
         addToCartButton.addActionListener(e -> añadirAlCarrito());
         viewCartButton.addActionListener(e -> mostrarVentanaCarrito());
         logoutButton.addActionListener(e -> cerrarSesion());
         
-        actionPanel.add(regresarButton);
-        actionPanel.add(Box.createHorizontalStrut(30));
         actionPanel.add(addToCartButton);
         actionPanel.add(viewCartButton);
-        actionPanel.add(Box.createHorizontalGlue());
+        actionPanel.add(Box.createHorizontalStrut(50));
         actionPanel.add(logoutButton);
-
-        bottomPanel.add(paginationPanel, BorderLayout.CENTER);
-        bottomPanel.add(actionPanel, BorderLayout.SOUTH);
+        
+        bottomPanel.add(paginationPanel, BorderLayout.NORTH);
+        bottomPanel.add(actionPanel, BorderLayout.CENTER);
         
         return bottomPanel;
     }
@@ -345,6 +292,9 @@ public class EcommerceGUI {
         
         int totalPaginas = Ecommerce.getTotalPaginas();
         pageStatusLabel.setText("Página "+ paginaActual + " de " + totalPaginas);
+        
+        prevButton.setEnabled(paginaActual > 1);
+        nextButton.setEnabled(paginaActual < totalPaginas);
     }
     
     /*
@@ -464,20 +414,15 @@ public class EcommerceGUI {
         }
     }
     
-    // Ordenación
-    /*
-     * Ordena por código usando QuickSort
-     */
-    private void ordenarPorQuickSort() {
-        ArrayList<Producto> catalogo = Ecommerce.getCatalogo();
-        QuickSort.ordenar(catalogo);
-        Ecommerce.setCatalogo(catalogo);
+    private void limpiarBusqueda() {
+        searchField.setText("");
+        categoryFilter.setSelectedIndex(0);
         resetTableSorter();
         paginaActual = 1;
         updateProductView();
-        mostrarExito("Catálogo ordenado por código (QuickSort)");
     }
     
+    // Ordenación
     /*
      * Ordena por rating usando ShellSort
      */
@@ -512,43 +457,7 @@ public class EcommerceGUI {
         updateProductView();
         mostrarExito("Catálogo ordenado por precio");
     }
-    
-    /*
-     * Ejecuta ordenación externa
-     */
-    private void ejecutarOrdenacionExterna() {
-        try {
-            // Crear archivo de entrada
-            File inputFile = new File("catalogo_entrada.txt");
-            try (FileWriter writer = new FileWriter(inputFile)) {
-                for (Producto p : Ecommerce.getCatalogo()) {
-                    writer.write(p.toFileString());
-                    writer.write(System.lineSeparator());
-                }
-            }
-            
-            // Ejecutar ordenación externa
-            File outputFile = new File("catalogo_salida_ordenada.txt");
-            OrdenacionExterna.ordenar(inputFile, outputFile);
-            
-            // Cargar catálogo ordenado
-            ArrayList<Producto> catalogoOrdenado = Ecommerce.cargarCatalogoDesdeArchivo(outputFile);
-            Ecommerce.setCatalogo(catalogoOrdenado);
-            
-            resetTableSorter();
-            paginaActual = 1;
-            updateProductView();
-            
-            mostrarExito("Ordenación Externa completada.\nResultado guardado en: catalogo_salida_ordenada.txt");
-            
-            // Limpiar archivos temporales
-            inputFile.delete();
-            
-        } catch (IOException ex) {
-            mostrarError("Error durante la ordenación externa: " + ex.getMessage());
-        }
-    }
-    
+        
     /*
      * Resetea el catálogo a su estado original
      */
@@ -586,12 +495,11 @@ public class EcommerceGUI {
         int selectedRow = productTable.getSelectedRow();
         
         if (selectedRow == -1) {
-            mostrarAdvertencia("Seleccione un producto de la tabla");
+            mostrarAdvertencia("Por favor seleccione un producto de la tabla");
             return;
         }
         
         try {
-            // Obtener código del producto (convertir índice de vista a modelo)
             int modelRow = productTable.convertRowIndexToModel(selectedRow);
             String codigo = (String) tableModel.getValueAt(modelRow, 0);
             
@@ -602,15 +510,19 @@ public class EcommerceGUI {
                 return;
             }
             
+            if (producto.getStock() <= 0) {
+                mostrarError("Producto sin stock disponible");
+                return;
+            }
+            
             // Solicitar cantidad
             String cantidadStr = JOptionPane.showInputDialog(frame,
-                "Ingrese la cantidad de '" + producto.getNombre() + "':",
+                "Ingrese la cantidad de '" + producto.getNombre() + "':\n" +
+                "Stock disponible: " + producto.getStock(),
                 "Cantidad",
                 JOptionPane.QUESTION_MESSAGE);
             
-            if (cantidadStr == null) {
-                return; // Usuario canceló
-            }
+            if (cantidadStr == null) return;
             
             int cantidad = Integer.parseInt(cantidadStr.trim());
             
@@ -621,18 +533,19 @@ public class EcommerceGUI {
             
             // Agregar al carrito
             if (carrito.agregarProducto_OLD(producto, cantidad)) {
-                mostrarExito(cantidad + "x " + producto.getNombre() + " añadido al carrito");
+                mostrarExito("✅ " + cantidad + "x " + producto.getNombre() + 
+                           "\nAgregado al carrito exitosamente");
                 actualizarContadorCarrito();
             } else {
-                mostrarError("Stock insuficiente.\nDisponible: " + producto.getStock() + 
-                           "\nEn carrito: " + carrito.obtenerCantidad(codigo) +
-                           "\nSolicitado: " + cantidad);
+                mostrarError("Stock insuficiente.\n\n" +
+                           "Disponible: " + producto.getStock() + "\n" +
+                           "Solicitado: " + cantidad);
             }
             
         } catch (NumberFormatException ex) {
-            mostrarError("Cantidad inválida. Ingrese un número entero");
+            mostrarError("Por favor ingrese un número válido");
         } catch (Exception ex) {
-            mostrarError("Error al añadir al carrito: " + ex.getMessage());
+            mostrarError("Error: " + ex.getMessage());
         }
     }
     
@@ -640,35 +553,20 @@ public class EcommerceGUI {
      * Actualiza el contador de items en el botón del carrito
      */
     private void actualizarContadorCarrito() {
-        // Buscar y actualizar el botón del carrito
-        Component[] components = ((JPanel) listadoPanel.getComponent(2))
-            .getComponents();
-        
-        for (Component comp : components) {
-            if (comp instanceof JPanel) {
-                for (Component subComp : ((JPanel) comp).getComponents()) {
-                    if (subComp instanceof JButton) {
-                        JButton btn = (JButton) subComp;
-                        if (btn.getText().contains("Ver Carrito")) {
-                            btn.setText("🛒 Ver Carrito (" + carrito.contarItems() + ")");
-                        }
-                    }
-                }
-            }
-        }
+        viewCartButton.setText("🛍️ Ver Carrito (" + carrito.contarItems() + ")");
     }
     
     /*
      * Muestra la ventana del carrito de compras
      */
     private void mostrarVentanaCarrito() {
-        JDialog dialog = new JDialog(frame, "Carrito de Compras", true);
-        dialog.setSize(650, 500);
+        JDialog dialog = new JDialog(frame, "Mi Carrito de Compras", true);
+        dialog.setSize(700, 550);
         dialog.setLayout(new BorderLayout(10, 10));
         dialog.setLocationRelativeTo(frame);
         
         // Tabla del carrito
-        String[] columnNames = {"Código", "Nombre", "Precio Unit.", "Cantidad", "Subtotal"};
+        String[] columnNames = {"Código", "Producto", "Precio", "Cantidad", "Subtotal"};
         DefaultTableModel cartTableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -676,25 +574,33 @@ public class EcommerceGUI {
             }
         };
         JTable cartTable = new JTable(cartTableModel);
-        cartTable.setRowHeight(25);
+        cartTable.setRowHeight(30);
+        cartTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        cartTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+        cartTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+        cartTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+        cartTable.getColumnModel().getColumn(4).setPreferredWidth(100);
         
-        // Panel de información
+        // Panel de totales
         JPanel infoPanel = new JPanel(new BorderLayout());
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        infoPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        infoPanel.setBackground(new Color(245, 245, 245));
         
-        JLabel totalLabel = new JLabel("Total: S/.0.00");
-        totalLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        JLabel totalLabel = new JLabel("TOTAL: S/.0.00");
+        totalLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        totalLabel.setForeground(new Color(76, 175, 80));
         
-        JLabel itemsLabel = new JLabel("Items: 0");
+        JLabel itemsLabel = new JLabel("0 productos");
         itemsLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
         
-        JPanel labelsPanel = new JPanel(new GridLayout(2, 1));
+        JPanel labelsPanel = new JPanel(new GridLayout(2, 1, 0, 5));
+        labelsPanel.setBackground(new Color(245, 245, 245));
         labelsPanel.add(itemsLabel);
         labelsPanel.add(totalLabel);
         
         infoPanel.add(labelsPanel, BorderLayout.WEST);
         
-        // Runnable para actualizar la vista del carrito
+        // Actualizar vista del carrito
         Runnable refreshCartView = () -> {
             cartTableModel.setRowCount(0);
             double total = 0.0;
@@ -717,30 +623,31 @@ public class EcommerceGUI {
                 cartTableModel.addRow(rowData);
             }
             
-            totalLabel.setText(String.format("Total: S/.%.2f", total));
-            itemsLabel.setText("Items: " + totalItems);
+            totalLabel.setText(String.format("TOTAL: S/.%.2f", total));
+            itemsLabel.setText(totalItems + " producto" + (totalItems != 1 ? "s" : ""));
         };
         
-        // Cargar datos iniciales
         refreshCartView.run();
         
         // Botones de acción
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         
-        JButton actualizarCantButton = new JButton("✏️ Actualizar Cantidad");
-        JButton removeButton = new JButton("🗑️ Remover Ítem");
+        JButton actualizarButton = new JButton("✏️ Cambiar Cantidad");
+        JButton removeButton = new JButton("🗑️ Eliminar");
         JButton vaciarButton = new JButton("🧹 Vaciar Carrito");
-        JButton checkoutButton = new JButton("💳 Finalizar Compra");
+        JButton checkoutButton = new JButton("💳 FINALIZAR COMPRA");
         JButton cerrarButton = new JButton("Cerrar");
         
+        checkoutButton.setBackground(new Color(76, 175, 80));
+        checkoutButton.setForeground(Color.WHITE);
+        checkoutButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        checkoutButton.setFocusPainted(false);
+        
         // Actualizar cantidad
-        actualizarCantButton.addActionListener(e -> {
+        actualizarButton.addActionListener(e -> {
             int row = cartTable.getSelectedRow();
             if (row == -1) {
-                JOptionPane.showMessageDialog(dialog, 
-                    "Seleccione un ítem para actualizar", 
-                    "Advertencia", 
-                    JOptionPane.WARNING_MESSAGE);
+                mostrarAdvertencia("Seleccione un producto");
                 return;
             }
             
@@ -751,7 +658,8 @@ public class EcommerceGUI {
                 if (producto == null) return;
                 
                 String nuevaCantStr = JOptionPane.showInputDialog(dialog,
-                    "Nueva cantidad para '" + producto.getNombre() + "':",
+                    "Nueva cantidad para '" + producto.getNombre() + "':\n" +
+                    "Stock disponible: " + producto.getStock(),
                     carrito.obtenerCantidad(codigo));
                 
                 if (nuevaCantStr == null) return;
@@ -760,13 +668,11 @@ public class EcommerceGUI {
                 
                 if (nuevaCant <= 0) {
                     carrito.removerProducto(codigo, 0);
-                    mostrarExito("Producto removido del carrito");
                 } else if (producto.getStock() >= nuevaCant) {
                     carrito.removerProducto(codigo, 0);
                     carrito.agregarProducto(producto, nuevaCant);
-                    mostrarExito("Cantidad actualizada");
                 } else {
-                    mostrarError("Stock insuficiente. Disponible: " + producto.getStock());
+                    mostrarError("Stock insuficiente.\nDisponible: " + producto.getStock());
                     return;
                 }
                 
@@ -778,48 +684,39 @@ public class EcommerceGUI {
             }
         });
         
-        // Remover ítem
+        // Eliminar producto
         removeButton.addActionListener(e -> {
             int row = cartTable.getSelectedRow();
             if (row == -1) {
-                JOptionPane.showMessageDialog(dialog, 
-                    "Seleccione un ítem para remover", 
-                    "Advertencia", 
-                    JOptionPane.WARNING_MESSAGE);
+                mostrarAdvertencia("Seleccione un producto para eliminar");
                 return;
             }
             
-            try {
-                String codigo = (String) cartTableModel.getValueAt(row, 0);
-                String nombre = (String) cartTableModel.getValueAt(row, 1);
-                
-                int confirm = JOptionPane.showConfirmDialog(dialog,
-                    "¿Remover '" + nombre + "' del carrito?",
-                    "Confirmar",
-                    JOptionPane.YES_NO_OPTION);
-                
-                if (confirm == JOptionPane.YES_OPTION) {
-                    carrito.removerProducto(codigo, 0);
-                    refreshCartView.run();
-                    actualizarContadorCarrito();
-                    mostrarExito("Producto removido del carrito");
-                }
-                
-            } catch (Exception ex) {
-                mostrarError("Error al remover producto: " + ex.getMessage());
+            String codigo = (String) cartTableModel.getValueAt(row, 0);
+            String nombre = (String) cartTableModel.getValueAt(row, 1);
+            
+            int confirm = JOptionPane.showConfirmDialog(dialog,
+                "¿Eliminar '" + nombre + "' del carrito?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION);
+            
+            if (confirm == JOptionPane.YES_OPTION) {
+                carrito.removerProducto(codigo, 0);
+                refreshCartView.run();
+                actualizarContadorCarrito();
             }
         });
         
         // Vaciar carrito
         vaciarButton.addActionListener(e -> {
             if (carrito.estaVacio()) {
-                mostrarInformacion("Carrito vacío", "El carrito ya está vacío");
+                mostrarInformacion("Carrito vacío", "No hay productos en el carrito");
                 return;
             }
             
             int confirm = JOptionPane.showConfirmDialog(dialog,
-                "¿Está seguro de vaciar el carrito?\nSe removerán todos los productos.",
-                "Confirmar Vaciar Carrito",
+                "¿Vaciar todo el carrito?",
+                "Confirmar",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE);
             
@@ -827,7 +724,6 @@ public class EcommerceGUI {
                 carrito.vaciar();
                 refreshCartView.run();
                 actualizarContadorCarrito();
-                mostrarExito("Carrito vaciado");
             }
         });
         
@@ -838,22 +734,12 @@ public class EcommerceGUI {
                 return;
             }
             
-            // Validar disponibilidad
-            List<String> errores = carrito.validarDisponibilidad();
-            if (!errores.isEmpty()) {
-                StringBuilder msg = new StringBuilder("Problemas de stock:\n\n");
-                for (String error : errores) {
-                    msg.append("• ").append(error).append("\n");
-                }
-                mostrarError(msg.toString());
-                return;
-            }
-            
-            // Mostrar resumen
             String resumen = String.format(
-                "Resumen de Compra:\n\n" +
-                "Items: %d productos\n" +
-                "Total: S/.%.2f\n\n" +
+                "═══════════════════════════════\n" +
+                "     RESUMEN DE COMPRA\n" +
+                "═══════════════════════════════\n\n" +
+                "Productos: %d items\n" +
+                "Total a pagar: S/.%.2f\n\n" +
                 "¿Confirmar compra?",
                 carrito.contarProductos(),
                 carrito.calcularTotal()
@@ -867,29 +753,34 @@ public class EcommerceGUI {
             
             if (confirm == JOptionPane.YES_OPTION) {
                 if (carrito.checkout()) {
-                    mostrarExito("¡Compra realizada con éxito!\n" +
-                               "El stock ha sido actualizado.");
+                    JOptionPane.showMessageDialog(dialog,
+                        "✅ ¡COMPRA EXITOSA!\n\n" +
+                        "Gracias por su compra.\n" +
+                        "Total pagado: S/." + String.format("%.2f", carrito.calcularTotal()),
+                        "Compra Realizada",
+                        JOptionPane.INFORMATION_MESSAGE);
+                    
                     dialog.dispose();
                     updateProductView();
                     actualizarContadorCarrito();
                 } else {
-                    mostrarError("Error al procesar la compra.\nVerifique el stock disponible.");
+                    mostrarError("Error al procesar la compra");
                 }
             }
         });
         
-        // Cerrar
         cerrarButton.addActionListener(e -> dialog.dispose());
         
-        buttonPanel.add(actualizarCantButton);
+        buttonPanel.add(actualizarButton);
         buttonPanel.add(removeButton);
         buttonPanel.add(vaciarButton);
+        buttonPanel.add(Box.createHorizontalStrut(20));
         buttonPanel.add(checkoutButton);
         buttonPanel.add(cerrarButton);
         
         // Ensamblar diálogo
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 10, 15));
         mainPanel.add(new JScrollPane(cartTable), BorderLayout.CENTER);
         mainPanel.add(infoPanel, BorderLayout.SOUTH);
         
@@ -922,14 +813,6 @@ public class EcommerceGUI {
     
     // NAVEGACIÓN
     /*
-     * Muestra un panel específico
-     */
-    private void mostrarPanel(String nombrePanel) {
-        CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
-        cl.show(frame.getContentPane(), nombrePanel);
-    }
-    
-    /*
      * Cierra sesión y regresa al login
      */
     private void cerrarSesion() {
@@ -945,7 +828,7 @@ public class EcommerceGUI {
         }
     }
     
-    // MÉTODOS DE UTILIDAD
+    // MÉTODOS DE UTILIDAD (MENSAJES)
     /*
      * Muestra un mensaje de error
      */
