@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class Busqueda {
 
-    /**
+    //ELIMINAR Y REFACTOR
+    /*
      * Búsqueda Lineal - O(n)
-     *
      */
     public static Producto buscarLineal(ArrayList<Producto> catalogo, String codigo) {
         if (catalogo == null || codigo == null) {
@@ -31,6 +31,7 @@ public class Busqueda {
         return null;
     }
 
+    //ELIMINAR Y REFACTOR
     /**
      * Búsqueda binaria - O(log n) REQUISITO: El catálogo DEBE estar ordenado
      * por código
@@ -61,7 +62,7 @@ public class Busqueda {
         return null;
     }
 
-    /**
+    /*
      * Encuentra el índice del primero producto con precio >= al especificado
      * REQUISITO: productos DEBE estar ordenado por precio
      */
@@ -87,7 +88,7 @@ public class Busqueda {
         return resultado;
     }
 
-    /**
+    /*
      * Búsqueda en rango de precios - O(n) Para catálogos no ordenados
      */
     public static List<Producto> buscarEnRangoPrecio(List<Producto> productos,
@@ -107,7 +108,7 @@ public class Busqueda {
         return resultados;
     }
 
-    /**
+    /*
      * Búsqueda optimizada en rango - O(k) donde k es el tamaño del resultado
      * REQUISITO: Productos deben estar ordenado por precio
      */
@@ -136,9 +137,8 @@ public class Busqueda {
         return resultados;
     }
     
-    /**
+    /*
      * Búsqueda por categoría - O(n)
-     * 
      */
     
     public static List<Producto> buscarPorCategoria(List<Producto> productos, String categoria) {
