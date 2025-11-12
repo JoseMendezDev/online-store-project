@@ -1,15 +1,11 @@
 package gui;
 
+import algoritmos.ordenamiento.ShellSort;
 import domain.*;
-import estructuras.*;
-import ordenamiento.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
