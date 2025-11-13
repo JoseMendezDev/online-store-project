@@ -52,6 +52,14 @@ public class Cliente {
     }
 
     public List<String> getHistorialCompras() {
-        return historialCompras;
+        return new ArrayList<>(historialCompras);
+    }
+    
+    public void setTelefono(String telefono){
+        this.telefono = telefono;
+    }
+    
+    public void agregarCompra(String codigoPedido){
+        historialCompras.add(codigoPedido);
     }
 }
