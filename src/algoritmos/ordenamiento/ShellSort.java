@@ -4,7 +4,7 @@
  */
 package algoritmos.ordenamiento;
 
-import utilidades.Utilidades;
+import util.Utilidades;
 import java.util.ArrayList;
 import domain.Producto;
 

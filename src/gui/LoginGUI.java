@@ -4,7 +4,7 @@
  */
 package gui;
 
-import utilidades.HashUtilidades;
+import util.HashUtilidades;
 import gui.EcommerceGUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
