@@ -5,8 +5,7 @@
 package excepciones;
 
 /**
- *
- * @author USER
+ * Excepción base del sistema
  */
 public class EcommerceException extends Exception {
 
@@ -16,15 +15,5 @@ public class EcommerceException extends Exception {
 
     public EcommerceException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    /**
-     * Cuando el carrito está vacío
-     */
-    class CarritoVacioException extends EcommerceException {
-
-        public CarritoVacioException() {
-            super("El carrito de compras está vacío");
-        }
     }
 }
