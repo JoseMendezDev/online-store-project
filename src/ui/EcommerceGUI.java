@@ -1,4 +1,4 @@
-package gui;
+package ui;
 
 import algoritmos.ordenamiento.ShellSort;
 import domain.*;
