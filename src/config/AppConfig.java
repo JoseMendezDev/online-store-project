@@ -24,7 +24,7 @@ public class AppConfig {
     
     // UI
     public static final int ANCHO_VENTANA = 1100;
-    public static final int ALTO_VENTANA = 700;
+    public static final int ALTO_VENTANA = 690;
     
     // Autenticación
     public static final String USUARIO_ADMIN = "admin";

@@ -2,6 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/algoritmos/indexacion/TablaHash.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/algoritmos/indexacion/IndiceInvertido.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/algoritmos/indexacion/MultiIndice.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/service/CatalogoService.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/domain/Producto.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/domain/Cliente.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/excepciones/EcommerceException.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/excepciones/ProductoNoEncontradoException.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/excepciones/ProductoDuplicadoException.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/excepciones/StockInsuficienteException.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documentos/NetBeansProjects/Ecommerce/src/config/AppConfig.java</file>
+        </group>
     </open-files>
 </project-private>
