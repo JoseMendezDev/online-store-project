@@ -17,7 +17,6 @@ public class HashUtilidades {
         try {
             //uso de algoritmo de hash SHA-256
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-
             byte[] hashBytes = md.digest(password.getBytes());
 
             StringBuilder sb = new StringBuilder();
@@ -30,17 +29,4 @@ public class HashUtilidades {
             throw new RuntimeException("Error al generar el hash: " + e.getMessage());
         }
     }
-    
-    /*
-    public static void main(String[] args) {
-        String passwordDePrueba = "password123";
-        String hashGenerado = generarHash(passwordDePrueba);
-        
-        System.out.println("------------------------------------------");
-        System.out.println("Contraseña: " + passwordDePrueba);
-        System.out.println("HASH GENERADO");
-        System.out.println(hashGenerado);
-        System.out.println("------------------------------------------");
-    }
-    */
 }
