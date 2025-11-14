@@ -6,6 +6,7 @@ package algoritmos.busqueda;
 
 import domain.Producto;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 public class BusquedaBinaria {
      /*
-     * Búsqueda binaria - O(log n) REQUISITO: El catálogo DEBE estar ordenado
+     * Búsqueda binaria iterativa - O(log n) REQUISITO: El catálogo DEBE estar ordenado
      * por código
      */
     public static Producto buscarBinaria(ArrayList<Producto> catalogo, String codigo) {
@@ -40,5 +41,25 @@ public class BusquedaBinaria {
             }
         }
         return null;
+    }
+    
+    /**
+     * Búsqueda binaria recursiva
+     */
+    public static Producto buscarRecursivo(List<Producto> productos, String codigo) {
+        return buscarRecursivoHelper(productos, codigo, 0, productos.size() - 1);
+    }
+    
+    private static Producto buscarRecursivoHelper(List<Producto> productos, 
+                                                  String codigo, int inicio, int fin) {
+        if (inicio > fin) return null;
+        
+        int medio = inicio + (fin - inicio) / 2;
+        Producto productoMedio = productos.get(medio);
+        int comparacion = productoMedio.getCodigo().compareTo(codigo);
+        
+        if (comparacion == 0) return productoMedio;
+        if (comparacion > 0) return buscarRecursivoHelper(productos, codigo, inicio, medio - 1);
+        return buscarRecursivoHelper(productos, codigo, medio + 1, fin);
     }
 }
