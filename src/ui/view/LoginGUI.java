@@ -91,7 +91,7 @@ public class LoginGUI {
                 if (user.equals(USUARIO_VALIDO) && passwordHashIngresado.equals(HASH_CONTRASENA_VALIDA)) {
                     messageLabel.setText("Iniciando sesión...");
                     frame.dispose();
-                    SwingUtilities.invokeLater(() -> new EcommerceGUI());
+                    SwingUtilities.invokeLater(() -> new CatalogoView());
                 } else {
                     messageLabel.setText("Credenciales incorrectas.");
                 }

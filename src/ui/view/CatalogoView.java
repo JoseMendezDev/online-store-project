@@ -1,6 +1,7 @@
 package ui.view;
 
 import ui.view.LoginGUI;
+import service.CatalogoService;
 import algoritmos.ordenamiento.ShellSort;
 import domain.*;
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 /*
  * Interfaz gráfica principal del sistema E-commerce
  */
-public class EcommerceGUI {
+public class CatalogoView {
 
     // COMPONENTES PRINCIPALES
     private JFrame frame;
@@ -48,7 +49,7 @@ public class EcommerceGUI {
     /*
     * Constructor principal - Inicializa la interfaz gráfica
      */
-    public EcommerceGUI() {
+    public CatalogoView() {
         aplicarLookAndFeel();
         inicializarComponentes();
         crearVentanaPrincipal();
@@ -286,10 +287,10 @@ public class EcommerceGUI {
     * Actualiza la vista de productos con paginación
     */
     private void updateProductView(){
-        ArrayList<Producto> listaPagina = Ecommerce.getPagina(paginaActual);
+        ArrayList<Producto> listaPagina = CatalogoService.obtenerPagina(paginaActual);
         displayCatalogo(listaPagina);
         
-        int totalPaginas = Ecommerce.getTotalPaginas();
+        int totalPaginas = CatalogoService.getTotalPaginas();
         pageStatusLabel.setText("Página "+ paginaActual + " de " + totalPaginas);
         
         prevButton.setEnabled(paginaActual > 1);
