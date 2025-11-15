@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
-import algoritmos.busqueda.BusquedaLineal;
+import algoritmos.busqueda.*;
 
 /**
  * Clase principal de gestión del catálogo de productos. Maneja la
@@ -243,7 +243,7 @@ public class Ecommerce {
     }
 
     public static Producto buscarProductoPorCodigoBinaria(String codigo) {
-        return Busqueda.buscarBinaria(catalogo, codigo);
+        return BusquedaBinaria.buscarRecursivo(catalogo, codigo);
     }
 
     public static Producto buscarProductoPorHash(String codigo) {
