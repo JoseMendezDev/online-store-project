@@ -1,5 +1,6 @@
-package ui;
+package ui.view;
 
+import ui.view.LoginGUI;
 import algoritmos.ordenamiento.ShellSort;
 import domain.*;
 import javax.swing.*;
@@ -857,13 +858,5 @@ public class EcommerceGUI {
     private void mostrarInformacion(String titulo, String mensaje) {
         JOptionPane.showMessageDialog(frame, mensaje, titulo, 
             JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    /*
-     * Punto de entrada para pruebas
-     * En producción, iniciar desde LoginGUI
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new EcommerceGUI());
     }
 }

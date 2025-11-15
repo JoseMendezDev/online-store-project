@@ -4,7 +4,7 @@
  */
 package main;
 
-import ui.LoginGUI;
+import ui.view.LoginGUI;
 import javax.swing.SwingUtilities;
 
 /**

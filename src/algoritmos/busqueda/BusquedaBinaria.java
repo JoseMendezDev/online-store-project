@@ -69,17 +69,22 @@ public class BusquedaBinaria {
     public static Producto buscarIterativo(List<Producto> productos, String codigo) {
         int inicio = 0;
         int fin = productos.size() - 1;
-        
+
         while (inicio <= fin) {
             int medio = inicio + (fin - inicio) / 2;
             Producto productoMedio = productos.get(medio);
             int comparacion = productoMedio.getCodigo().compareTo(codigo);
-            
-            if (comparacion == 0) return productoMedio;
-            if (comparacion > 0) fin = medio - 1;
-            else inicio = medio + 1;
+
+            if (comparacion == 0) {
+                return productoMedio;
+            }
+            if (comparacion > 0) {
+                fin = medio - 1;
+            } else {
+                inicio = medio + 1;
+            }
         }
-        
+
         return null;
     }
 }
