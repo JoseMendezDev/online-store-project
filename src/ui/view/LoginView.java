@@ -15,7 +15,7 @@ import java.awt.*;
  *
  * @author USER
  */
-public class LoginGUI {
+public class LoginView {
 
     private JFrame frame;
     private JTextField userField;
@@ -24,7 +24,7 @@ public class LoginGUI {
     private static final String USUARIO_VALIDO = "admin";
     private static String HASH_CONTRASENA_VALIDA = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f";
 
-    public LoginGUI() {
+    public LoginView() {
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

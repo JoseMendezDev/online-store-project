@@ -1,6 +1,6 @@
 package ui.view;
 
-import ui.view.LoginGUI;
+import ui.view.LoginView;
 import service.CatalogoService;
 import algoritmos.ordenamiento.ShellSort;
 import domain.*;
@@ -824,7 +824,7 @@ public class CatalogoView {
         
         if (confirm == JOptionPane.YES_OPTION) {
             frame.dispose();
-            SwingUtilities.invokeLater(() -> new LoginGUI());
+            SwingUtilities.invokeLater(() -> new LoginView());
         }
     }
     
