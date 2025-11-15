@@ -14,24 +14,6 @@ import java.util.List;
  */
 public class Busqueda {
 
-    //ELIMINAR Y REFACTOR
-    /*
-     * Búsqueda Lineal - O(n)
-     */
-    public static Producto buscarLineal(ArrayList<Producto> catalogo, String codigo) {
-        if (catalogo == null || codigo == null) {
-            return null;
-        }
-
-        for (Producto p : catalogo) {
-            if (codigo.equals(p.getCodigo())) {
-                return p;
-            }
-        }
-        return null;
-    }
-
-    //ELIMINAR Y REFACTOR
     /**
      * Búsqueda binaria - O(log n) REQUISITO: El catálogo DEBE estar ordenado
      * por código

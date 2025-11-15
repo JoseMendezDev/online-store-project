@@ -4,26 +4,12 @@
  */
 package domain;
 
-import estructuras.Busqueda;
-import estructuras.CatalogoHash;
-import estructuras.ListaInvertida;
-import estructuras.OrdenacionExterna;
-import estructuras.OrdenacionInterna;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import estructuras.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.filechooser.*;
+import algoritmos.busqueda.BusquedaLineal;
 
 /**
  * Clase principal de gestión del catálogo de productos. Maneja la
@@ -253,7 +239,7 @@ public class Ecommerce {
     }
 
     public static Producto buscarProductoPorCodigo(String codigo) {
-        return Busqueda.buscarLineal(catalogo, codigo);
+        return BusquedaLineal.buscarLineal(catalogo, codigo);
     }
 
     public static Producto buscarProductoPorCodigoBinaria(String codigo) {

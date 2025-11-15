@@ -26,7 +26,7 @@ public class HashUtilidades {
             return sb.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error al generar el hash: " + e.getMessage());
+            throw new RuntimeException("Error al generar el hash: " + e);
         }
     }
 }
