@@ -287,10 +287,10 @@ public class CatalogoView {
     * Actualiza la vista de productos con paginación
     */
     private void updateProductView(){
-        ArrayList<Producto> listaPagina = CatalogoService.obtenerPagina(paginaActual);
+        List<Producto> listaPagina = Ecommerce.getPagina(paginaActual);
         displayCatalogo(listaPagina);
         
-        int totalPaginas = CatalogoService.getTotalPaginas();
+        int totalPaginas = Ecommerce.getTotalPaginas();
         pageStatusLabel.setText("Página "+ paginaActual + " de " + totalPaginas);
         
         prevButton.setEnabled(paginaActual > 1);
