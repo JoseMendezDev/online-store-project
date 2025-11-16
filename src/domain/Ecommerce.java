@@ -4,6 +4,7 @@
  */
 package domain;
 
+import algoritmos.indexacion.ListaInvertida;
 import estructuras.*;
 import java.io.*;
 import java.util.*;
@@ -16,7 +17,7 @@ import algoritmos.busqueda.*;
  * inicialización, persistencia (lectura opcional), búsqueda, ordenación y
  * paginación del catálogo.
  */
-
+public class Ecommerce {
 
     private static final String ARCHIVO = "catalogo_productos.txt";
     private static final int PRODUCTOS_POR_PAGINA = 30;
