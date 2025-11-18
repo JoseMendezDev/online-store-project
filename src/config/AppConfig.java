@@ -34,6 +34,15 @@ public class AppConfig {
     public static final String VERSION = "1.0";
     public static final String NOMBRE_APP = "E-commerce System";
     
+    // Configuración del carrito
+    public static final int CANTIDAD_MAXIMA_POR_PRODUCTO = 50;
+    
+    // Rutas de archivos (si se necesitan)
+    public static final String RUTA_DATOS = "data/";
+    public static final String RUTA_LOGS = "logs/";
+    
+    // Constructor privado para evitar instanciación
     private AppConfig() {
+        throw new IllegalStateException("Clase de configuración - No instanciable");
     }
 }
